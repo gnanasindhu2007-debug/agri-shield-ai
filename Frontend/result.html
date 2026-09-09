@@ -22,8 +22,6 @@ body{
     color:#17351d;
 }
 
-/* NAVBAR */
-
 nav{
     height:70px;
     background:#063514;
@@ -62,15 +60,11 @@ nav{
     font-weight:700;
 }
 
-/* CONTAINER */
-
 .container{
     width:92%;
     max-width:850px;
     margin:35px auto 50px;
 }
-
-/* HEADER */
 
 .header{
     text-align:center;
@@ -92,16 +86,12 @@ nav{
     font-size:16px;
 }
 
-/* MAIN CARD */
-
 .card{
     background:white;
     padding:28px;
     border-radius:22px;
     box-shadow:0 15px 45px rgba(20,70,25,.12);
 }
-
-/* IMAGE */
 
 .crop-image{
     width:100%;
@@ -111,8 +101,6 @@ nav{
     background:#edf5e9;
     margin-bottom:25px;
 }
-
-/* CROP */
 
 .crop-box{
     background:#f7faf6;
@@ -133,8 +121,6 @@ nav{
     font-size:18px;
     font-weight:700;
 }
-
-/* PROBLEM */
 
 .result-box{
     text-align:center;
@@ -169,8 +155,6 @@ nav{
     font-weight:800;
 }
 
-/* ADVICE */
-
 .action-box{
     background:#eaf7e6;
     border:2px solid #cde5c5;
@@ -195,26 +179,81 @@ nav{
     font-size:16px;
 }
 
-/* VOICE */
+/* VOICE + MICROPHONE */
 
-.voice-btn{
-    width:100%;
+.voice-area{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+}
+
+.voice-btn,
+.mic-btn{
+    flex:1;
     border:none;
     padding:16px;
-    margin-top:8px;
     border-radius:11px;
-    background:#2f7e3c;
     color:white;
-    font-size:17px;
+    font-size:16px;
     font-weight:800;
     cursor:pointer;
+}
+
+.voice-btn{
+    background:#2f7e3c;
 }
 
 .voice-btn:hover{
     background:#205f2c;
 }
 
-/* IMPORTANT NOTE */
+.mic-btn{
+    background:#155e75;
+}
+
+.mic-btn:hover{
+    background:#10495b;
+}
+
+.mic-btn.listening{
+    background:#b3261e;
+    animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.03);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
+
+/* FARMER VOICE BOX */
+
+.voice-help{
+    margin-top:14px;
+    background:#f4f8ff;
+    border:1px solid #d5e2f2;
+    border-radius:12px;
+    padding:15px;
+    color:#40576a;
+    line-height:1.5;
+    text-align:center;
+}
+
+.voice-result{
+    margin-top:10px;
+    font-weight:700;
+    color:#174b24;
+}
 
 .note{
     background:#fff9e8;
@@ -225,8 +264,6 @@ nav{
     color:#665b35;
     line-height:1.5;
 }
-
-/* BUTTONS */
 
 .buttons{
     display:flex;
@@ -251,8 +288,6 @@ nav{
     background:#edf4ea;
     color:#286238;
 }
-
-/* MOBILE */
 
 @media(max-width:600px){
 
@@ -290,6 +325,10 @@ nav{
         font-size:22px;
     }
 
+    .voice-area{
+        flex-direction:column;
+    }
+
     .buttons{
         flex-direction:column;
     }
@@ -301,8 +340,6 @@ nav{
 
 
 <body>
-
-<!-- NAVBAR -->
 
 <nav>
 
@@ -339,8 +376,6 @@ nav{
 
 <div class="container">
 
-    <!-- HEADER -->
-
     <div class="header">
 
         <div class="header-icon">
@@ -360,7 +395,7 @@ nav{
 
     <div class="card">
 
-        <!-- PHOTO -->
+        <!-- CROP IMAGE -->
 
         <img
             id="cropImage"
@@ -447,21 +482,51 @@ nav{
             </div>
 
 
-            <!-- VOICE -->
+            <!-- SPEAKER + MICROPHONE -->
 
-            <button
-                class="voice-btn"
-                onclick="listenAdvice()"
-                id="voiceBtn">
+            <div class="voice-area">
 
-                🔊 Listen to Advice
+                <button
+                    class="voice-btn"
+                    onclick="listenAdvice()"
+                    id="voiceBtn">
 
-            </button>
+                    🔊 Listen to Advice
+
+                </button>
+
+
+                <button
+                    class="mic-btn"
+                    onclick="startListening()"
+                    id="micBtn">
+
+                    🎤 Speak to AGRI-SHIELD
+
+                </button>
+
+            </div>
+
+
+            <!-- MICROPHONE HELP -->
+
+            <div
+                class="voice-help"
+                id="voiceHelp">
+
+                🎤 Don't understand? Tap the microphone and speak to AGRI-SHIELD.
+
+                <div
+                    class="voice-result"
+                    id="voiceResult">
+                </div>
+
+            </div>
 
         </div>
 
 
-        <!-- SIMPLE NOTE -->
+        <!-- NOTE -->
 
         <div
             class="note"
@@ -505,7 +570,7 @@ nav{
 <script>
 
 /* =========================
-   GET SAVED DATA
+   GET SAVED RESULT
 ========================= */
 
 const savedResult =
@@ -525,13 +590,13 @@ if(!savedResult){
 }
 
 
-/* READ RESULT */
-
 const result =
     JSON.parse(savedResult);
 
 
-/* IMAGE */
+/* =========================
+   IMAGE
+========================= */
 
 if(savedImage){
 
@@ -542,7 +607,9 @@ if(savedImage){
 }
 
 
-/* CROP */
+/* =========================
+   CROP
+========================= */
 
 const crop =
     result.crop_name || "Tomato";
@@ -559,11 +626,6 @@ document.getElementById(
 const detectedIssue =
     result.detected_issue || "";
 
-
-/*
-   Convert model name into
-   farmer-friendly wording.
-*/
 
 let diseaseEnglish =
     "There may be a problem with your crop.";
@@ -601,26 +663,6 @@ const severity =
 
 
 /* =========================
-   ADVICE
-========================= */
-
-let remedy =
-    "Remove the affected leaves and keep the crop clean.";
-
-
-if(
-    result.organic_remedies &&
-    result.organic_remedies.length > 0
-){
-
-    remedy =
-        result.organic_remedies[0].description ||
-        result.organic_remedies[0].title;
-
-}
-
-
-/* =========================
    LANGUAGE DATA
 ========================= */
 
@@ -645,6 +687,12 @@ const languageData = {
 
         voice:
             "🔊 Listen to Advice",
+
+        mic:
+            "🎤 Speak to AGRI-SHIELD",
+
+        voiceHelp:
+            "🎤 Don't understand? Tap the microphone and speak to AGRI-SHIELD.",
 
         another:
             "📷 Check Another Crop",
@@ -702,6 +750,12 @@ const languageData = {
         voice:
             "🔊 సలహా వినండి",
 
+        mic:
+            "🎤 AGRI-SHIELD తో మాట్లాడండి",
+
+        voiceHelp:
+            "🎤 అర్థం కాకపోతే మైక్రోఫోన్ నొక్కి AGRI-SHIELD తో మాట్లాడండి.",
+
         another:
             "📷 మరో పంటను పరీక్షించండి",
 
@@ -758,6 +812,12 @@ const languageData = {
         voice:
             "🔊 सलाह सुनें",
 
+        mic:
+            "🎤 AGRI-SHIELD से बात करें",
+
+        voiceHelp:
+            "🎤 समझ न आए तो माइक्रोफोन दबाकर AGRI-SHIELD से बात करें।",
+
         another:
             "📷 दूसरी फसल की जांच करें",
 
@@ -797,7 +857,7 @@ const languageData = {
 
 
 /* =========================
-   UPDATE LANGUAGE
+   CHANGE LANGUAGE
 ========================= */
 
 function changeLanguage(){
@@ -807,10 +867,12 @@ function changeLanguage(){
             "languageSelect"
         ).value;
 
+
     localStorage.setItem(
         "selectedLanguage",
         language
     );
+
 
     const data =
         languageData[language];
@@ -850,6 +912,18 @@ function changeLanguage(){
         "voiceBtn"
     ).innerText =
         data.voice;
+
+
+    document.getElementById(
+        "micBtn"
+    ).innerText =
+        data.mic;
+
+
+    document.getElementById(
+        "voiceHelp"
+    ).firstChild.textContent =
+        data.voiceHelp;
 
 
     document.getElementById(
@@ -934,7 +1008,7 @@ function changeLanguage(){
 
 
 /* =========================
-   VOICE
+   SPEAKER
 ========================= */
 
 function listenAdvice(){
@@ -969,6 +1043,7 @@ function listenAdvice(){
 
         text =
             "మీ టమాటా పంటలో సమస్య కనిపిస్తోంది. " +
+            "మీ టమాటా ఆకులపై మచ్చలు కనిపిస్తున్నాయి. " +
             "సమస్య ఉన్న ఆకులను తీసివేసి సురక్షితంగా పారవేయండి. " +
             "జబ్బు ఉన్న ఆకులను పొలంలో వదిలిపెట్టకండి. " +
             "పొలాన్ని శుభ్రంగా ఉంచండి. " +
@@ -979,11 +1054,11 @@ function listenAdvice(){
 
     }
 
-
     else if(language === "hi"){
 
         text =
-            "आपकी टमाटर की फसल में एक समस्या दिखाई दे रही है। " +
+            "आपकी टमाटर की फसल में समस्या दिखाई दे रही है। " +
+            "आपकी टमाटर की पत्तियों पर धब्बे दिखाई दे रहे हैं। " +
             "प्रभावित पत्तियों को हटाकर सुरक्षित रूप से फेंक दें। " +
             "बीमार पत्तियों को खेत में न छोड़ें। " +
             "खेत को साफ रखें और पत्तियों को लंबे समय तक गीला न रहने दें।";
@@ -993,11 +1068,11 @@ function listenAdvice(){
 
     }
 
-
     else{
 
         text =
             "There is a problem with your tomato crop. " +
+            "Spots are appearing on your tomato leaves. " +
             "Remove the affected leaves and dispose of them safely. " +
             "Do not leave infected leaves in the field. " +
             "Keep the field clean and avoid keeping the leaves wet for a long time.";
@@ -1025,6 +1100,203 @@ function listenAdvice(){
     window.speechSynthesis.speak(
         speech
     );
+
+}
+
+
+/* =========================
+   MICROPHONE
+========================= */
+
+function startListening(){
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+
+    if(!SpeechRecognition){
+
+        alert(
+            "Microphone voice input is not supported in this browser. Please use Google Chrome."
+        );
+
+        return;
+
+    }
+
+
+    const language =
+        document.getElementById(
+            "languageSelect"
+        ).value;
+
+
+    const recognition =
+        new SpeechRecognition();
+
+
+    /* LANGUAGE */
+
+    if(language === "te"){
+
+        recognition.lang =
+            "te-IN";
+
+    }
+
+    else if(language === "hi"){
+
+        recognition.lang =
+            "hi-IN";
+
+    }
+
+    else{
+
+        recognition.lang =
+            "en-IN";
+
+    }
+
+
+    recognition.continuous =
+        false;
+
+    recognition.interimResults =
+        false;
+
+    recognition.maxAlternatives =
+        1;
+
+
+    const micButton =
+        document.getElementById(
+            "micBtn"
+        );
+
+
+    const resultBox =
+        document.getElementById(
+            "voiceResult"
+        );
+
+
+    micButton.classList.add(
+        "listening"
+    );
+
+
+    if(language === "te"){
+
+        micButton.innerText =
+            "🔴 వింటున్నాను...";
+
+    }
+
+    else if(language === "hi"){
+
+        micButton.innerText =
+            "🔴 सुन रहा हूँ...";
+
+    }
+
+    else{
+
+        micButton.innerText =
+            "🔴 Listening...";
+
+    }
+
+
+    resultBox.innerText =
+        "";
+
+
+    recognition.start();
+
+
+    recognition.onresult =
+        function(event){
+
+            const spokenText =
+                event.results[0][0].transcript;
+
+
+            resultBox.innerText =
+                "🗣️ " + spokenText;
+
+
+            /*
+                Read the farmer's words
+                back to them.
+            */
+
+            const reply =
+                new SpeechSynthesisUtterance(
+                    spokenText
+                );
+
+
+            reply.lang =
+                recognition.lang;
+
+            reply.rate =
+                0.85;
+
+
+            window.speechSynthesis.cancel();
+
+            window.speechSynthesis.speak(
+                reply
+            );
+
+        };
+
+
+    recognition.onerror =
+        function(event){
+
+            if(language === "te"){
+
+                resultBox.innerText =
+                    "🎤 మళ్లీ ప్రయత్నించండి. స్పష్టంగా మాట్లాడండి.";
+
+            }
+
+            else if(language === "hi"){
+
+                resultBox.innerText =
+                    "🎤 कृपया फिर से कोशिश करें और साफ बोलें.";
+
+            }
+
+            else{
+
+                resultBox.innerText =
+                    "🎤 Please try again and speak clearly.";
+
+            }
+
+        };
+
+
+    recognition.onend =
+        function(){
+
+            micButton.classList.remove(
+                "listening"
+            );
+
+
+            const data =
+                languageData[language];
+
+
+            micButton.innerText =
+                data.mic;
+
+        };
 
 }
 
