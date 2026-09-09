@@ -6,193 +6,723 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AI Result | AGRI-SHIELD AI</title>
+    <title>AI Analysis Result | AGRI-SHIELD AI</title>
 
     <style>
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #17391e;
 
-            background:
+            background-image:
                 linear-gradient(
-                    rgba(5,45,18,.9),
-                    rgba(25,100,45,.9)
+                    110deg,
+                    rgba(4, 35, 14, 0.94),
+                    rgba(18, 84, 34, 0.82)
                 ),
-                linear-gradient(135deg,#123c1c,#4caf50);
+                url("https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?auto=format&fit=crop&w=2000&q=85");
 
-            color: #17351f;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
+            min-height: 100vh;
         }
 
+        /* NAVBAR */
+
         nav {
-            padding: 22px 7%;
+            height: 78px;
+            padding: 0 7%;
+
             display: flex;
             justify-content: space-between;
-            background: rgba(0,0,0,.18);
+            align-items: center;
+
+            background: rgba(5, 35, 14, 0.72);
+            backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(255,255,255,0.15);
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
             color: white;
-            font-size: 22px;
-            font-weight: bold;
+            font-size: 21px;
+            font-weight: 700;
         }
 
-        nav a {
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background: rgba(255,255,255,0.14);
+
+            font-size: 22px;
+        }
+
+        .home {
             color: white;
             text-decoration: none;
+
+            padding: 10px 18px;
+
+            border: 1px solid rgba(255,255,255,0.3);
+
+            border-radius: 8px;
+
+            font-size: 14px;
         }
 
-        .container {
-            max-width: 750px;
-            margin: 70px auto;
-            padding: 20px;
+        /* MAIN */
+
+        .page {
+            padding: 55px 20px;
+
+            display: flex;
+            justify-content: center;
         }
 
         .result-card {
-            background: white;
+            width: 100%;
+            max-width: 900px;
+
+            background: rgba(255,255,255,0.97);
+
+            border-radius: 24px;
+
             padding: 45px;
-            border-radius: 20px;
+
+            box-shadow: 0 30px 80px rgba(0,0,0,0.30);
+        }
+
+        /* HEADER */
+
+        .header {
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,.25);
+            margin-bottom: 35px;
         }
 
-        .icon {
-            font-size: 60px;
-            margin-bottom: 15px;
+        .ai-icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background: #e4f4dd;
+
+            font-size: 35px;
         }
 
-        h1 {
-            color: #1b5e20;
-            margin-bottom: 30px;
+        .header h1 {
+            color: #173f20;
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #748076;
+            font-size: 15px;
+        }
+
+        /* STATUS */
+
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+
+            width: fit-content;
+
+            margin: 0 auto 35px;
+
+            padding: 9px 16px;
+
+            border-radius: 50px;
+
+            background: #eaf7e6;
+
+            color: #32743b;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #42a34d;
+        }
+
+        /* RESULT GRID */
+
+        .result-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
         }
 
         .result-box {
-            background: #f1f8f2;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            padding: 27px;
+
+            border-radius: 16px;
+
+            background: #f6faf4;
+
+            border: 1px solid #e2ebe0;
         }
 
-        .result-box h2 {
-            color: #2e7d32;
-            margin-bottom: 10px;
+        .box-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            color: #286436;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            margin-bottom: 18px;
         }
+
+        .box-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #e5f3df;
+
+            font-size: 18px;
+        }
+
+        .prediction {
+            font-size: 25px;
+
+            color: #183e20;
+
+            font-weight: 800;
+
+            margin-bottom: 8px;
+        }
+
+        .sub-text {
+            color: #778278;
+            font-size: 13px;
+        }
+
+        /* CONFIDENCE */
+
+        .confidence-number {
+            color: #2d7b3b;
+
+            font-size: 27px;
+
+            font-weight: 800;
+
+            margin-bottom: 12px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 10px;
+
+            background: #dfe9dc;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 92%;
+            height: 100%;
+
+            border-radius: 20px;
+
+            background: linear-gradient(
+                90deg,
+                #3b8d46,
+                #76b967
+            );
+        }
+
+        /* RECOMMENDATION */
 
         .recommendation {
-            text-align: left;
-            background: #e8f5e9;
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 20px;
+            padding: 30px;
+
+            border-radius: 16px;
+
+            background: linear-gradient(
+                135deg,
+                #edf8e9,
+                #f8fbf6
+            );
+
+            border: 1px solid #dcebd7;
+
+            margin-bottom: 25px;
         }
 
-        .recommendation h3 {
-            color: #1b5e20;
-            margin-bottom: 10px;
+        .recommendation-header {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 15px;
         }
 
-        .btn {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 14px 25px;
-            background: #2e7d32;
-            color: white;
+        .recommendation-header span {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #dcefd5;
+
+            border-radius: 11px;
+
+            font-size: 21px;
+        }
+
+        .recommendation h2 {
+            color: #245a2e;
+            font-size: 20px;
+        }
+
+        .recommendation p {
+            color: #68766b;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+        /* WEATHER */
+
+        .weather {
+            display: grid;
+
+            grid-template-columns: repeat(3,1fr);
+
+            gap: 15px;
+
+            margin-bottom: 30px;
+        }
+
+        .weather-box {
+            text-align: center;
+
+            padding: 20px;
+
+            background: #f8faf7;
+
+            border: 1px solid #e4ebe1;
+
+            border-radius: 13px;
+        }
+
+        .weather-box .icon {
+            font-size: 25px;
+
+            margin-bottom: 8px;
+        }
+
+        .weather-box strong {
+            display: block;
+
+            color: #315f38;
+
+            margin-bottom: 5px;
+
+            font-size: 14px;
+        }
+
+        .weather-box span {
+            color: #7b857d;
+
+            font-size: 12px;
+        }
+
+        /* BUTTONS */
+
+        .actions {
+            display: flex;
+
+            gap: 14px;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 14px 23px;
+
+            border-radius: 9px;
+
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            transition: 0.3s;
         }
 
-        .btn:hover {
-            background: #1b5e20;
+        .primary {
+            background: #2f7e3c;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #205f2c;
+            transform: translateY(-2px);
+        }
+
+        .secondary {
+            background: #eef5eb;
+            color: #2d6838;
+        }
+
+        .secondary:hover {
+            background: #dfeedd;
+        }
+
+        /* DISCLAIMER */
+
+        .disclaimer {
+            margin-top: 25px;
+
+            text-align: center;
+
+            color: #899289;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:700px) {
+
+            .result-card {
+                padding: 28px 20px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .weather {
+                grid-template-columns: 1fr;
+            }
+
         }
 
     </style>
 
 </head>
 
+
 <body>
 
-<nav>
 
-    <div class="logo">
-        🌱 AGRI-SHIELD AI
-    </div>
+    <!-- NAVBAR -->
 
-    <a href="index.html">
-        Home
-    </a>
+    <nav>
 
-</nav>
+        <div class="logo">
 
-<div class="container">
+            <div class="logo-icon">
+                🌱
+            </div>
 
-    <div class="result-card">
-
-        <div class="icon">
-            🤖
-        </div>
-
-        <h1>
-            AI Analysis Result
-        </h1>
-
-        <div class="result-box">
-
-            <h2>
-                Crop Disease
-            </h2>
-
-            <p>
-                AI prediction will appear here.
-            </p>
+            AGRI-SHIELD AI
 
         </div>
 
-        <div class="result-box">
-
-            <h2>
-                Confidence
-            </h2>
-
-            <p>
-                -- %
-            </p>
-
-        </div>
-
-        <div class="recommendation">
-
-            <h3>
-                🌱 Smart Recommendation
-            </h3>
-
-            <p>
-                AI-generated farming recommendation
-                will appear here after connecting the
-                machine learning model.
-            </p>
-
-        </div>
-
-        <a href="upload.html" class="btn">
-            Analyze Another Image
+        <a href="index.html" class="home">
+            ← Home
         </a>
 
-        <br>
+    </nav>
 
-        <a href="index.html" class="btn">
-            Back to Home
-        </a>
 
-    </div>
 
-</div>
+    <!-- MAIN -->
+
+    <main class="page">
+
+        <div class="result-card">
+
+
+            <!-- HEADER -->
+
+            <div class="header">
+
+                <div class="ai-icon">
+                    🤖
+                </div>
+
+                <h1>
+                    AI Analysis Result
+                </h1>
+
+                <p>
+                    AGRI-SHIELD AI analysis summary
+                </p>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="status">
+
+                <span class="dot"></span>
+
+                Analysis Completed
+
+            </div>
+
+
+
+            <!-- RESULTS -->
+
+            <div class="result-grid">
+
+
+                <!-- DISEASE -->
+
+                <div class="result-box">
+
+                    <div class="box-title">
+
+                        <div class="box-icon">
+                            🌿
+                        </div>
+
+                        CROP DIAGNOSIS
+
+                    </div>
+
+                    <div class="prediction">
+                        AI Prediction
+                    </div>
+
+                    <div class="sub-text">
+                        Disease classification will appear here.
+                    </div>
+
+                </div>
+
+
+                <!-- CONFIDENCE -->
+
+                <div class="result-box">
+
+                    <div class="box-title">
+
+                        <div class="box-icon">
+                            🎯
+                        </div>
+
+                        AI CONFIDENCE
+
+                    </div>
+
+                    <div class="confidence-number">
+                        -- %
+                    </div>
+
+                    <div class="progress">
+
+                        <div class="progress-bar"></div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- RECOMMENDATION -->
+
+            <div class="recommendation">
+
+                <div class="recommendation-header">
+
+                    <span>
+                        💡
+                    </span>
+
+                    <h2>
+                        Smart Recommendation
+                    </h2>
+
+                </div>
+
+                <p>
+                    Your personalized farming recommendation
+                    will appear here after connecting AGRI-SHIELD AI
+                    with the machine learning model.
+                </p>
+
+            </div>
+
+
+
+            <!-- WEATHER -->
+
+            <div class="weather">
+
+                <div class="weather-box">
+
+                    <div class="icon">
+                        🌡️
+                    </div>
+
+                    <strong>
+                        Temperature
+                    </strong>
+
+                    <span>
+                        Weather data
+                    </span>
+
+                </div>
+
+
+                <div class="weather-box">
+
+                    <div class="icon">
+                        💧
+                    </div>
+
+                    <strong>
+                        Humidity
+                    </strong>
+
+                    <span>
+                        Weather data
+                    </span>
+
+                </div>
+
+
+                <div class="weather-box">
+
+                    <div class="icon">
+                        🌦️
+                    </div>
+
+                    <strong>
+                        Weather Risk
+                    </strong>
+
+                    <span>
+                        Weather analysis
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="actions">
+
+                <a
+                    href="upload.html"
+                    class="button primary"
+                >
+                    🔄 Analyze Another Image
+                </a>
+
+
+                <a
+                    href="index.html"
+                    class="button secondary"
+                >
+                    🏠 Back to Home
+                </a>
+
+            </div>
+
+
+
+            <!-- DISCLAIMER -->
+
+            <div class="disclaimer">
+
+                AI predictions are intended to support
+                agricultural decision-making. Final action
+                should consider local farming conditions
+                and expert guidance.
+
+            </div>
+
+
+        </div>
+
+    </main>
+
 
 </body>
+
 </html>
