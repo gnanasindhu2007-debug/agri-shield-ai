@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Crop Result | AGRI-SHIELD AI</title>
+<title>My Crop Result | AGRI-SHIELD AI</title>
 
 <style>
 
@@ -17,15 +17,12 @@
 
 body{
     font-family:Arial,Helvetica,sans-serif;
-    background:#f2f7ef;
+    background:#f2f8ef;
     color:#17351d;
-    min-height:100vh;
 }
 
-/* NAVBAR */
-
 nav{
-    height:72px;
+    height:70px;
     background:#063514;
     display:flex;
     justify-content:space-between;
@@ -48,185 +45,144 @@ nav{
     font-weight:700;
 }
 
-/* MAIN */
-
 .container{
     width:92%;
-    max-width:900px;
-    margin:35px auto;
+    max-width:850px;
+    margin:35px auto 50px;
 }
 
-/* HEADER */
-
-.page-header{
+.header{
     text-align:center;
     margin-bottom:25px;
 }
 
-.page-header .icon{
+.header-icon{
     font-size:55px;
-    margin-bottom:10px;
 }
 
-.page-header h1{
+.header h1{
     color:#174b24;
-    font-size:34px;
-    margin-bottom:8px;
+    font-size:32px;
+    margin:8px 0;
 }
 
-.page-header p{
-    color:#667568;
-    font-size:15px;
+.header p{
+    color:#607064;
+    font-size:16px;
 }
-
-/* RESULT CARD */
 
 .card{
     background:white;
+    padding:28px;
     border-radius:22px;
-    padding:30px;
     box-shadow:0 15px 45px rgba(20,70,25,.12);
-    margin-bottom:20px;
 }
-
-/* IMAGE */
 
 .crop-image{
     width:100%;
-    max-height:300px;
+    max-height:330px;
     object-fit:contain;
     border-radius:16px;
     background:#edf5e9;
     margin-bottom:25px;
 }
 
-/* MAIN RESULT */
+/* RESULT */
 
-.result-main{
+.result-box{
     text-align:center;
-    background:#edf8e9;
-    border:2px solid #d3eaca;
+    background:#fff4e5;
+    border:2px solid #f1d5a8;
     border-radius:18px;
-    padding:28px 20px;
+    padding:25px 18px;
     margin-bottom:20px;
 }
 
-.result-main .small{
-    color:#4d7955;
+.result-box .label{
+    color:#85602b;
     font-size:14px;
-    font-weight:700;
+    font-weight:800;
     margin-bottom:10px;
 }
 
 .disease{
-    font-size:30px;
+    color:#7a351f;
+    font-size:28px;
     font-weight:800;
-    color:#174b24;
-    margin-bottom:12px;
+    margin-bottom:15px;
 }
 
 .severity{
     display:inline-block;
-    padding:9px 18px;
-    border-radius:30px;
-    background:#ffe6e6;
+    background:#ffe1df;
     color:#b3261e;
+    padding:9px 18px;
+    border-radius:25px;
     font-weight:800;
-}
-
-/* GRID */
-
-.info-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:18px;
-}
-
-.info-box{
-    background:#f8fbf6;
-    border:1px solid #dfeade;
-    border-radius:15px;
-    padding:22px;
-}
-
-.info-box h3{
-    color:#286238;
-    font-size:16px;
-    margin-bottom:12px;
-}
-
-.info-box p{
-    color:#526157;
-    line-height:1.7;
-    font-size:14px;
-}
-
-/* CONFIDENCE */
-
-.confidence-number{
-    font-size:27px;
-    font-weight:800;
-    color:#28743a;
-    margin-bottom:10px;
-}
-
-.progress{
-    height:11px;
-    width:100%;
-    background:#dfe8dc;
-    border-radius:20px;
-    overflow:hidden;
-}
-
-.progress-bar{
-    height:100%;
-    width:0%;
-    background:#3b8d46;
-    border-radius:20px;
 }
 
 /* ACTION */
 
-.action-card{
-    background:#eaf5e6;
+.action-box{
+    background:#eaf7e6;
+    border:2px solid #cde5c5;
     border-radius:18px;
     padding:25px;
-    margin-top:20px;
-    border:1px solid #d5e8ce;
+    margin-bottom:20px;
 }
 
-.action-card h2{
+.action-box h2{
     color:#20582c;
-    font-size:21px;
-    margin-bottom:15px;
+    font-size:22px;
+    margin-bottom:18px;
 }
 
 .action{
     background:white;
-    padding:16px;
+    padding:17px;
     border-radius:12px;
     margin-bottom:10px;
-    color:#445448;
+    color:#435246;
     line-height:1.6;
+    font-size:15px;
 }
 
 /* VOICE */
 
 .voice-btn{
     width:100%;
-    padding:15px;
     border:none;
+    padding:16px;
+    margin-top:8px;
     border-radius:11px;
     background:#2f7e3c;
     color:white;
-    font-size:16px;
+    font-size:17px;
     font-weight:800;
     cursor:pointer;
-    margin-top:10px;
 }
 
 .voice-btn:hover{
     background:#205f2c;
+}
+
+/* CROP */
+
+.crop-box{
+    background:#f7faf6;
+    border:1px solid #dce8d9;
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:20px;
+}
+
+.crop-box h3{
+    color:#286238;
+    margin-bottom:8px;
+}
+
+.crop-box p{
+    color:#526157;
 }
 
 /* BUTTONS */
@@ -234,15 +190,14 @@ nav{
 .buttons{
     display:flex;
     gap:12px;
-    margin-top:25px;
 }
 
 .button{
     flex:1;
-    padding:15px;
+    padding:16px;
+    border-radius:11px;
     text-align:center;
     text-decoration:none;
-    border-radius:10px;
     font-weight:800;
 }
 
@@ -258,22 +213,18 @@ nav{
 
 /* MOBILE */
 
-@media(max-width:650px){
-
-    .info-grid{
-        grid-template-columns:1fr;
-    }
+@media(max-width:600px){
 
     .card{
-        padding:20px;
+        padding:18px;
+    }
+
+    .header h1{
+        font-size:27px;
     }
 
     .disease{
-        font-size:24px;
-    }
-
-    .page-header h1{
-        font-size:28px;
+        font-size:23px;
     }
 
     .buttons{
@@ -303,18 +254,18 @@ nav{
 
 <div class="container">
 
-    <div class="page-header">
+    <div class="header">
 
-        <div class="icon">
+        <div class="header-icon">
             🌱
         </div>
 
-        <h1 id="pageTitle">
-            Your Crop Test Result
+        <h1>
+            Your Crop Check Result
         </h1>
 
-        <p id="pageSubtitle">
-            Here is what we found from your crop photo.
+        <p>
+            We checked your crop photo. Here is what you should do.
         </p>
 
     </div>
@@ -322,79 +273,51 @@ nav{
 
     <div class="card">
 
-        <!-- CROP IMAGE -->
+        <!-- PHOTO -->
 
         <img
             id="cropImage"
             class="crop-image"
-            alt="Uploaded crop image"
+            alt="Your crop photo"
         >
 
 
-        <!-- MAIN RESULT -->
+        <!-- CROP -->
 
-        <div class="result-main">
+        <div class="crop-box">
 
-            <div class="small" id="diagnosisLabel">
-                PROBLEM FOUND IN YOUR CROP
+            <h3>
+                🌿 Your Crop
+            </h3>
+
+            <p id="cropName">
+                Tomato
+            </p>
+
+        </div>
+
+
+        <!-- PROBLEM -->
+
+        <div class="result-box">
+
+            <div class="label">
+                ⚠️ PROBLEM FOUND IN YOUR CROP
             </div>
 
             <div
                 class="disease"
                 id="diseaseName">
+
                 Checking...
+
             </div>
 
             <div
                 class="severity"
                 id="severity">
-                --
-            </div>
 
-        </div>
-
-
-        <!-- INFORMATION -->
-
-        <div class="info-grid">
-
-            <!-- CROP -->
-
-            <div class="info-box">
-
-                <h3>
-                    🌿 Your Crop
-                </h3>
-
-                <p id="cropName">
-                    --
-                </p>
-
-            </div>
-
-
-            <!-- CONFIDENCE -->
-
-            <div class="info-box">
-
-                <h3>
-                    🎯 AI Result
-                </h3>
-
-                <div
-                    class="confidence-number"
-                    id="confidence">
-                    --%
-                </div>
-
-                <div class="progress">
-
-                    <div
-                        class="progress-bar"
-                        id="progressBar">
-                    </div>
-
-                </div>
+                Please wait
 
             </div>
 
@@ -403,7 +326,7 @@ nav{
 
         <!-- WHAT TO DO -->
 
-        <div class="action-card">
+        <div class="action-box">
 
             <h2>
                 💡 What should you do now?
@@ -411,20 +334,29 @@ nav{
 
             <div
                 class="action"
-                id="recommendation">
-                Please wait...
+                id="action1">
+
+                🌿 Please wait...
+
             </div>
 
             <div
                 class="action"
-                id="npkAdvice">
+                id="action2">
+
+            </div>
+
+            <div
+                class="action"
+                id="action3">
+
             </div>
 
             <button
                 class="voice-btn"
-                onclick="listenResult()">
+                onclick="listenAdvice()">
 
-                🔊 Listen to the advice
+                🔊 Listen to Advice
 
             </button>
 
@@ -460,21 +392,19 @@ nav{
 
 <script>
 
-/* ===============================
-   GET AI RESULT
-================================ */
+/* GET SAVED RESULT */
 
-const resultText =
+const savedResult =
     localStorage.getItem("diagnosisResult");
 
-const imageData =
+const savedImage =
     localStorage.getItem("cropImage");
 
 
-if(!resultText){
+if(!savedResult){
 
     alert(
-        "No crop result found. Please upload a crop image first."
+        "Please check your crop first."
     );
 
     window.location.href =
@@ -483,101 +413,113 @@ if(!resultText){
 }
 
 
-/* ===============================
-   LOAD RESULT
-================================ */
+/* READ RESULT */
 
 const result =
-    JSON.parse(resultText);
+    JSON.parse(savedResult);
 
 
-/* ===============================
-   IMAGE
-================================ */
+/* SHOW IMAGE */
 
-if(imageData){
+if(savedImage){
 
     document.getElementById(
         "cropImage"
-    ).src = imageData;
+    ).src = savedImage;
 
 }
 
 
-/* ===============================
-   CROP
-================================ */
+/* CROP */
+
+const crop =
+    result.crop_name || "Tomato";
 
 document.getElementById(
     "cropName"
-).innerText =
-    result.crop_name || "Tomato";
+).innerText = crop;
 
 
-/* ===============================
-   DISEASE
-================================ */
+/* DISEASE */
+
+let disease =
+    result.detected_issue ||
+    "Crop problem detected";
+
+
+/*
+   Convert technical disease name
+   into farmer-friendly wording.
+*/
+
+if(
+    disease === "Tomato Bacterial Spot" ||
+    disease === "Tomato___Bacterial_spot"
+){
+
+    disease =
+        "Bacterial spots are affecting your tomato leaves";
+
+}
+
 
 document.getElementById(
     "diseaseName"
 ).innerText =
-    result.detected_issue || "Crop problem detected";
+    disease;
 
 
-/* ===============================
-   SEVERITY
-================================ */
+/* SEVERITY */
+
+let severity =
+    result.severity_level ||
+    "Needs attention";
+
+
+let severityText =
+    "⚠️ " + severity;
+
+
+if(
+    severity.toLowerCase() === "high"
+){
+
+    severityText =
+        "⚠️ Your crop needs quick attention";
+
+}
+
+else if(
+    severity.toLowerCase() === "medium"
+){
+
+    severityText =
+        "⚠️ Your crop needs some attention";
+
+}
+
+else if(
+    severity.toLowerCase() === "low"
+){
+
+    severityText =
+        "🟢 Your crop needs normal care";
+
+}
+
 
 document.getElementById(
     "severity"
 ).innerText =
-    result.severity_level
-    ? "⚠️ " + result.severity_level
-    : "⚠️ Needs attention";
+    severityText;
 
 
-/* ===============================
-   CONFIDENCE
-================================ */
+/* =========================
+   FARMER FRIENDLY ADVICE
+========================= */
 
-let confidence =
-    Number(result.confidence_score || 0);
-
-
-/*
-Backend sends 1.0 for Tomato.
-Convert 1.0 to 100%.
-*/
-
-if(confidence <= 1){
-
-    confidence =
-        confidence * 100;
-
-}
-
-confidence =
-    Math.round(confidence);
-
-
-document.getElementById(
-    "confidence"
-).innerText =
-    confidence + "%";
-
-
-document.getElementById(
-    "progressBar"
-).style.width =
-    confidence + "%";
-
-
-/* ===============================
-   RECOMMENDATION
-================================ */
-
-let recommendation =
-    "Please consult a local agricultural expert for further guidance.";
+let remedy =
+    "Remove the affected leaves and keep the crop clean.";
 
 
 if(
@@ -585,55 +527,50 @@ if(
     result.organic_remedies.length > 0
 ){
 
-    recommendation =
+    remedy =
         result.organic_remedies[0].description ||
         result.organic_remedies[0].title;
 
 }
 
 
+/* ACTION 1 */
+
 document.getElementById(
-    "recommendation"
+    "action1"
 ).innerText =
-    "🌿 " + recommendation;
+    "🍃 " + remedy;
 
 
-/* ===============================
-   NPK ADVICE
-================================ */
+/* ACTION 2 */
 
-if(result.npk_advice){
-
-    document.getElementById(
-        "npkAdvice"
-    ).innerText =
-        "🌾 " + result.npk_advice;
-
-}
-else{
-
-    document.getElementById(
-        "npkAdvice"
-    ).style.display =
-        "none";
-
-}
+document.getElementById(
+    "action2"
+).innerText =
+    "🗑️ Do not leave infected leaves in the field. Remove and dispose of them safely.";
 
 
-/* ===============================
-   VOICE
-================================ */
+/* ACTION 3 */
 
-function listenResult(){
+document.getElementById(
+    "action3"
+).innerText =
+    "💧 Avoid keeping the leaves wet for a long time and keep the field clean.";
 
-    if(!("speechSynthesis" in window)){
+
+/* VOICE */
+
+function listenAdvice(){
+
+    if(
+        !("speechSynthesis" in window)
+    ){
 
         alert(
-            "Voice support is not available in this browser."
+            "Voice is not available in this browser."
         );
 
         return;
-
     }
 
 
@@ -641,24 +578,21 @@ function listenResult(){
 
 
     const text =
-
         "Your crop is " +
-        (result.crop_name || "Tomato") +
+        crop +
         ". " +
 
-        "The problem found is " +
-        (result.detected_issue || "a crop problem") +
-        ". " +
+        "We found a problem in your crop. " +
 
-        "The severity is " +
-        (result.severity_level || "needs attention") +
-        ". " +
+        "Your crop needs " +
+        severity +
+        " attention. " +
 
-        "What you should do is " +
-        recommendation +
-        ". " +
+        "Please remove the affected leaves and dispose of them safely. " +
 
-        (result.npk_advice || "");
+        "Do not leave infected leaves in the field. " +
+
+        "Keep your crop clean and avoid keeping the leaves wet for a long time.";
 
 
     const speech =
@@ -669,7 +603,7 @@ function listenResult(){
         "en-IN";
 
     speech.rate =
-        0.85;
+        0.82;
 
     speech.pitch =
         1;
