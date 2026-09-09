@@ -161,27 +161,94 @@ def generate_multilingual_voice_advisory(crop: str, issue: str, remedy: str) -> 
 # 5. REST API Endpoints
 # ==========================================
 @app.post("/api/v1/diagnosis/scan")
+@app.post("/api/v1/diagnosis/scan")
 async def scan_crop_pathology(
     crop_name: str = Form("Rice"),
     file: Optional[UploadFile] = File(None)
 ):
-    """
-    Submits crop leaf image to AI Computer Vision Pathology Classifier.
-    Identifies diseases, pests, NPK deficits, organic/chemical cures, and multi-lingual voice prompts.
-    """
     selected_crop = crop_name.capitalize() if crop_name else "Rice"
-    
+
     if file:
         image_bytes = await file.read()
         features = process_image_features(image_bytes)
     else:
+        image_bytes = None
         features = {"chlorosis_ratio": 0.9}
-    options = PATHOLOGY_KNOWLEDGE_BASE.get(selected_crop, PATHOLOGY_KNOWLEDGE_BASE["Rice"])
+
+    # Use trained ML model for Tomato
+    if selected_crop == "Tomato" and image_bytes:
+
+        import pickle
+
+        model_path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "ml-model",
+            "tomato_model.pkl"
+        )
+
+        with open(model_path, "rb") as f:
+            model = pickle.load(f)
+
+        img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+        img = img.resize((64, 64))
+
+        image = np.array(img).flatten().reshape(1, -1)
+
+        prediction = model.predict(image)[0]
+
+        if prediction == "Tomato___Bacterial_spot":
+            detected_issue = "Tomato Bacterial Spot"
+        else:
+            detected_issue = prediction
+
+        first_remedy = "Remove infected leaves and dispose of them safely."
+
+        advisory = generate_multilingual_voice_advisory(
+            selected_crop,
+            detected_issue,
+            first_remedy
+        )
+
+        return {
+            "crop_name": selected_crop,
+            "detected_issue": detected_issue,
+            "category": "Bacterial Disease",
+            "confidence_score": 1.0,
+            "severity_level": "High",
+            "image_features": features,
+            "organic_remedies": [
+                {
+                    "title": "Remove infected leaves",
+                    "description": "Remove infected leaves and safely dispose of them.",
+                    "dosage": "As needed"
+                }
+            ],
+            "chemical_remedies": [],
+            "npk_advice": "Maintain balanced nutrition and avoid excessive nitrogen.",
+            "localized_advisory": advisory
+        }
+
+    # Existing diagnosis for other crops
+    options = PATHOLOGY_KNOWLEDGE_BASE.get(
+        selected_crop,
+        PATHOLOGY_KNOWLEDGE_BASE["Rice"]
+    )
+
     selected_diag = random.choice(options)
     confidence = round(random.uniform(0.89, 0.98), 2)
-    
-    first_remedy = selected_diag["organic"][0]["title"] if selected_diag["organic"] else "Apply recommended treatment."
-    advisory = generate_multilingual_voice_advisory(selected_crop, selected_diag["issue"], first_remedy)
+
+    first_remedy = (
+        selected_diag["organic"][0]["title"]
+        if selected_diag["organic"]
+        else "Apply recommended treatment."
+    )
+
+    advisory = generate_multilingual_voice_advisory(
+        selected_crop,
+        selected_diag["issue"],
+        first_remedy
+    )
+
     return {
         "crop_name": selected_crop,
         "detected_issue": selected_diag["issue"],
