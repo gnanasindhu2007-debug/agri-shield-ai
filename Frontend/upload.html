@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,6 +77,7 @@ nav{
 .header p{
     color:#607064;
     font-size:16px;
+    line-height:1.6;
 }
 
 /* STEPS */
@@ -90,7 +92,7 @@ nav{
 
 .step{
     background:white;
-    padding:10px 16px;
+    padding:11px 17px;
     border-radius:20px;
     border:1px solid #d9e7d5;
     color:#416147;
@@ -112,20 +114,46 @@ nav{
 .instruction{
     background:#edf8e9;
     border-left:5px solid #3b8d46;
-    padding:18px;
+    padding:20px;
     border-radius:12px;
     margin-bottom:20px;
 }
 
 .instruction h2{
     color:#20582c;
-    font-size:20px;
-    margin-bottom:7px;
+    font-size:21px;
+    margin-bottom:9px;
 }
 
 .instruction p{
     color:#526157;
-    line-height:1.6;
+    line-height:1.7;
+    font-size:15px;
+}
+
+/* PHOTO TIPS */
+
+.photo-tips{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.tip{
+    background:#f8fbf6;
+    border:1px solid #dfeade;
+    border-radius:12px;
+    padding:14px 10px;
+    text-align:center;
+    font-size:13px;
+    color:#526157;
+    line-height:1.5;
+}
+
+.tip-icon{
+    font-size:25px;
+    margin-bottom:5px;
 }
 
 /* UPLOAD BOX */
@@ -134,7 +162,7 @@ nav{
     border:3px dashed #86ad7e;
     background:#f8fcf6;
     border-radius:18px;
-    padding:35px 20px;
+    padding:38px 20px;
     text-align:center;
     cursor:pointer;
     transition:.2s;
@@ -152,25 +180,26 @@ nav{
 
 .upload-box h3{
     color:#20582c;
-    font-size:20px;
+    font-size:21px;
     margin-bottom:8px;
 }
 
 .upload-box p{
     color:#68756b;
     margin-bottom:18px;
+    line-height:1.5;
 }
 
 .choose-btn{
     display:inline-block;
     background:#2f7e3c;
     color:white;
-    padding:13px 24px;
+    padding:14px 25px;
     border-radius:10px;
     font-weight:800;
 }
 
-/* HIDDEN INPUT */
+/* FILE */
 
 #fileInput{
     display:none;
@@ -203,7 +232,7 @@ nav{
 .analyze-btn{
     width:100%;
     margin-top:22px;
-    padding:17px;
+    padding:18px;
     border:none;
     border-radius:12px;
     background:#1f7130;
@@ -218,23 +247,28 @@ nav{
     background:#185b27;
 }
 
+.analyze-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
 /* STATUS */
 
 .status{
     display:none;
     text-align:center;
     margin-top:20px;
-    padding:18px;
+    padding:20px;
     background:#eef7eb;
     border-radius:12px;
     color:#245b2e;
     font-weight:700;
-    line-height:1.6;
+    line-height:1.7;
 }
 
 .loader{
-    width:30px;
-    height:30px;
+    width:32px;
+    height:32px;
     border:4px solid #d7e7d2;
     border-top:4px solid #2f7e3c;
     border-radius:50%;
@@ -253,7 +287,7 @@ nav{
 .voice-btn{
     width:100%;
     margin-top:12px;
-    padding:13px;
+    padding:14px;
     border:1px solid #c8ddc2;
     border-radius:10px;
     background:#f4faf2;
@@ -262,9 +296,13 @@ nav{
     cursor:pointer;
 }
 
+.voice-btn:hover{
+    background:#e7f3e3;
+}
+
 /* MOBILE */
 
-@media(max-width:600px){
+@media(max-width:650px){
 
     .card{
         padding:20px;
@@ -283,6 +321,10 @@ nav{
         text-align:center;
     }
 
+    .photo-tips{
+        grid-template-columns:1fr;
+    }
+
 }
 
 </style>
@@ -299,7 +341,7 @@ nav{
         🌱 AGRI-SHIELD AI
     </div>
 
-    <a href="index.html" class="home-btn">
+    <a href="index.html" class="home-btn" id="homeBtn">
         🏠 Home
     </a>
 
@@ -312,12 +354,15 @@ nav{
 
     <div class="header">
 
-        <div class="icon">📷</div>
+        <div class="icon">🌿</div>
 
-        <h1>Check Your Crop</h1>
+        <h1 id="pageTitle">
+            Check Your Crop
+        </h1>
 
-        <p>
-            Take a clear photo of your crop leaf and upload it here.
+        <p id="pageDescription">
+            Take a clear photo of the affected leaf and upload it here.
+            We will check your crop and tell you what to do next.
         </p>
 
     </div>
@@ -327,37 +372,81 @@ nav{
 
     <div class="steps">
 
-        <div class="step">
-            1️⃣ Take a leaf photo
+        <div class="step" id="step1">
+            1️⃣ Take a photo
         </div>
 
-        <div class="step">
-            2️⃣ Upload the photo
+        <div class="step" id="step2">
+            2️⃣ Add the photo
         </div>
 
-        <div class="step">
+        <div class="step" id="step3">
             3️⃣ Check your crop
         </div>
 
     </div>
 
 
-    <!-- MAIN CARD -->
-
     <div class="card">
+
 
         <!-- INSTRUCTION -->
 
         <div class="instruction">
 
-            <h2>
-                🌿 Step 1 — Take a good photo
+            <h2 id="instructionTitle">
+                📸 Step 1 — Take a good photo
             </h2>
 
-            <p>
+            <p id="instructionText">
                 Take a clear photo of the affected leaf.
-                Make sure the leaf is visible and the photo is not blurry.
+                Keep the leaf close and make sure the photo is not blurry.
             </p>
+
+        </div>
+
+
+        <!-- PHOTO TIPS -->
+
+        <div class="photo-tips">
+
+            <div class="tip">
+
+                <div class="tip-icon">
+                    ☀️
+                </div>
+
+                <span id="tip1">
+                    Use good light
+                </span>
+
+            </div>
+
+
+            <div class="tip">
+
+                <div class="tip-icon">
+                    📷
+                </div>
+
+                <span id="tip2">
+                    Keep the leaf clear
+                </span>
+
+            </div>
+
+
+            <div class="tip">
+
+                <div class="tip-icon">
+                    🚫
+                </div>
+
+                <span id="tip3">
+                    Avoid blurry photos
+                </span>
+
+            </div>
 
         </div>
 
@@ -373,15 +462,15 @@ nav{
                 📸
             </div>
 
-            <h3>
+            <h3 id="uploadTitle">
                 Step 2 — Add your crop photo
             </h3>
 
-            <p>
-                Tap here to choose a photo from your phone or computer.
+            <p id="uploadText">
+                Tap here to choose the crop photo from your phone or computer.
             </p>
 
-            <span class="choose-btn">
+            <span class="choose-btn" id="chooseBtn">
                 📷 Choose Crop Photo
             </span>
 
@@ -401,13 +490,13 @@ nav{
             class="preview-area"
             id="previewArea">
 
-            <h3>
+            <h3 id="readyText">
                 ✅ Your photo is ready
             </h3>
 
             <img
                 id="preview"
-                alt="Crop preview"
+                alt="Crop photo preview"
             >
 
         </div>
@@ -420,7 +509,7 @@ nav{
             id="analyzeBtn"
             onclick="analyzeCrop()">
 
-            🔍 Step 3 — Check My Crop
+            🔍 Check My Crop
 
         </button>
 
@@ -429,6 +518,7 @@ nav{
 
         <button
             class="voice-btn"
+            id="voiceBtn"
             onclick="listenInstructions()">
 
             🔊 Listen to Instructions
@@ -444,9 +534,15 @@ nav{
 
             <div class="loader"></div>
 
-            🌱 We are checking your crop...
+            <span id="statusText">
+                🌱 We are checking your crop...
+            </span>
+
             <br>
-            Please wait a moment.
+
+            <span id="statusSubText">
+                Please wait. We will show you what to do next.
+            </span>
 
         </div>
 
@@ -456,6 +552,297 @@ nav{
 
 
 <script>
+
+/* ============================
+   LANGUAGE
+============================ */
+
+let currentLanguage = "en-US";
+
+
+const languageData = {
+
+    "en-US": {
+
+        title:
+            "Check Your Crop",
+
+        description:
+            "Take a clear photo of the affected leaf and upload it here. We will check your crop and tell you what to do next.",
+
+        home:
+            "🏠 Home",
+
+        step1:
+            "1️⃣ Take a photo",
+
+        step2:
+            "2️⃣ Add the photo",
+
+        step3:
+            "3️⃣ Check your crop",
+
+        instructionTitle:
+            "📸 Step 1 — Take a good photo",
+
+        instructionText:
+            "Take a clear photo of the affected leaf. Keep the leaf close and make sure the photo is not blurry.",
+
+        tip1:
+            "Use good light",
+
+        tip2:
+            "Keep the leaf clear",
+
+        tip3:
+            "Avoid blurry photos",
+
+        uploadTitle:
+            "Step 2 — Add your crop photo",
+
+        uploadText:
+            "Tap here to choose the crop photo from your phone or computer.",
+
+        choose:
+            "📷 Choose Crop Photo",
+
+        ready:
+            "✅ Your photo is ready",
+
+        analyze:
+            "🔍 Check My Crop",
+
+        voice:
+            "🔊 Listen to Instructions",
+
+        checking:
+            "🌱 We are checking your crop...",
+
+        checkingSub:
+            "Please wait. We will show you what to do next."
+
+    },
+
+
+    "te-IN": {
+
+        title:
+            "మీ పంటను పరీక్షించండి",
+
+        description:
+            "రైతు గారూ, సమస్య ఉన్న ఆకుకు స్పష్టమైన ఫోటో తీసి ఇక్కడ పెట్టండి. మీ పంటలో సమస్య ఉందో తెలుసుకొని, తర్వాత ఏం చేయాలో చెబుతాము.",
+
+        home:
+            "🏠 మొదటి పేజీ",
+
+        step1:
+            "1️⃣ ఆకు ఫోటో తీయండి",
+
+        step2:
+            "2️⃣ ఫోటోను ఇక్కడ పెట్టండి",
+
+        step3:
+            "3️⃣ మీ పంటను పరీక్షించండి",
+
+        instructionTitle:
+            "📸 దశ 1 — మంచి ఫోటో తీయండి",
+
+        instructionText:
+            "సమస్య ఉన్న ఆకుకు స్పష్టమైన ఫోటో తీయండి. ఆకును దగ్గరగా చూపించండి. ఫోటో అస్పష్టంగా ఉండకూడదు.",
+
+        tip1:
+            "మంచి వెలుతురు ఉండాలి",
+
+        tip2:
+            "ఆకు స్పష్టంగా కనిపించాలి",
+
+        tip3:
+            "అస్పష్టమైన ఫోటో వద్దు",
+
+        uploadTitle:
+            "దశ 2 — పంట ఫోటోను ఇక్కడ పెట్టండి",
+
+        uploadText:
+            "మీ ఫోన్ లేదా కంప్యూటర్ నుండి పంట ఫోటోను ఎంచుకోవడానికి ఇక్కడ నొక్కండి.",
+
+        choose:
+            "📷 పంట ఫోటో ఎంచుకోండి",
+
+        ready:
+            "✅ మీ ఫోటో సిద్ధంగా ఉంది",
+
+        analyze:
+            "🔍 నా పంటను పరీక్షించండి",
+
+        voice:
+            "🔊 సూచనలు వినండి",
+
+        checking:
+            "🌱 మీ పంటను పరిశీలిస్తున్నాము...",
+
+        checkingSub:
+            "కొద్దిసేపు వేచి ఉండండి. తర్వాత ఏం చేయాలో మేము చెబుతాము."
+
+    },
+
+
+    "hi-IN": {
+
+        title:
+            "अपनी फसल की जांच करें",
+
+        description:
+            "किसान भाई, प्रभावित पत्ती की साफ फोटो लें और यहां डालें। हम आपकी फसल की जांच करके बताएंगे कि आगे क्या करना है।",
+
+        home:
+            "🏠 होम",
+
+        step1:
+            "1️⃣ पत्ती की फोटो लें",
+
+        step2:
+            "2️⃣ फोटो यहां डालें",
+
+        step3:
+            "3️⃣ फसल की जांच करें",
+
+        instructionTitle:
+            "📸 चरण 1 — अच्छी फोटो लें",
+
+        instructionText:
+            "जिस पत्ती में समस्या है उसकी साफ फोटो लें। पत्ती को पास से दिखाएं और फोटो धुंधली नहीं होनी चाहिए।",
+
+        tip1:
+            "अच्छी रोशनी रखें",
+
+        tip2:
+            "पत्ती साफ दिखाई दे",
+
+        tip3:
+            "धुंधली फोटो न लें",
+
+        uploadTitle:
+            "चरण 2 — अपनी फसल की फोटो डालें",
+
+        uploadText:
+            "अपने फोन या कंप्यूटर से फसल की फोटो चुनने के लिए यहां दबाएं।",
+
+        choose:
+            "📷 फसल की फोटो चुनें",
+
+        ready:
+            "✅ आपकी फोटो तैयार है",
+
+        analyze:
+            "🔍 मेरी फसल जांचें",
+
+        voice:
+            "🔊 निर्देश सुनें",
+
+        checking:
+            "🌱 आपकी फसल की जांच हो रही है...",
+
+        checkingSub:
+            "कृपया थोड़ा इंतजार करें। हम आपको आगे क्या करना है बताएंगे।"
+
+    }
+
+};
+
+
+/* ============================
+   LANGUAGE CHANGE
+============================ */
+
+function setLanguage(language){
+
+    currentLanguage = language;
+
+    const lang =
+        languageData[language];
+
+
+    document.getElementById("pageTitle").innerText =
+        lang.title;
+
+    document.getElementById("pageDescription").innerText =
+        lang.description;
+
+    document.getElementById("homeBtn").innerText =
+        lang.home;
+
+    document.getElementById("step1").innerText =
+        lang.step1;
+
+    document.getElementById("step2").innerText =
+        lang.step2;
+
+    document.getElementById("step3").innerText =
+        lang.step3;
+
+    document.getElementById("instructionTitle").innerText =
+        lang.instructionTitle;
+
+    document.getElementById("instructionText").innerText =
+        lang.instructionText;
+
+    document.getElementById("tip1").innerText =
+        lang.tip1;
+
+    document.getElementById("tip2").innerText =
+        lang.tip2;
+
+    document.getElementById("tip3").innerText =
+        lang.tip3;
+
+    document.getElementById("uploadTitle").innerText =
+        lang.uploadTitle;
+
+    document.getElementById("uploadText").innerText =
+        lang.uploadText;
+
+    document.getElementById("chooseBtn").innerText =
+        lang.choose;
+
+    document.getElementById("readyText").innerText =
+        lang.ready;
+
+    document.getElementById("analyzeBtn").innerText =
+        lang.analyze;
+
+    document.getElementById("voiceBtn").innerText =
+        lang.voice;
+
+    document.getElementById("statusText").innerText =
+        lang.checking;
+
+    document.getElementById("statusSubText").innerText =
+        lang.checkingSub;
+
+
+    /* Save language */
+
+    localStorage.setItem(
+        "selectedLanguage",
+        language
+    );
+
+}
+
+
+/* ============================
+   LOAD SAVED LANGUAGE
+============================ */
+
+const savedLanguage =
+    localStorage.getItem("selectedLanguage");
+
+if(savedLanguage && languageData[savedLanguage]){
+
+    setLanguage(savedLanguage);
+
+}
+
 
 /* ============================
    FILE SELECTION
@@ -480,64 +867,75 @@ const statusBox =
 let selectedFile = null;
 
 
-fileInput.addEventListener("change", function(){
+fileInput.addEventListener(
+    "change",
+    function(){
 
-    const file = this.files[0];
+        const file =
+            this.files[0];
 
-    if(!file){
-        return;
+        if(!file){
+            return;
+        }
+
+
+        /* FILE TYPE */
+
+        if(!file.type.startsWith("image/")){
+
+            alert(
+                "Please choose a crop photo."
+            );
+
+            this.value = "";
+
+            return;
+        }
+
+
+        /* FILE SIZE */
+
+        if(file.size > 5 * 1024 * 1024){
+
+            alert(
+                "Please choose a photo smaller than 5 MB."
+            );
+
+            this.value = "";
+
+            return;
+        }
+
+
+        selectedFile =
+            file;
+
+
+        /* PREVIEW */
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(event){
+
+                preview.src =
+                    event.target.result;
+
+                previewArea.style.display =
+                    "block";
+
+                analyzeBtn.style.display =
+                    "block";
+
+            };
+
+
+        reader.readAsDataURL(file);
+
     }
-
-    /* CHECK FILE TYPE */
-
-    if(!file.type.startsWith("image/")){
-
-        alert("Please choose a crop photo.");
-
-        this.value = "";
-
-        return;
-    }
-
-
-    /* CHECK SIZE */
-
-    if(file.size > 5 * 1024 * 1024){
-
-        alert(
-            "Photo is too large. Please choose a photo below 5 MB."
-        );
-
-        this.value = "";
-
-        return;
-    }
-
-
-    selectedFile = file;
-
-
-    /* SHOW PREVIEW */
-
-    const reader =
-        new FileReader();
-
-    reader.onload = function(event){
-
-        preview.src =
-            event.target.result;
-
-        previewArea.style.display =
-            "block";
-
-        analyzeBtn.style.display =
-            "block";
-
-    };
-
-    reader.readAsDataURL(file);
-
-});
+);
 
 
 /* ============================
@@ -556,13 +954,20 @@ async function analyzeCrop(){
     }
 
 
-    /* SHOW LOADING */
+    /* LOADING */
 
     analyzeBtn.disabled =
         true;
 
     analyzeBtn.innerText =
+        currentLanguage === "te-IN"
+        ? "🔄 పంటను పరిశీలిస్తున్నాము..."
+        :
+        currentLanguage === "hi-IN"
+        ? "🔄 फसल की जांच हो रही है..."
+        :
         "🔄 Checking your crop...";
+
 
     statusBox.style.display =
         "block";
@@ -573,9 +978,11 @@ async function analyzeCrop(){
         const formData =
             new FormData();
 
+
         /*
-           Currently using Tomato because
-           your trained model is Tomato.
+           Tomato is used because
+           the current trained model
+           is for Tomato.
         */
 
         formData.append(
@@ -583,13 +990,14 @@ async function analyzeCrop(){
             "Tomato"
         );
 
+
         formData.append(
             "file",
             selectedFile
         );
 
 
-        /* SEND TO BACKEND */
+        /* SEND PHOTO */
 
         const response =
             await fetch(
@@ -627,20 +1035,23 @@ async function analyzeCrop(){
         const reader =
             new FileReader();
 
-        reader.onload = function(event){
 
-            localStorage.setItem(
-                "cropImage",
-                event.target.result
-            );
+        reader.onload =
+            function(event){
+
+                localStorage.setItem(
+                    "cropImage",
+                    event.target.result
+                );
 
 
-            /* OPEN RESULT */
+                /* GO TO RESULT */
 
-            window.location.href =
-                "result.html";
+                window.location.href =
+                    "result.html";
 
-        };
+            };
+
 
         reader.readAsDataURL(
             selectedFile
@@ -653,19 +1064,46 @@ async function analyzeCrop(){
 
         console.error(error);
 
+
         statusBox.style.display =
             "none";
+
 
         analyzeBtn.disabled =
             false;
 
+
+        const lang =
+            languageData[currentLanguage];
+
+
         analyzeBtn.innerText =
-            "🔍 Step 3 — Check My Crop";
+            lang.analyze;
 
 
-        alert(
-            "Unable to check the crop right now. Please make sure the AGRI-SHIELD server is running and try again."
-        );
+        if(currentLanguage === "te-IN"){
+
+            alert(
+                "పంటను పరీక్షించలేకపోయాము. దయచేసి మళ్లీ ప్రయత్నించండి."
+            );
+
+        }
+
+        else if(currentLanguage === "hi-IN"){
+
+            alert(
+                "फसल की जांच नहीं हो पाई। कृपया फिर से कोशिश करें।"
+            );
+
+        }
+
+        else{
+
+            alert(
+                "We could not check the crop. Please try again."
+            );
+
+        }
 
     }
 
@@ -691,11 +1129,41 @@ function listenInstructions(){
     window.speechSynthesis.cancel();
 
 
-    const text =
-        "First, take a clear photo of the affected crop leaf. " +
-        "Second, upload the photo here. " +
-        "Third, press Check My Crop. " +
-        "We will check your crop and show you what to do next.";
+    let text;
+
+
+    if(currentLanguage === "te-IN"){
+
+        text =
+            "మొదట సమస్య ఉన్న పంట ఆకుకు స్పష్టమైన ఫోటో తీయండి. " +
+            "మంచి వెలుతురు ఉండేలా చూసుకోండి. " +
+            "తర్వాత ఫోటోను ఇక్కడ పెట్టండి. " +
+            "ఫోటో స్పష్టంగా కనిపించిన తర్వాత నా పంటను పరీక్షించండి అనే బటన్ నొక్కండి. " +
+            "మీ పంటను పరిశీలించి, తర్వాత ఏం చేయాలో మేము చెబుతాము.";
+
+    }
+
+    else if(currentLanguage === "hi-IN"){
+
+        text =
+            "सबसे पहले जिस पत्ती में समस्या है उसकी साफ फोटो लें। " +
+            "अच्छी रोशनी रखें। " +
+            "फिर फोटो यहां डालें। " +
+            "फोटो साफ दिखाई देने के बाद मेरी फसल जांचें बटन दबाएं। " +
+            "हम आपकी फसल की जांच करके बताएंगे कि आगे क्या करना है.";
+
+    }
+
+    else{
+
+        text =
+            "First, take a clear photo of the affected crop leaf. " +
+            "Make sure there is good light. " +
+            "Then upload the photo here. " +
+            "After the photo is ready, press Check My Crop. " +
+            "We will check your crop and tell you what to do next.";
+
+    }
 
 
     const speech =
@@ -703,10 +1171,10 @@ function listenInstructions(){
 
 
     speech.lang =
-        "en-IN";
+        currentLanguage;
 
     speech.rate =
-        0.85;
+        0.82;
 
     speech.pitch =
         1;
@@ -718,7 +1186,20 @@ function listenInstructions(){
 
 }
 
+
+/* STOP VOICE WHEN LEAVING */
+
+window.addEventListener(
+    "beforeunload",
+    function(){
+
+        window.speechSynthesis.cancel();
+
+    }
+);
+
 </script>
 
 </body>
 </html>
+```
