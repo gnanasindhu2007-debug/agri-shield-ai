@@ -1,167 +1,129 @@
 import requests
 
 
-# -----------------------------
-# WEATHER API
-# -----------------------------
 def get_weather(latitude, longitude):
+    """
+    Get current weather data using Open-Meteo API.
+    """
 
     url = "https://api.open-meteo.com/v1/forecast"
 
     params = {
         "latitude": latitude,
         "longitude": longitude,
-        "hourly": [
-            "temperature_2m",
-            "relative_humidity_2m",
-            "precipitation_probability",
-            "precipitation",
-            "wind_speed_10m",
-            "soil_moisture_0_to_1cm"
-        ],
-        "forecast_days": 3,
+        "current": "temperature_2m,relative_humidity_2m,rain,weather_code,wind_speed_10m",
         "timezone": "auto"
     }
 
-    response = requests.get(url, params=params)
+    response = requests.get(url, params=params, timeout=10)
+    response.raise_for_status()
 
-    if response.status_code != 200:
-        print("Weather API Error")
-        return None
+    data = response.json()
 
-    return response.json()
+    current = data["current"]
 
-
-# -----------------------------
-# WEATHER ANALYSIS
-# -----------------------------
-def analyze_weather(weather):
-
-    hourly = weather["hourly"]
-
-    temperature = hourly["temperature_2m"][0]
-    humidity = hourly["relative_humidity_2m"][0]
-    rain_probability = hourly["precipitation_probability"][0]
-    rainfall = hourly["precipitation"][0]
-    wind_speed = hourly["wind_speed_10m"][0]
-    soil_moisture = hourly["soil_moisture_0_to_1cm"][0]
-
-    return {
-        "temperature": temperature,
-        "humidity": humidity,
-        "rain_probability": rain_probability,
-        "rainfall": rainfall,
-        "wind_speed": wind_speed,
-        "soil_moisture": soil_moisture
+    weather = {
+        "temperature": current["temperature_2m"],
+        "humidity": current["relative_humidity_2m"],
+        "rainfall": current["rain"],
+        "weather_code": current["weather_code"],
+        "wind_speed": current["wind_speed_10m"]
     }
 
+    return weather
 
-# -----------------------------
-# CROP RECOMMENDATION ENGINE
-# -----------------------------
-def generate_recommendation(data, crop):
 
-    temperature = data["temperature"]
-    humidity = data["humidity"]
-    rain_probability = data["rain_probability"]
-    rainfall = data["rainfall"]
-    wind_speed = data["wind_speed"]
-    soil_moisture = data["soil_moisture"]
+def generate_risk_alert(weather):
+    """
+    Generate simple agricultural risk alerts
+    based on weather conditions.
+    """
 
+    alerts = []
     recommendations = []
 
-    # Irrigation recommendation
-    if rain_probability >= 60 or rainfall >= 5:
+    temperature = weather["temperature"]
+    humidity = weather["humidity"]
+    rainfall = weather["rainfall"]
+
+    # Heat risk
+    if temperature >= 38:
+        alerts.append("High heat risk")
         recommendations.append(
-            "Avoid irrigation now because rainfall is expected."
+            "Increase irrigation and monitor crops for heat stress."
         )
 
-    elif soil_moisture >= 0.30:
+    # Heavy rainfall
+    if rainfall >= 20:
+        alerts.append("Heavy rainfall risk")
         recommendations.append(
-            "Irrigation may not be required because soil moisture is sufficient."
+            "Check field drainage and avoid unnecessary irrigation."
         )
 
-    else:
+    # Low rainfall
+    if rainfall < 1:
+        alerts.append("Low recent rainfall")
         recommendations.append(
-            "Consider irrigation if the crop requires water."
+            "Check soil moisture before irrigation."
         )
 
-    # Fertilizer recommendation
-    if rain_probability >= 60 or rainfall >= 5:
+    # High humidity
+    if humidity >= 80:
+        alerts.append("High humidity")
         recommendations.append(
-            "Postpone fertilizer application because rain is expected."
-        )
-    else:
-        recommendations.append(
-            "Weather is relatively suitable for fertilizer application."
+            "Monitor crops for possible fungal disease development."
         )
 
-    # Spraying recommendation
-    if wind_speed >= 20:
-        recommendations.append(
-            "Avoid pesticide spraying because wind speed is high."
-        )
-    elif rain_probability >= 60:
-        recommendations.append(
-            "Avoid spraying because rain is likely."
-        )
-    else:
-        recommendations.append(
-            "Weather conditions are relatively suitable for spraying."
-        )
+    if not alerts:
+        alerts.append("No major weather risk detected")
 
-    # Heat warning
-    if temperature >= 35:
-        recommendations.append(
-            "Heat stress warning: monitor the crop and maintain adequate moisture."
-        )
-
-    # Disease weather risk
-    if humidity >= 80 and rain_probability >= 60:
-        recommendations.append(
-            "High humidity and rainfall may favor disease development. "
-            "Monitor the crop closely."
-        )
-
-    return recommendations
+    return alerts, recommendations
 
 
-# -----------------------------
-# MAIN PROGRAM
-# -----------------------------
-if __name__ == "__main__":
-
-    print("====================================")
-    print(" AI WEATHER CROP RECOMMENDATION")
-    print("====================================")
-
-    # Example location: Guntur
-    latitude = 16.3067
-    longitude = 80.4365
-
-    crop = input("Enter crop name: ")
-
-    print("\nFetching weather data...")
+def weather_report(latitude, longitude):
+    """
+    Get weather data and generate agricultural alerts.
+    """
 
     weather = get_weather(latitude, longitude)
 
-    if weather is None:
-        exit()
+    alerts, recommendations = generate_risk_alert(weather)
 
-    data = analyze_weather(weather)
+    return {
+        "weather": weather,
+        "alerts": alerts,
+        "recommendations": recommendations
+    }
 
-    print("\n------ CURRENT WEATHER ------")
 
-    print("Temperature :", data["temperature"], "°C")
-    print("Humidity    :", data["humidity"], "%")
-    print("Rain Chance :", data["rain_probability"], "%")
-    print("Rainfall    :", data["rainfall"], "mm")
-    print("Wind Speed  :", data["wind_speed"], "km/h")
-    print("Soil Moist. :", data["soil_moisture"])
+if __name__ == "__main__":
 
-    print("\n------ RECOMMENDATIONS ------")
+    print("🌦️ AGRI-SHIELD AI Weather Module")
 
-    recommendations = generate_recommendation(data, crop)
+    latitude = float(input("Enter latitude: "))
+    longitude = float(input("Enter longitude: "))
 
-    for i, recommendation in enumerate(recommendations, 1):
-        print(f"{i}. {recommendation}")
+    try:
+        result = weather_report(latitude, longitude)
+
+        weather = result["weather"]
+
+        print("\n🌦️ CURRENT WEATHER")
+        print("-------------------------")
+        print("Temperature:", weather["temperature"], "°C")
+        print("Humidity:", weather["humidity"], "%")
+        print("Rainfall:", weather["rainfall"], "mm")
+        print("Wind Speed:", weather["wind_speed"], "km/h")
+
+        print("\n⚠️ RISK ALERTS")
+        print("-------------------------")
+        for alert in result["alerts"]:
+            print("-", alert)
+
+        print("\n💡 RECOMMENDATIONS")
+        print("-------------------------")
+        for recommendation in result["recommendations"]:
+            print("-", recommendation)
+
+    except Exception as error:
+        print("\n❌ Error:", error)
