@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>My Crop Result | AGRI-SHIELD AI</title>
+<title>Crop Result | AGRI-SHIELD AI</title>
 
 <style>
 
@@ -20,6 +21,8 @@ body{
     background:#f2f8ef;
     color:#17351d;
 }
+
+/* NAVBAR */
 
 nav{
     height:70px;
@@ -36,20 +39,38 @@ nav{
     font-weight:800;
 }
 
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.language{
+    padding:9px 12px;
+    border-radius:8px;
+    border:none;
+    font-weight:700;
+    cursor:pointer;
+}
+
 .home-btn{
     color:white;
     text-decoration:none;
     background:#2f7e3c;
-    padding:11px 18px;
+    padding:10px 16px;
     border-radius:9px;
     font-weight:700;
 }
+
+/* CONTAINER */
 
 .container{
     width:92%;
     max-width:850px;
     margin:35px auto 50px;
 }
+
+/* HEADER */
 
 .header{
     text-align:center;
@@ -71,12 +92,16 @@ nav{
     font-size:16px;
 }
 
+/* MAIN CARD */
+
 .card{
     background:white;
     padding:28px;
     border-radius:22px;
     box-shadow:0 15px 45px rgba(20,70,25,.12);
 }
+
+/* IMAGE */
 
 .crop-image{
     width:100%;
@@ -87,7 +112,29 @@ nav{
     margin-bottom:25px;
 }
 
-/* RESULT */
+/* CROP */
+
+.crop-box{
+    background:#f7faf6;
+    border:1px solid #dce8d9;
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:20px;
+}
+
+.crop-box h3{
+    color:#286238;
+    margin-bottom:8px;
+    font-size:18px;
+}
+
+.crop-box p{
+    color:#526157;
+    font-size:18px;
+    font-weight:700;
+}
+
+/* PROBLEM */
 
 .result-box{
     text-align:center;
@@ -102,13 +149,14 @@ nav{
     color:#85602b;
     font-size:14px;
     font-weight:800;
-    margin-bottom:10px;
+    margin-bottom:12px;
 }
 
 .disease{
     color:#7a351f;
-    font-size:28px;
+    font-size:27px;
     font-weight:800;
+    line-height:1.4;
     margin-bottom:15px;
 }
 
@@ -121,7 +169,7 @@ nav{
     font-weight:800;
 }
 
-/* ACTION */
+/* ADVICE */
 
 .action-box{
     background:#eaf7e6;
@@ -133,7 +181,7 @@ nav{
 
 .action-box h2{
     color:#20582c;
-    font-size:22px;
+    font-size:23px;
     margin-bottom:18px;
 }
 
@@ -141,10 +189,10 @@ nav{
     background:white;
     padding:17px;
     border-radius:12px;
-    margin-bottom:10px;
+    margin-bottom:12px;
     color:#435246;
     line-height:1.6;
-    font-size:15px;
+    font-size:16px;
 }
 
 /* VOICE */
@@ -166,23 +214,16 @@ nav{
     background:#205f2c;
 }
 
-/* CROP */
+/* IMPORTANT NOTE */
 
-.crop-box{
-    background:#f7faf6;
-    border:1px solid #dce8d9;
-    border-radius:14px;
-    padding:18px;
+.note{
+    background:#fff9e8;
+    border:1px solid #eadcae;
+    padding:16px;
+    border-radius:12px;
     margin-bottom:20px;
-}
-
-.crop-box h3{
-    color:#286238;
-    margin-bottom:8px;
-}
-
-.crop-box p{
-    color:#526157;
+    color:#665b35;
+    line-height:1.5;
 }
 
 /* BUTTONS */
@@ -215,6 +256,28 @@ nav{
 
 @media(max-width:600px){
 
+    nav{
+        padding:0 4%;
+    }
+
+    .logo{
+        font-size:17px;
+    }
+
+    .nav-right{
+        gap:6px;
+    }
+
+    .language{
+        padding:8px 5px;
+        font-size:12px;
+    }
+
+    .home-btn{
+        padding:8px 10px;
+        font-size:13px;
+    }
+
     .card{
         padding:18px;
     }
@@ -224,7 +287,7 @@ nav{
     }
 
     .disease{
-        font-size:23px;
+        font-size:22px;
     }
 
     .buttons{
@@ -239,20 +302,44 @@ nav{
 
 <body>
 
+<!-- NAVBAR -->
+
 <nav>
 
     <div class="logo">
         🌱 AGRI-SHIELD AI
     </div>
 
-    <a href="index.html" class="home-btn">
-        🏠 Home
-    </a>
+    <div class="nav-right">
+
+        <select
+            id="languageSelect"
+            class="language"
+            onchange="changeLanguage()">
+
+            <option value="en">English</option>
+            <option value="te">తెలుగు</option>
+            <option value="hi">हिंदी</option>
+
+        </select>
+
+        <a
+            href="index.html"
+            class="home-btn"
+            id="homeBtn">
+
+            🏠 Home
+
+        </a>
+
+    </div>
 
 </nav>
 
 
 <div class="container">
+
+    <!-- HEADER -->
 
     <div class="header">
 
@@ -260,11 +347,11 @@ nav{
             🌱
         </div>
 
-        <h1>
+        <h1 id="pageTitle">
             Your Crop Check Result
         </h1>
 
-        <p>
+        <p id="pageSubtitle">
             We checked your crop photo. Here is what you should do.
         </p>
 
@@ -286,7 +373,7 @@ nav{
 
         <div class="crop-box">
 
-            <h3>
+            <h3 id="cropTitle">
                 🌿 Your Crop
             </h3>
 
@@ -301,8 +388,12 @@ nav{
 
         <div class="result-box">
 
-            <div class="label">
+            <div
+                class="label"
+                id="problemLabel">
+
                 ⚠️ PROBLEM FOUND IN YOUR CROP
+
             </div>
 
             <div
@@ -324,13 +415,14 @@ nav{
         </div>
 
 
-        <!-- WHAT TO DO -->
+        <!-- ADVICE -->
 
         <div class="action-box">
 
-            <h2>
+            <h2 id="adviceTitle">
                 💡 What should you do now?
             </h2>
+
 
             <div
                 class="action"
@@ -340,11 +432,13 @@ nav{
 
             </div>
 
+
             <div
                 class="action"
                 id="action2">
 
             </div>
+
 
             <div
                 class="action"
@@ -352,13 +446,28 @@ nav{
 
             </div>
 
+
+            <!-- VOICE -->
+
             <button
                 class="voice-btn"
-                onclick="listenAdvice()">
+                onclick="listenAdvice()"
+                id="voiceBtn">
 
                 🔊 Listen to Advice
 
             </button>
+
+        </div>
+
+
+        <!-- SIMPLE NOTE -->
+
+        <div
+            class="note"
+            id="note">
+
+            👨‍🌾 Don't worry. Follow these simple steps and keep checking your crop regularly.
 
         </div>
 
@@ -369,15 +478,18 @@ nav{
 
             <a
                 href="upload.html"
-                class="button another">
+                class="button another"
+                id="anotherBtn">
 
                 📷 Check Another Crop
 
             </a>
 
+
             <a
                 href="index.html"
-                class="button home">
+                class="button home"
+                id="homeBottomBtn">
 
                 🏠 Go to Home
 
@@ -392,7 +504,9 @@ nav{
 
 <script>
 
-/* GET SAVED RESULT */
+/* =========================
+   GET SAVED DATA
+========================= */
 
 const savedResult =
     localStorage.getItem("diagnosisResult");
@@ -403,9 +517,7 @@ const savedImage =
 
 if(!savedResult){
 
-    alert(
-        "Please check your crop first."
-    );
+    alert("Please check your crop first.");
 
     window.location.href =
         "upload.html";
@@ -419,7 +531,7 @@ const result =
     JSON.parse(savedResult);
 
 
-/* SHOW IMAGE */
+/* IMAGE */
 
 if(savedImage){
 
@@ -440,82 +552,56 @@ document.getElementById(
 ).innerText = crop;
 
 
-/* DISEASE */
+/* =========================
+   DISEASE
+========================= */
 
-let disease =
-    result.detected_issue ||
-    "Crop problem detected";
+const detectedIssue =
+    result.detected_issue || "";
 
 
 /*
-   Convert technical disease name
-   into farmer-friendly wording.
+   Convert model name into
+   farmer-friendly wording.
 */
 
-if(
-    disease === "Tomato Bacterial Spot" ||
-    disease === "Tomato___Bacterial_spot"
-){
+let diseaseEnglish =
+    "There may be a problem with your crop.";
 
-    disease =
-        "Bacterial spots are affecting your tomato leaves";
+let diseaseTelugu =
+    "మీ పంటలో ఒక సమస్య కనిపిస్తోంది.";
 
-}
-
-
-document.getElementById(
-    "diseaseName"
-).innerText =
-    disease;
-
-
-/* SEVERITY */
-
-let severity =
-    result.severity_level ||
-    "Needs attention";
-
-
-let severityText =
-    "⚠️ " + severity;
+let diseaseHindi =
+    "आपकी फसल में एक समस्या दिखाई दे रही है.";
 
 
 if(
-    severity.toLowerCase() === "high"
+    detectedIssue === "Tomato Bacterial Spot" ||
+    detectedIssue === "Tomato___Bacterial_spot"
 ){
 
-    severityText =
-        "⚠️ Your crop needs quick attention";
+    diseaseEnglish =
+        "Spots are appearing on your tomato leaves.";
+
+    diseaseTelugu =
+        "మీ టమాటా ఆకులపై మచ్చలు కనిపిస్తున్నాయి.";
+
+    diseaseHindi =
+        "आपकी टमाटर की पत्तियों पर धब्बे दिखाई दे रहे हैं.";
 
 }
-
-else if(
-    severity.toLowerCase() === "medium"
-){
-
-    severityText =
-        "⚠️ Your crop needs some attention";
-
-}
-
-else if(
-    severity.toLowerCase() === "low"
-){
-
-    severityText =
-        "🟢 Your crop needs normal care";
-
-}
-
-
-document.getElementById(
-    "severity"
-).innerText =
-    severityText;
 
 
 /* =========================
-   FARMER FRIENDLY ADVICE
+   SEVERITY
+========================= */
+
+const severity =
+    result.severity_level || "High";
+
+
+/* =========================
+   ADVICE
 ========================= */
 
 let remedy =
@@ -534,31 +620,322 @@ if(
 }
 
 
-/* ACTION 1 */
+/* =========================
+   LANGUAGE DATA
+========================= */
 
-document.getElementById(
-    "action1"
-).innerText =
-    "🍃 " + remedy;
+const languageData = {
+
+    en:{
+
+        pageTitle:
+            "Your Crop Check Result",
+
+        pageSubtitle:
+            "We checked your crop photo. Here is what you should do.",
+
+        cropTitle:
+            "🌿 Your Crop",
+
+        problemLabel:
+            "⚠️ PROBLEM FOUND IN YOUR CROP",
+
+        adviceTitle:
+            "💡 What should you do now?",
+
+        voice:
+            "🔊 Listen to Advice",
+
+        another:
+            "📷 Check Another Crop",
+
+        home:
+            "🏠 Go to Home",
+
+        navHome:
+            "🏠 Home",
+
+        disease:
+            diseaseEnglish,
+
+        action1:
+            "🍃 Remove the affected leaves and dispose of them safely.",
+
+        action2:
+            "🗑️ Do not leave infected leaves in the field.",
+
+        action3:
+            "💧 Keep the field clean and avoid keeping leaves wet for a long time.",
+
+        note:
+            "👨‍🌾 Don't worry. Follow these simple steps and keep checking your crop regularly.",
+
+        high:
+            "⚠️ Your crop needs quick attention",
+
+        medium:
+            "⚠️ Your crop needs some attention",
+
+        low:
+            "🟢 Your crop needs normal care"
+
+    },
 
 
-/* ACTION 2 */
+    te:{
 
-document.getElementById(
-    "action2"
-).innerText =
-    "🗑️ Do not leave infected leaves in the field. Remove and dispose of them safely.";
+        pageTitle:
+            "మీ పంట పరీక్ష ఫలితం",
+
+        pageSubtitle:
+            "మీ పంట ఫోటోను పరిశీలించాము. ఇప్పుడు ఏం చేయాలో క్రింద చూడండి.",
+
+        cropTitle:
+            "🌿 మీ పంట",
+
+        problemLabel:
+            "⚠️ మీ పంటలో కనిపించిన సమస్య",
+
+        adviceTitle:
+            "💡 ఇప్పుడు ఏం చేయాలి?",
+
+        voice:
+            "🔊 సలహా వినండి",
+
+        another:
+            "📷 మరో పంటను పరీక్షించండి",
+
+        home:
+            "🏠 హోమ్‌కు వెళ్లండి",
+
+        navHome:
+            "🏠 హోమ్",
+
+        disease:
+            diseaseTelugu,
+
+        action1:
+            "🍃 సమస్య ఉన్న ఆకులను తీసివేసి సురక్షితంగా పారవేయండి.",
+
+        action2:
+            "🗑️ జబ్బు ఉన్న ఆకులను పొలంలో వదిలిపెట్టకండి.",
+
+        action3:
+            "💧 పొలాన్ని శుభ్రంగా ఉంచండి. ఆకులు ఎక్కువసేపు తడిగా ఉండకుండా చూడండి.",
+
+        note:
+            "👨‍🌾 భయపడాల్సిన అవసరం లేదు. ఈ సులభమైన సూచనలు పాటిస్తూ మీ పంటను గమనిస్తూ ఉండండి.",
+
+        high:
+            "⚠️ మీ పంటకు త్వరగా శ్రద్ధ అవసరం",
+
+        medium:
+            "⚠️ మీ పంటకు కొంత శ్రద్ధ అవసరం",
+
+        low:
+            "🟢 మీ పంటకు సాధారణ సంరక్షణ సరిపోతుంది"
+
+    },
 
 
-/* ACTION 3 */
+    hi:{
 
-document.getElementById(
-    "action3"
-).innerText =
-    "💧 Avoid keeping the leaves wet for a long time and keep the field clean.";
+        pageTitle:
+            "आपकी फसल की जांच का परिणाम",
+
+        pageSubtitle:
+            "हमने आपकी फसल की फोटो जांची है। अब क्या करना है, नीचे देखें।",
+
+        cropTitle:
+            "🌿 आपकी फसल",
+
+        problemLabel:
+            "⚠️ आपकी फसल में दिखाई देने वाली समस्या",
+
+        adviceTitle:
+            "💡 अब क्या करना चाहिए?",
+
+        voice:
+            "🔊 सलाह सुनें",
+
+        another:
+            "📷 दूसरी फसल की जांच करें",
+
+        home:
+            "🏠 होम पर जाएं",
+
+        navHome:
+            "🏠 होम",
+
+        disease:
+            diseaseHindi,
+
+        action1:
+            "🍃 प्रभावित पत्तियों को हटाकर सुरक्षित रूप से फेंक दें.",
+
+        action2:
+            "🗑️ बीमार पत्तियों को खेत में न छोड़ें.",
+
+        action3:
+            "💧 खेत को साफ रखें और पत्तियों को लंबे समय तक गीला न रहने दें.",
+
+        note:
+            "👨‍🌾 चिंता न करें। इन आसान सुझावों का पालन करें और अपनी फसल पर नियमित ध्यान दें.",
+
+        high:
+            "⚠️ आपकी फसल पर जल्दी ध्यान देना जरूरी है",
+
+        medium:
+            "⚠️ आपकी फसल पर कुछ ध्यान देना जरूरी है",
+
+        low:
+            "🟢 आपकी फसल को सामान्य देखभाल की जरूरत है"
+
+    }
+
+};
 
 
-/* VOICE */
+/* =========================
+   UPDATE LANGUAGE
+========================= */
+
+function changeLanguage(){
+
+    const language =
+        document.getElementById(
+            "languageSelect"
+        ).value;
+
+    localStorage.setItem(
+        "selectedLanguage",
+        language
+    );
+
+    const data =
+        languageData[language];
+
+
+    document.getElementById(
+        "pageTitle"
+    ).innerText =
+        data.pageTitle;
+
+
+    document.getElementById(
+        "pageSubtitle"
+    ).innerText =
+        data.pageSubtitle;
+
+
+    document.getElementById(
+        "cropTitle"
+    ).innerText =
+        data.cropTitle;
+
+
+    document.getElementById(
+        "problemLabel"
+    ).innerText =
+        data.problemLabel;
+
+
+    document.getElementById(
+        "adviceTitle"
+    ).innerText =
+        data.adviceTitle;
+
+
+    document.getElementById(
+        "voiceBtn"
+    ).innerText =
+        data.voice;
+
+
+    document.getElementById(
+        "anotherBtn"
+    ).innerText =
+        data.another;
+
+
+    document.getElementById(
+        "homeBottomBtn"
+    ).innerText =
+        data.home;
+
+
+    document.getElementById(
+        "homeBtn"
+    ).innerText =
+        data.navHome;
+
+
+    document.getElementById(
+        "diseaseName"
+    ).innerText =
+        data.disease;
+
+
+    document.getElementById(
+        "action1"
+    ).innerText =
+        data.action1;
+
+
+    document.getElementById(
+        "action2"
+    ).innerText =
+        data.action2;
+
+
+    document.getElementById(
+        "action3"
+    ).innerText =
+        data.action3;
+
+
+    document.getElementById(
+        "note"
+    ).innerText =
+        data.note;
+
+
+    /* SEVERITY */
+
+    let severityText =
+        data.medium;
+
+
+    if(
+        severity.toLowerCase() === "high"
+    ){
+
+        severityText =
+            data.high;
+
+    }
+
+    else if(
+        severity.toLowerCase() === "low"
+    ){
+
+        severityText =
+            data.low;
+
+    }
+
+
+    document.getElementById(
+        "severity"
+    ).innerText =
+        severityText;
+
+}
+
+
+/* =========================
+   VOICE
+========================= */
 
 function listenAdvice(){
 
@@ -571,28 +948,64 @@ function listenAdvice(){
         );
 
         return;
+
     }
+
+
+    const language =
+        document.getElementById(
+            "languageSelect"
+        ).value;
 
 
     window.speechSynthesis.cancel();
 
 
-    const text =
-        "Your crop is " +
-        crop +
-        ". " +
+    let text = "";
+    let voiceLanguage = "en-IN";
 
-        "We found a problem in your crop. " +
 
-        "Your crop needs " +
-        severity +
-        " attention. " +
+    if(language === "te"){
 
-        "Please remove the affected leaves and dispose of them safely. " +
+        text =
+            "మీ టమాటా పంటలో సమస్య కనిపిస్తోంది. " +
+            "సమస్య ఉన్న ఆకులను తీసివేసి సురక్షితంగా పారవేయండి. " +
+            "జబ్బు ఉన్న ఆకులను పొలంలో వదిలిపెట్టకండి. " +
+            "పొలాన్ని శుభ్రంగా ఉంచండి. " +
+            "ఆకులు ఎక్కువసేపు తడిగా ఉండకుండా చూడండి.";
 
-        "Do not leave infected leaves in the field. " +
+        voiceLanguage =
+            "te-IN";
 
-        "Keep your crop clean and avoid keeping the leaves wet for a long time.";
+    }
+
+
+    else if(language === "hi"){
+
+        text =
+            "आपकी टमाटर की फसल में एक समस्या दिखाई दे रही है। " +
+            "प्रभावित पत्तियों को हटाकर सुरक्षित रूप से फेंक दें। " +
+            "बीमार पत्तियों को खेत में न छोड़ें। " +
+            "खेत को साफ रखें और पत्तियों को लंबे समय तक गीला न रहने दें।";
+
+        voiceLanguage =
+            "hi-IN";
+
+    }
+
+
+    else{
+
+        text =
+            "There is a problem with your tomato crop. " +
+            "Remove the affected leaves and dispose of them safely. " +
+            "Do not leave infected leaves in the field. " +
+            "Keep the field clean and avoid keeping the leaves wet for a long time.";
+
+        voiceLanguage =
+            "en-IN";
+
+    }
 
 
     const speech =
@@ -600,7 +1013,7 @@ function listenAdvice(){
 
 
     speech.lang =
-        "en-IN";
+        voiceLanguage;
 
     speech.rate =
         0.82;
@@ -615,7 +1028,27 @@ function listenAdvice(){
 
 }
 
+
+/* =========================
+   LOAD SAVED LANGUAGE
+========================= */
+
+const savedLanguage =
+    localStorage.getItem(
+        "selectedLanguage"
+    ) || "en";
+
+
+document.getElementById(
+    "languageSelect"
+).value =
+    savedLanguage;
+
+
+changeLanguage();
+
 </script>
 
 </body>
 </html>
+```
