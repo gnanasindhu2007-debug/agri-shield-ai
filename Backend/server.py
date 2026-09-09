@@ -161,7 +161,6 @@ def generate_multilingual_voice_advisory(crop: str, issue: str, remedy: str) -> 
 # 5. REST API Endpoints
 # ==========================================
 @app.post("/api/v1/diagnosis/scan")
-@app.post("/api/v1/diagnosis/scan")
 async def scan_crop_pathology(
     crop_name: str = Form("Rice"),
     file: Optional[UploadFile] = File(None)
