@@ -105,6 +105,8 @@ agri-shield-ai/
 │
 ├── Frontend/
 │   └── index.html
+│   └── upload.html
+│   └── result.html
 │
 ├── image-processing/
 │   └── process_image.py
