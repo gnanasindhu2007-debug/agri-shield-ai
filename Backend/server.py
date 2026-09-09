@@ -2,6 +2,7 @@ import os
 import math
 import random
 import io
+import sys
 from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, File, UploadFile, Form, Query, HTTPException, Depends
@@ -363,6 +364,16 @@ async def delta_sync_offline_data(payload: OfflineSyncPayload):
         "synced_telemetry_count": len(payload.offline_telemetry),
         "server_timestamp": datetime.utcnow().isoformat()
     }
+
+WEATHER_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "weather"
+)
+
+if WEATHER_DIR not in sys.path:
+    sys.path.append(WEATHER_DIR)
+
+from weather import weather_report
 # ==========================================
 # 6. Static HTML Frontend Serving
 # ==========================================
@@ -414,4 +425,34 @@ async def voice_advice(
         "disease": disease,
         "advice": advice
     }
+    @app.get("/api/v1/weather")
+async def get_weather_data(
+    latitude: float = Query(...),
+    longitude: float = Query(...)
+):
+    """
+    Get current weather and farming risk alerts.
+    """
+
+    try:
+        result = weather_report(latitude, longitude)
+
+        return {
+            "success": True,
+            "weather": result["weather"],
+            "alerts": result["alerts"],
+            "recommendations": result["recommendations"]
+        }
+
+    except ValueError as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        )
+
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unable to get weather data: {error}"
+        )
 STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
