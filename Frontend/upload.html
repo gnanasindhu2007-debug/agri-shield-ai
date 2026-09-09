@@ -1,10 +1,13 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Upload Crop Image | AGRI-SHIELD AI</title>
+
     <style>
         * {
             margin: 0;
@@ -19,12 +22,12 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
 
+        /* NAVBAR */
         nav {
             height: 76px;
-            background: rgba(5, 38, 17, 0.95);
+            background: rgba(5, 38, 17, 0.97);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -46,13 +49,19 @@
             font-weight: 700;
         }
 
+        .back-btn:hover {
+            color: white;
+        }
+
+        /* MAIN CONTAINER */
         .container {
+            width: 90%;
             max-width: 650px;
             margin: 50px auto;
             background: white;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(20, 60, 25, 0.1);
+            box-shadow: 0 15px 35px rgba(20, 60, 25, 0.12);
             text-align: center;
         }
 
@@ -62,12 +71,14 @@
             margin-bottom: 10px;
         }
 
-        p {
+        .subtitle {
             color: #627265;
             margin-bottom: 30px;
             font-size: 15px;
+            line-height: 1.6;
         }
 
+        /* UPLOAD BOX */
         .upload-box {
             border: 2px dashed #91d96d;
             background: #f8fbf7;
@@ -75,6 +86,7 @@
             border-radius: 15px;
             cursor: pointer;
             transition: 0.3s;
+            display: block;
         }
 
         .upload-box:hover {
@@ -84,21 +96,37 @@
 
         .icon {
             font-size: 48px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        .upload-title {
+            color: #24552b;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .upload-info {
+            color: #78857b;
+            font-size: 12px;
+            margin-top: 8px;
         }
 
         input[type="file"] {
             display: none;
         }
 
+        /* IMAGE PREVIEW */
         .preview-img {
             max-width: 100%;
-            max-height: 250px;
-            border-radius: 10px;
-            margin-top: 15px;
+            max-height: 280px;
+            border-radius: 12px;
+            margin-top: 20px;
             display: none;
+            object-fit: contain;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
         }
 
+        /* BUTTON */
         .submit-btn {
             margin-top: 25px;
             width: 100%;
@@ -115,58 +143,416 @@
 
         .submit-btn:hover {
             background: #7cc957;
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            background: #c8d8c2;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* STATUS */
+        #status {
+            margin-top: 18px;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 20px;
+            color: #718074;
+            font-size: 13px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 0 5%;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .container {
+                padding: 28px 20px;
+                margin: 30px auto;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- NAVBAR -->
     <nav>
-        <div class="logo">🌱 AGRI-SHIELD AI</div>
-        <a href="index.html" class="back-btn">← Back to Home</a>
+
+        <div class="logo">
+            🌱 AGRI-SHIELD AI
+        </div>
+
+        <a href="index.html" class="back-btn">
+            ← Back to Home
+        </a>
+
     </nav>
 
-    <div class="container">
-        <h2>Crop Disease Detection</h2>
-        <p>Upload a clear leaf photo of the affected crop to get instant AI analysis.</p>
 
+    <!-- MAIN -->
+    <div class="container">
+
+        <h2>Crop Disease Detection</h2>
+
+        <p class="subtitle">
+            Upload a clear leaf photo of the affected crop
+            to get instant AI-powered analysis.
+        </p>
+
+
+        <!-- UPLOAD AREA -->
         <label for="cropImage" class="upload-box" id="dropArea">
-            <div class="icon">📷</div>
-            <strong style="color: #24552b;">Click or Drag image here to upload</strong>
-            <p style="margin-top: 5px; font-size: 12px;">Supports JPG, PNG (Max 5MB)</p>
-            <input type="file" id="cropImage" accept="image/*" onchange="previewFile()">
-            <img id="preview" class="preview-img" alt="Leaf Preview">
+
+            <div class="icon">
+                📷
+            </div>
+
+            <div class="upload-title">
+                Click or Drag Image Here to Upload
+            </div>
+
+            <div class="upload-info">
+                Supports JPG, JPEG and PNG • Maximum 5MB
+            </div>
+
+            <input
+                type="file"
+                id="cropImage"
+                accept="image/jpeg,image/png,image/jpg"
+                onchange="previewFile()"
+            >
+
+            <img
+                id="preview"
+                class="preview-img"
+                alt="Crop Leaf Preview"
+            >
+
         </label>
 
-        <button class="submit-btn" onclick="analyzeCrop()">🔍 Analyze Crop Leaf</button>
+
+        <!-- ANALYZE BUTTON -->
+        <button
+            class="submit-btn"
+            id="analyzeButton"
+            onclick="analyzeCrop()"
+        >
+            🔍 Analyze Crop Leaf
+        </button>
+
+
+        <!-- STATUS -->
+        <div id="status"></div>
+
     </div>
 
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 AGRI-SHIELD AI | Smart Farming Assistant
+    </footer>
+
+
     <script>
+
+        /* =========================
+           IMAGE PREVIEW
+        ========================= */
+
         function previewFile() {
-            const preview = document.getElementById('preview');
-            const file = document.getElementById('cropImage').files[0];
-            const reader = new FileReader();
 
-            reader.addEventListener("load", function () {
-                preview.src = reader.result;
-                preview.style.display = "block";
-            }, false);
+            const fileInput = document.getElementById("cropImage");
+            const preview = document.getElementById("preview");
+            const status = document.getElementById("status");
 
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
+            const file = fileInput.files[0];
 
-        function analyzeCrop() {
-            const fileInput = document.getElementById('cropImage');
-            if (!fileInput.files.length) {
-                alert("Please select or take a photo of a crop leaf first!");
+            if (!file) {
                 return;
             }
-            alert("Leaf uploaded! Connecting to AI Model for processing...");
+
+            /* Check file size */
+
+            if (file.size > 5 * 1024 * 1024) {
+
+                alert("Image size must be less than 5MB.");
+
+                fileInput.value = "";
+                preview.style.display = "none";
+
+                return;
+            }
+
+
+            /* Show preview */
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+
+                preview.src = event.target.result;
+                preview.style.display = "block";
+
+                status.style.display = "none";
+            };
+
+            reader.readAsDataURL(file);
         }
+
+
+
+        /* =========================
+           ANALYZE CROP
+        ========================= */
+
+        async function analyzeCrop() {
+
+            const fileInput =
+                document.getElementById("cropImage");
+
+            const button =
+                document.getElementById("analyzeButton");
+
+            const status =
+                document.getElementById("status");
+
+
+            /* Check image */
+
+            if (!fileInput.files.length) {
+
+                alert(
+                    "Please select a crop leaf image first!"
+                );
+
+                return;
+            }
+
+
+            const file = fileInput.files[0];
+
+
+            /* Check file size */
+
+            if (file.size > 5 * 1024 * 1024) {
+
+                alert(
+                    "Image size must be less than 5MB."
+                );
+
+                return;
+            }
+
+
+            /* Create FormData */
+
+            const formData = new FormData();
+
+            formData.append(
+                "crop_name",
+                "Tomato"
+            );
+
+            formData.append(
+                "file",
+                file
+            );
+
+
+            /* Loading */
+
+            button.disabled = true;
+
+            button.innerHTML =
+                "⏳ Analyzing with AI...";
+
+            status.style.display = "block";
+
+            status.style.color = "#438c4e";
+
+            status.innerHTML =
+                "🌱 AI is analyzing your crop image...";
+
+
+            try {
+
+                /* Send image to FastAPI backend */
+
+                const response = await fetch(
+                    "http://127.0.0.1:8000/api/v1/diagnosis/scan",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+                /* Check response */
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Backend server returned an error."
+                    );
+                }
+
+
+                /* Convert response to JSON */
+
+                const result =
+                    await response.json();
+
+
+                console.log(
+                    "AI Result:",
+                    result
+                );
+
+
+                /* Save result */
+
+                localStorage.setItem(
+                    "diagnosisResult",
+                    JSON.stringify(result)
+                );
+
+
+                /* Save uploaded image */
+
+                const reader =
+                    new FileReader();
+
+                reader.onload = function (event) {
+
+                    localStorage.setItem(
+                        "cropImage",
+                        event.target.result
+                    );
+
+                    /* Open result page */
+
+                    window.location.href =
+                        "result.html";
+                };
+
+                reader.readAsDataURL(file);
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                status.style.color = "#c62828";
+
+                status.innerHTML =
+                    "❌ Unable to connect to AI model.";
+
+
+                alert(
+                    "Unable to connect to AI model. Please make sure the backend server is running."
+                );
+
+
+                /* Reset button */
+
+                button.disabled = false;
+
+                button.innerHTML =
+                    "🔍 Analyze Crop Leaf";
+            }
+
+        }
+
+
+        /* =========================
+           DRAG & DROP
+        ========================= */
+
+        const dropArea =
+            document.getElementById("dropArea");
+
+        const fileInput =
+            document.getElementById("cropImage");
+
+
+        dropArea.addEventListener(
+            "dragover",
+            function (event) {
+
+                event.preventDefault();
+
+                dropArea.style.background =
+                    "#edf8e9";
+
+                dropArea.style.borderColor =
+                    "#438c4e";
+            }
+        );
+
+
+        dropArea.addEventListener(
+            "dragleave",
+            function () {
+
+                dropArea.style.background =
+                    "#f8fbf7";
+
+                dropArea.style.borderColor =
+                    "#91d96d";
+            }
+        );
+
+
+        dropArea.addEventListener(
+            "drop",
+            function (event) {
+
+                event.preventDefault();
+
+
+                dropArea.style.background =
+                    "#f8fbf7";
+
+                dropArea.style.borderColor =
+                    "#91d96d";
+
+
+                const files =
+                    event.dataTransfer.files;
+
+
+                if (files.length > 0) {
+
+                    fileInput.files = files;
+
+                    previewFile();
+                }
+            }
+        );
+
     </script>
 
 </body>
 
 </html>
+```
