@@ -1,69 +1,50 @@
 ```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Crop Result | AGRI-SHIELD AI</title>
+<title>AGRI-SHIELD AI - Crop Advice</title>
 
 <style>
 
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
+    font-family:Arial, sans-serif;
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f2f8ef;
-    color:#17351d;
+    background:#f4f8f3;
+    color:#1f3d25;
 }
 
-nav{
-    height:70px;
-    background:#063514;
+.navbar{
+    background:#174d2a;
+    color:white;
+    padding:16px 7%;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:0 6%;
-    color:white;
 }
 
 .logo{
-    font-size:21px;
-    font-weight:800;
-}
-
-.nav-right{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.language{
-    padding:9px 12px;
-    border-radius:8px;
-    border:none;
-    font-weight:700;
-    cursor:pointer;
+    font-size:24px;
+    font-weight:bold;
 }
 
 .home-btn{
     color:white;
     text-decoration:none;
-    background:#2f7e3c;
-    padding:10px 16px;
-    border-radius:9px;
-    font-weight:700;
+    font-weight:bold;
 }
 
 .container{
-    width:92%;
-    max-width:850px;
-    margin:35px auto 50px;
+    width:90%;
+    max-width:900px;
+    margin:35px auto;
 }
 
 .header{
@@ -71,266 +52,182 @@ nav{
     margin-bottom:25px;
 }
 
-.header-icon{
-    font-size:55px;
-}
-
 .header h1{
-    color:#174b24;
-    font-size:32px;
-    margin:8px 0;
+    font-size:34px;
+    margin-bottom:10px;
 }
 
 .header p{
-    color:#607064;
-    font-size:16px;
+    color:#58705d;
+    font-size:17px;
+}
+
+.language-box{
+    text-align:right;
+    margin-bottom:20px;
+}
+
+.language-box select{
+    padding:10px 15px;
+    border-radius:8px;
+    border:1px solid #bbb;
+    font-size:15px;
 }
 
 .card{
     background:white;
+    border-radius:18px;
     padding:28px;
-    border-radius:22px;
-    box-shadow:0 15px 45px rgba(20,70,25,.12);
+    margin-bottom:25px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
 }
 
 .crop-image{
     width:100%;
-    max-height:330px;
+    max-height:350px;
     object-fit:contain;
-    border-radius:16px;
-    background:#edf5e9;
+    border-radius:15px;
+    background:#eef4ed;
     margin-bottom:25px;
 }
 
-.crop-box{
-    background:#f7faf6;
-    border:1px solid #dce8d9;
-    border-radius:14px;
-    padding:18px;
-    margin-bottom:20px;
-}
-
-.crop-box h3{
-    color:#286238;
-    margin-bottom:8px;
-    font-size:18px;
-}
-
-.crop-box p{
-    color:#526157;
-    font-size:18px;
-    font-weight:700;
-}
-
-.result-box{
-    text-align:center;
+.issue{
     background:#fff4e5;
-    border:2px solid #f1d5a8;
-    border-radius:18px;
-    padding:25px 18px;
+    border-left:6px solid #e68a00;
+    padding:20px;
+    border-radius:10px;
     margin-bottom:20px;
 }
 
-.result-box .label{
-    color:#85602b;
-    font-size:14px;
-    font-weight:800;
-    margin-bottom:12px;
+.issue h2{
+    color:#a85b00;
+    margin-bottom:8px;
 }
 
-.disease{
-    color:#7a351f;
-    font-size:27px;
-    font-weight:800;
-    line-height:1.4;
-    margin-bottom:15px;
+.info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-top:20px;
 }
 
-.severity{
-    display:inline-block;
-    background:#ffe1df;
-    color:#b3261e;
-    padding:9px 18px;
-    border-radius:25px;
-    font-weight:800;
-}
-
-.action-box{
-    background:#eaf7e6;
-    border:2px solid #cde5c5;
-    border-radius:18px;
-    padding:25px;
-    margin-bottom:20px;
-}
-
-.action-box h2{
-    color:#20582c;
-    font-size:23px;
-    margin-bottom:18px;
-}
-
-.action{
-    background:white;
-    padding:17px;
+.info{
+    background:#f2f7f1;
+    padding:18px;
     border-radius:12px;
-    margin-bottom:12px;
-    color:#435246;
-    line-height:1.6;
-    font-size:16px;
 }
 
-/* VOICE + MICROPHONE */
+.info strong{
+    display:block;
+    margin-bottom:7px;
+}
+
+.remedy{
+    background:#eef8ef;
+    padding:18px;
+    border-radius:12px;
+    margin-top:15px;
+}
+
+.remedy h3{
+    margin-bottom:8px;
+}
 
 .voice-area{
-    display:flex;
-    gap:10px;
-    margin-top:12px;
+    text-align:center;
+    background:#f0f8f1;
+    border-radius:16px;
+    padding:25px;
+    margin-top:20px;
+}
+
+.voice-area h2{
+    margin-bottom:10px;
+}
+
+.voice-help{
+    color:#5b6d5e;
+    margin-bottom:20px;
 }
 
 .voice-btn,
 .mic-btn{
-    flex:1;
     border:none;
-    padding:16px;
-    border-radius:11px;
-    color:white;
-    font-size:16px;
-    font-weight:800;
+    padding:14px 22px;
+    border-radius:10px;
+    font-size:17px;
+    font-weight:bold;
     cursor:pointer;
+    margin:6px;
 }
 
 .voice-btn{
-    background:#2f7e3c;
-}
-
-.voice-btn:hover{
-    background:#205f2c;
-}
-
-.mic-btn{
-    background:#155e75;
-}
-
-.mic-btn:hover{
-    background:#10495b;
-}
-
-.mic-btn.listening{
-    background:#b3261e;
-    animation:pulse 1s infinite;
-}
-
-@keyframes pulse{
-
-    0%{
-        transform:scale(1);
-    }
-
-    50%{
-        transform:scale(1.03);
-    }
-
-    100%{
-        transform:scale(1);
-    }
-
-}
-
-/* FARMER VOICE BOX */
-
-.voice-help{
-    margin-top:14px;
-    background:#f4f8ff;
-    border:1px solid #d5e2f2;
-    border-radius:12px;
-    padding:15px;
-    color:#40576a;
-    line-height:1.5;
-    text-align:center;
-}
-
-.voice-result{
-    margin-top:10px;
-    font-weight:700;
-    color:#174b24;
-}
-
-.note{
-    background:#fff9e8;
-    border:1px solid #eadcae;
-    padding:16px;
-    border-radius:12px;
-    margin-bottom:20px;
-    color:#665b35;
-    line-height:1.5;
-}
-
-.buttons{
-    display:flex;
-    gap:12px;
-}
-
-.button{
-    flex:1;
-    padding:16px;
-    border-radius:11px;
-    text-align:center;
-    text-decoration:none;
-    font-weight:800;
-}
-
-.another{
-    background:#2f7e3c;
+    background:#236b37;
     color:white;
 }
 
-.home{
-    background:#edf4ea;
-    color:#286238;
+.mic-btn{
+    background:#166534;
+    color:white;
 }
 
-@media(max-width:600px){
+.mic-btn.listening{
+    background:#dc2626;
+}
 
-    nav{
-        padding:0 4%;
-    }
+.voice-result{
+    margin-top:20px;
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    min-height:55px;
+    font-size:16px;
+    line-height:1.6;
+}
 
-    .logo{
-        font-size:17px;
-    }
+.actions{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:25px;
+}
 
-    .nav-right{
-        gap:6px;
-    }
+.action-btn{
+    text-decoration:none;
+    padding:14px 22px;
+    border-radius:10px;
+    font-weight:bold;
+}
 
-    .language{
-        padding:8px 5px;
-        font-size:12px;
-    }
+.primary{
+    background:#236b37;
+    color:white;
+}
 
-    .home-btn{
-        padding:8px 10px;
-        font-size:13px;
-    }
+.secondary{
+    background:#e6efe5;
+    color:#236b37;
+}
 
-    .card{
-        padding:18px;
+footer{
+    text-align:center;
+    padding:30px;
+    color:#667566;
+}
+
+@media(max-width:650px){
+
+    .info-grid{
+        grid-template-columns:1fr;
     }
 
     .header h1{
         font-size:27px;
     }
 
-    .disease{
-        font-size:22px;
-    }
-
-    .voice-area{
-        flex-direction:column;
-    }
-
-    .buttons{
-        flex-direction:column;
+    .card{
+        padding:20px;
     }
 
 }
@@ -338,56 +235,46 @@ nav{
 </style>
 </head>
 
-
 <body>
 
-<nav>
+<nav class="navbar">
 
     <div class="logo">
         🌱 AGRI-SHIELD AI
     </div>
 
-    <div class="nav-right">
-
-        <select
-            id="languageSelect"
-            class="language"
-            onchange="changeLanguage()">
-
-            <option value="en">English</option>
-            <option value="te">తెలుగు</option>
-            <option value="hi">हिंदी</option>
-
-        </select>
-
-        <a
-            href="index.html"
-            class="home-btn"
-            id="homeBtn">
-
-            🏠 Home
-
-        </a>
-
-    </div>
+    <a href="index.html" class="home-btn">
+        🏠 Home
+    </a>
 
 </nav>
 
 
 <div class="container">
 
+    <div class="language-box">
+
+        <select id="languageSelect" onchange="changeLanguage()">
+
+            <option value="en">English</option>
+
+            <option value="te">తెలుగు</option>
+
+            <option value="hi">हिंदी</option>
+
+        </select>
+
+    </div>
+
+
     <div class="header">
 
-        <div class="header-icon">
-            🌱
-        </div>
-
         <h1 id="pageTitle">
-            Your Crop Check Result
+            🌱 Your Crop Check Result
         </h1>
 
         <p id="pageSubtitle">
-            We checked your crop photo. Here is what you should do.
+            Here is the problem found in your crop and what you can do.
         </p>
 
     </div>
@@ -395,718 +282,468 @@ nav{
 
     <div class="card">
 
-        <!-- CROP IMAGE -->
-
         <img
             id="cropImage"
             class="crop-image"
-            alt="Your crop photo"
+            alt="Crop Image"
         >
 
 
-        <!-- CROP -->
+        <div class="issue">
 
-        <div class="crop-box">
+            <h2 id="issueTitle">
+                ⚠️ Crop Problem
+            </h2>
 
-            <h3 id="cropTitle">
-                🌿 Your Crop
-            </h3>
-
-            <p id="cropName">
-                Tomato
+            <p id="diseaseName">
+                Checking...
             </p>
 
         </div>
 
 
-        <!-- PROBLEM -->
+        <div class="info-grid">
 
-        <div class="result-box">
+            <div class="info">
 
-            <div
-                class="label"
-                id="problemLabel">
+                <strong id="cropLabel">
+                    🌾 Crop
+                </strong>
 
-                ⚠️ PROBLEM FOUND IN YOUR CROP
-
-            </div>
-
-            <div
-                class="disease"
-                id="diseaseName">
-
-                Checking...
+                <span id="cropName">
+                    Tomato
+                </span>
 
             </div>
 
-            <div
-                class="severity"
-                id="severity">
 
-                Please wait
+            <div class="info">
+
+                <strong id="severityLabel">
+                    ⚠️ Problem Level
+                </strong>
+
+                <span id="severity">
+                    High
+                </span>
 
             </div>
 
         </div>
 
 
-        <!-- ADVICE -->
+        <div class="remedy">
 
-        <div class="action-box">
+            <h3 id="organicTitle">
+                🌿 What should you do?
+            </h3>
 
-            <h2 id="adviceTitle">
-                💡 What should you do now?
+            <p id="organicAdvice">
+                Please wait...
+            </p>
+
+        </div>
+
+
+        <div class="voice-area">
+
+            <h2 id="voiceTitle">
+                🔊 Listen & Speak
             </h2>
 
+            <p class="voice-help" id="voiceHelp">
+                Listen to the advice or speak to AGRI-SHIELD using your microphone.
+            </p>
+
+
+            <button
+                class="voice-btn"
+                onclick="listenAdvice()"
+                id="listenBtn"
+            >
+                🔊 Listen to Advice
+            </button>
+
+
+            <button
+                class="mic-btn"
+                onclick="startListening()"
+                id="micBtn"
+            >
+                🎤 Speak to AGRI-SHIELD
+            </button>
+
 
             <div
-                class="action"
-                id="action1">
-
-                🌿 Please wait...
-
-            </div>
-
-
-            <div
-                class="action"
-                id="action2">
-
-            </div>
-
-
-            <div
-                class="action"
-                id="action3">
-
-            </div>
-
-
-            <!-- SPEAKER + MICROPHONE -->
-
-            <div class="voice-area">
-
-                <button
-                    class="voice-btn"
-                    onclick="listenAdvice()"
-                    id="voiceBtn">
-
-                    🔊 Listen to Advice
-
-                </button>
-
-
-                <button
-                    class="mic-btn"
-                    onclick="startListening()"
-                    id="micBtn">
-
-                    🎤 Speak to AGRI-SHIELD
-
-                </button>
-
-            </div>
-
-
-            <!-- MICROPHONE HELP -->
-
-            <div
-                class="voice-help"
-                id="voiceHelp">
-
-                🎤 Don't understand? Tap the microphone and speak to AGRI-SHIELD.
-
-                <div
-                    class="voice-result"
-                    id="voiceResult">
-                </div>
-
+                class="voice-result"
+                id="voiceResult"
+            >
+                🎤 You can ask: "What should I do?"
             </div>
 
         </div>
 
-
-        <!-- NOTE -->
-
-        <div
-            class="note"
-            id="note">
-
-            👨‍🌾 Don't worry. Follow these simple steps and keep checking your crop regularly.
-
-        </div>
+    </div>
 
 
-        <!-- BUTTONS -->
+    <div class="actions">
 
-        <div class="buttons">
+        <a
+            href="upload.html"
+            class="action-btn primary"
+            id="checkAgainBtn"
+        >
+            📷 Check Another Crop
+        </a>
 
-            <a
-                href="upload.html"
-                class="button another"
-                id="anotherBtn">
-
-                📷 Check Another Crop
-
-            </a>
-
-
-            <a
-                href="index.html"
-                class="button home"
-                id="homeBottomBtn">
-
-                🏠 Go to Home
-
-            </a>
-
-        </div>
+        <a
+            href="index.html"
+            class="action-btn secondary"
+            id="homeBtn"
+        >
+            🏠 Go Home
+        </a>
 
     </div>
 
 </div>
 
 
+<footer>
+
+    🌱 AGRI-SHIELD AI — Smart Farming Assistant
+
+</footer>
+
+
 <script>
 
-/* =========================
-   GET SAVED RESULT
-========================= */
+let diagnosisResult =
+    JSON.parse(localStorage.getItem("diagnosisResult"));
 
-const savedResult =
-    localStorage.getItem("diagnosisResult");
-
-const savedImage =
+let cropImage =
     localStorage.getItem("cropImage");
 
 
-if(!savedResult){
-
-    alert("Please check your crop first.");
-
-    window.location.href =
-        "upload.html";
-
-}
-
-
-const result =
-    JSON.parse(savedResult);
-
-
-/* =========================
-   IMAGE
-========================= */
-
-if(savedImage){
-
-    document.getElementById(
-        "cropImage"
-    ).src = savedImage;
-
-}
-
-
-/* =========================
-   CROP
-========================= */
-
-const crop =
-    result.crop_name || "Tomato";
-
-document.getElementById(
-    "cropName"
-).innerText = crop;
-
-
-/* =========================
-   DISEASE
-========================= */
-
-const detectedIssue =
-    result.detected_issue || "";
-
-
-let diseaseEnglish =
-    "There may be a problem with your crop.";
-
-let diseaseTelugu =
-    "మీ పంటలో ఒక సమస్య కనిపిస్తోంది.";
-
-let diseaseHindi =
-    "आपकी फसल में एक समस्या दिखाई दे रही है.";
-
-
-if(
-    detectedIssue === "Tomato Bacterial Spot" ||
-    detectedIssue === "Tomato___Bacterial_spot"
-){
-
-    diseaseEnglish =
-        "Spots are appearing on your tomato leaves.";
-
-    diseaseTelugu =
-        "మీ టమాటా ఆకులపై మచ్చలు కనిపిస్తున్నాయి.";
-
-    diseaseHindi =
-        "आपकी टमाटर की पत्तियों पर धब्बे दिखाई दे रहे हैं.";
-
-}
-
-
-/* =========================
-   SEVERITY
-========================= */
-
-const severity =
-    result.severity_level || "High";
-
-
-/* =========================
-   LANGUAGE DATA
-========================= */
-
 const languageData = {
 
-    en:{
+    en: {
 
         pageTitle:
-            "Your Crop Check Result",
+            "🌱 Your Crop Check Result",
 
         pageSubtitle:
-            "We checked your crop photo. Here is what you should do.",
+            "Here is the problem found in your crop and what you can do.",
 
-        cropTitle:
-            "🌿 Your Crop",
+        issueTitle:
+            "⚠️ Crop Problem",
 
-        problemLabel:
-            "⚠️ PROBLEM FOUND IN YOUR CROP",
+        cropLabel:
+            "🌾 Crop",
 
-        adviceTitle:
-            "💡 What should you do now?",
+        severityLabel:
+            "⚠️ Problem Level",
 
-        voice:
+        organicTitle:
+            "🌿 What should you do?",
+
+        listen:
             "🔊 Listen to Advice",
 
         mic:
             "🎤 Speak to AGRI-SHIELD",
 
-        voiceHelp:
-            "🎤 Don't understand? Tap the microphone and speak to AGRI-SHIELD.",
+        voiceTitle:
+            "🔊 Listen & Speak",
 
-        another:
+        voiceHelp:
+            "Listen to the advice or speak to AGRI-SHIELD using your microphone.",
+
+        checkAgain:
             "📷 Check Another Crop",
 
         home:
-            "🏠 Go to Home",
+            "🏠 Go Home",
 
-        navHome:
-            "🏠 Home",
+        ready:
+            '🎤 You can ask: "What should I do?"',
 
-        disease:
-            diseaseEnglish,
-
-        action1:
-            "🍃 Remove the affected leaves and dispose of them safely.",
-
-        action2:
-            "🗑️ Do not leave infected leaves in the field.",
-
-        action3:
-            "💧 Keep the field clean and avoid keeping leaves wet for a long time.",
-
-        note:
-            "👨‍🌾 Don't worry. Follow these simple steps and keep checking your crop regularly.",
-
-        high:
-            "⚠️ Your crop needs quick attention",
-
-        medium:
-            "⚠️ Your crop needs some attention",
-
-        low:
-            "🟢 Your crop needs normal care"
+        listening:
+            "🔴 Listening..."
 
     },
 
 
-    te:{
+    te: {
 
         pageTitle:
-            "మీ పంట పరీక్ష ఫలితం",
+            "🌱 మీ పంట పరీక్ష ఫలితం",
 
         pageSubtitle:
-            "మీ పంట ఫోటోను పరిశీలించాము. ఇప్పుడు ఏం చేయాలో క్రింద చూడండి.",
+            "మీ పంటలో కనిపించిన సమస్య మరియు మీరు చేయాల్సిన పని ఇక్కడ ఉంది.",
 
-        cropTitle:
-            "🌿 మీ పంట",
+        issueTitle:
+            "⚠️ పంట సమస్య",
 
-        problemLabel:
-            "⚠️ మీ పంటలో కనిపించిన సమస్య",
+        cropLabel:
+            "🌾 పంట",
 
-        adviceTitle:
-            "💡 ఇప్పుడు ఏం చేయాలి?",
+        severityLabel:
+            "⚠️ సమస్య స్థాయి",
 
-        voice:
+        organicTitle:
+            "🌿 మీరు ఏమి చేయాలి?",
+
+        listen:
             "🔊 సలహా వినండి",
 
         mic:
             "🎤 AGRI-SHIELD తో మాట్లాడండి",
 
-        voiceHelp:
-            "🎤 అర్థం కాకపోతే మైక్రోఫోన్ నొక్కి AGRI-SHIELD తో మాట్లాడండి.",
+        voiceTitle:
+            "🔊 వినండి & మాట్లాడండి",
 
-        another:
+        voiceHelp:
+            "సలహాను వినండి లేదా మైక్రోఫోన్ ద్వారా AGRI-SHIELD తో మాట్లాడండి.",
+
+        checkAgain:
             "📷 మరో పంటను పరీక్షించండి",
 
         home:
             "🏠 హోమ్‌కు వెళ్లండి",
 
-        navHome:
-            "🏠 హోమ్",
+        ready:
+            '🎤 మీరు "నేను ఏమి చేయాలి?" అని అడగవచ్చు.',
 
-        disease:
-            diseaseTelugu,
-
-        action1:
-            "🍃 సమస్య ఉన్న ఆకులను తీసివేసి సురక్షితంగా పారవేయండి.",
-
-        action2:
-            "🗑️ జబ్బు ఉన్న ఆకులను పొలంలో వదిలిపెట్టకండి.",
-
-        action3:
-            "💧 పొలాన్ని శుభ్రంగా ఉంచండి. ఆకులు ఎక్కువసేపు తడిగా ఉండకుండా చూడండి.",
-
-        note:
-            "👨‍🌾 భయపడాల్సిన అవసరం లేదు. ఈ సులభమైన సూచనలు పాటిస్తూ మీ పంటను గమనిస్తూ ఉండండి.",
-
-        high:
-            "⚠️ మీ పంటకు త్వరగా శ్రద్ధ అవసరం",
-
-        medium:
-            "⚠️ మీ పంటకు కొంత శ్రద్ధ అవసరం",
-
-        low:
-            "🟢 మీ పంటకు సాధారణ సంరక్షణ సరిపోతుంది"
+        listening:
+            "🔴 వింటున్నాను..."
 
     },
 
 
-    hi:{
+    hi: {
 
         pageTitle:
-            "आपकी फसल की जांच का परिणाम",
+            "🌱 आपकी फसल की जांच का परिणाम",
 
         pageSubtitle:
-            "हमने आपकी फसल की फोटो जांची है। अब क्या करना है, नीचे देखें।",
+            "आपकी फसल में मिली समस्या और आपको क्या करना चाहिए, यहां दिया गया है।",
 
-        cropTitle:
-            "🌿 आपकी फसल",
+        issueTitle:
+            "⚠️ फसल की समस्या",
 
-        problemLabel:
-            "⚠️ आपकी फसल में दिखाई देने वाली समस्या",
+        cropLabel:
+            "🌾 फसल",
 
-        adviceTitle:
-            "💡 अब क्या करना चाहिए?",
+        severityLabel:
+            "⚠️ समस्या का स्तर",
 
-        voice:
+        organicTitle:
+            "🌿 आपको क्या करना चाहिए?",
+
+        listen:
             "🔊 सलाह सुनें",
 
         mic:
             "🎤 AGRI-SHIELD से बात करें",
 
-        voiceHelp:
-            "🎤 समझ न आए तो माइक्रोफोन दबाकर AGRI-SHIELD से बात करें।",
+        voiceTitle:
+            "🔊 सुनें और बोलें",
 
-        another:
-            "📷 दूसरी फसल की जांच करें",
+        voiceHelp:
+            "सलाह सुनें या माइक्रोफोन से AGRI-SHIELD से बात करें।",
+
+        checkAgain:
+            "📷 दूसरी फसल जांचें",
 
         home:
             "🏠 होम पर जाएं",
 
-        navHome:
-            "🏠 होम",
+        ready:
+            '🎤 आप पूछ सकते हैं: "मुझे क्या करना चाहिए?"',
 
-        disease:
-            diseaseHindi,
-
-        action1:
-            "🍃 प्रभावित पत्तियों को हटाकर सुरक्षित रूप से फेंक दें.",
-
-        action2:
-            "🗑️ बीमार पत्तियों को खेत में न छोड़ें.",
-
-        action3:
-            "💧 खेत को साफ रखें और पत्तियों को लंबे समय तक गीला न रहने दें.",
-
-        note:
-            "👨‍🌾 चिंता न करें। इन आसान सुझावों का पालन करें और अपनी फसल पर नियमित ध्यान दें.",
-
-        high:
-            "⚠️ आपकी फसल पर जल्दी ध्यान देना जरूरी है",
-
-        medium:
-            "⚠️ आपकी फसल पर कुछ ध्यान देना जरूरी है",
-
-        low:
-            "🟢 आपकी फसल को सामान्य देखभाल की जरूरत है"
+        listening:
+            "🔴 सुन रहा हूँ..."
 
     }
 
 };
 
 
-/* =========================
-   CHANGE LANGUAGE
-========================= */
+function getLanguage(){
+
+    return localStorage.getItem("selectedLanguage") || "en";
+
+}
+
 
 function changeLanguage(){
 
     const language =
-        document.getElementById(
-            "languageSelect"
-        ).value;
-
+        document.getElementById("languageSelect").value;
 
     localStorage.setItem(
         "selectedLanguage",
         language
     );
 
-
     const data =
         languageData[language];
 
 
-    document.getElementById(
-        "pageTitle"
-    ).innerText =
+    document.getElementById("pageTitle").innerText =
         data.pageTitle;
 
-
-    document.getElementById(
-        "pageSubtitle"
-    ).innerText =
+    document.getElementById("pageSubtitle").innerText =
         data.pageSubtitle;
 
+    document.getElementById("issueTitle").innerText =
+        data.issueTitle;
 
-    document.getElementById(
-        "cropTitle"
-    ).innerText =
-        data.cropTitle;
+    document.getElementById("cropLabel").innerText =
+        data.cropLabel;
 
+    document.getElementById("severityLabel").innerText =
+        data.severityLabel;
 
-    document.getElementById(
-        "problemLabel"
-    ).innerText =
-        data.problemLabel;
+    document.getElementById("organicTitle").innerText =
+        data.organicTitle;
 
+    document.getElementById("listenBtn").innerText =
+        data.listen;
 
-    document.getElementById(
-        "adviceTitle"
-    ).innerText =
-        data.adviceTitle;
-
-
-    document.getElementById(
-        "voiceBtn"
-    ).innerText =
-        data.voice;
-
-
-    document.getElementById(
-        "micBtn"
-    ).innerText =
+    document.getElementById("micBtn").innerText =
         data.mic;
 
+    document.getElementById("voiceTitle").innerText =
+        data.voiceTitle;
 
-    document.getElementById(
-        "voiceHelp"
-    ).firstChild.textContent =
+    document.getElementById("voiceHelp").innerText =
         data.voiceHelp;
 
+    document.getElementById("checkAgainBtn").innerText =
+        data.checkAgain;
 
-    document.getElementById(
-        "anotherBtn"
-    ).innerText =
-        data.another;
-
-
-    document.getElementById(
-        "homeBottomBtn"
-    ).innerText =
+    document.getElementById("homeBtn").innerText =
         data.home;
 
-
-    document.getElementById(
-        "homeBtn"
-    ).innerText =
-        data.navHome;
-
-
-    document.getElementById(
-        "diseaseName"
-    ).innerText =
-        data.disease;
-
-
-    document.getElementById(
-        "action1"
-    ).innerText =
-        data.action1;
-
-
-    document.getElementById(
-        "action2"
-    ).innerText =
-        data.action2;
-
-
-    document.getElementById(
-        "action3"
-    ).innerText =
-        data.action3;
-
-
-    document.getElementById(
-        "note"
-    ).innerText =
-        data.note;
-
-
-    /* SEVERITY */
-
-    let severityText =
-        data.medium;
-
-
     if(
-        severity.toLowerCase() === "high"
+        !document.getElementById("voiceResult").innerText.includes("🤖")
     ){
-
-        severityText =
-            data.high;
-
+        document.getElementById("voiceResult").innerText =
+            data.ready;
     }
-
-    else if(
-        severity.toLowerCase() === "low"
-    ){
-
-        severityText =
-            data.low;
-
-    }
-
-
-    document.getElementById(
-        "severity"
-    ).innerText =
-        severityText;
 
 }
 
 
-/* =========================
-   SPEAKER
-========================= */
+function loadResult(){
 
-function listenAdvice(){
+    if(!diagnosisResult){
 
-    if(
-        !("speechSynthesis" in window)
-    ){
-
-        alert(
-            "Voice is not available in this browser."
-        );
+        document.getElementById("diseaseName").innerText =
+            "No result found.";
 
         return;
 
     }
 
 
+    document.getElementById("cropName").innerText =
+        diagnosisResult.crop_name || "Tomato";
+
+
+    document.getElementById("diseaseName").innerText =
+        diagnosisResult.detected_issue ||
+        "Crop problem detected";
+
+
+    document.getElementById("severity").innerText =
+        diagnosisResult.severity_level ||
+        "High";
+
+
+    let advice =
+        "Remove infected leaves and safely dispose of them.";
+
+    if(
+        diagnosisResult.organic_remedies &&
+        diagnosisResult.organic_remedies.length > 0
+    ){
+
+        advice =
+            diagnosisResult.organic_remedies[0].description ||
+            diagnosisResult.organic_remedies[0].title ||
+            advice;
+
+    }
+
+    document.getElementById("organicAdvice").innerText =
+        advice;
+
+
+    if(cropImage){
+
+        document.getElementById("cropImage").src =
+            cropImage;
+
+    }
+
+}
+
+
+function listenAdvice(){
+
     const language =
-        document.getElementById(
-            "languageSelect"
-        ).value;
+        getLanguage();
 
-
-    window.speechSynthesis.cancel();
-
-
-    let text = "";
-    let voiceLanguage = "en-IN";
+    let advice =
+        document.getElementById("organicAdvice").innerText;
 
 
     if(language === "te"){
 
-        text =
-            "మీ టమాటా పంటలో సమస్య కనిపిస్తోంది. " +
-            "మీ టమాటా ఆకులపై మచ్చలు కనిపిస్తున్నాయి. " +
-            "సమస్య ఉన్న ఆకులను తీసివేసి సురక్షితంగా పారవేయండి. " +
-            "జబ్బు ఉన్న ఆకులను పొలంలో వదిలిపెట్టకండి. " +
-            "పొలాన్ని శుభ్రంగా ఉంచండి. " +
-            "ఆకులు ఎక్కువసేపు తడిగా ఉండకుండా చూడండి.";
-
-        voiceLanguage =
-            "te-IN";
+        advice =
+            "మీ టమాటా పంటలో బ్యాక్టీరియా మచ్చలు కనిపించాయి. సోకిన ఆకులను తొలగించి సురక్షితంగా పారవేయండి. ఆకులపై నేరుగా నీరు పోయకండి.";
 
     }
-
     else if(language === "hi"){
 
-        text =
-            "आपकी टमाटर की फसल में समस्या दिखाई दे रही है। " +
-            "आपकी टमाटर की पत्तियों पर धब्बे दिखाई दे रहे हैं। " +
-            "प्रभावित पत्तियों को हटाकर सुरक्षित रूप से फेंक दें। " +
-            "बीमार पत्तियों को खेत में न छोड़ें। " +
-            "खेत को साफ रखें और पत्तियों को लंबे समय तक गीला न रहने दें।";
-
-        voiceLanguage =
-            "hi-IN";
-
-    }
-
-    else{
-
-        text =
-            "There is a problem with your tomato crop. " +
-            "Spots are appearing on your tomato leaves. " +
-            "Remove the affected leaves and dispose of them safely. " +
-            "Do not leave infected leaves in the field. " +
-            "Keep the field clean and avoid keeping the leaves wet for a long time.";
-
-        voiceLanguage =
-            "en-IN";
+        advice =
+            "आपकी टमाटर की फसल में बैक्टीरियल स्पॉट पाया गया है। संक्रमित पत्तियों को हटाकर सुरक्षित रूप से नष्ट करें। पत्तियों पर सीधे पानी न डालें.";
 
     }
 
 
     const speech =
-        new SpeechSynthesisUtterance(text);
+        new SpeechSynthesisUtterance(advice);
 
 
-    speech.lang =
-        voiceLanguage;
+    if(language === "te"){
 
-    speech.rate =
-        0.82;
+        speech.lang = "te-IN";
 
-    speech.pitch =
-        1;
+    }
+    else if(language === "hi"){
+
+        speech.lang = "hi-IN";
+
+    }
+    else{
+
+        speech.lang = "en-IN";
+
+    }
 
 
-    window.speechSynthesis.speak(
-        speech
-    );
+    speech.rate = 0.85;
+
+    window.speechSynthesis.cancel();
+
+    window.speechSynthesis.speak(speech);
 
 }
 
-
-/* =========================
-   MICROPHONE
-========================= */
 
 function startListening(){
 
@@ -1127,16 +764,12 @@ function startListening(){
 
 
     const language =
-        document.getElementById(
-            "languageSelect"
-        ).value;
+        document.getElementById("languageSelect").value;
 
 
     const recognition =
         new SpeechRecognition();
 
-
-    /* LANGUAGE */
 
     if(language === "te"){
 
@@ -1144,14 +777,12 @@ function startListening(){
             "te-IN";
 
     }
-
     else if(language === "hi"){
 
         recognition.lang =
             "hi-IN";
 
     }
-
     else{
 
         recognition.lang =
@@ -1160,31 +791,30 @@ function startListening(){
     }
 
 
-    recognition.continuous =
-        false;
+    recognition.continuous = false;
 
-    recognition.interimResults =
-        false;
+    recognition.interimResults = false;
 
-    recognition.maxAlternatives =
-        1;
+    recognition.maxAlternatives = 1;
 
 
     const micButton =
-        document.getElementById(
-            "micBtn"
-        );
+        document.getElementById("micBtn");
 
 
     const resultBox =
-        document.getElementById(
-            "voiceResult"
-        );
+        document.getElementById("voiceResult");
 
 
-    micButton.classList.add(
-        "listening"
-    );
+    micButton.classList.add("listening");
+
+
+    resultBox.innerText =
+        language === "te"
+        ? "🎤 వింటున్నాను..."
+        : language === "hi"
+        ? "🎤 सुन रहा हूँ..."
+        : "🎤 Listening...";
 
 
     if(language === "te"){
@@ -1193,14 +823,12 @@ function startListening(){
             "🔴 వింటున్నాను...";
 
     }
-
     else if(language === "hi"){
 
         micButton.innerText =
             "🔴 सुन रहा हूँ...";
 
     }
-
     else{
 
         micButton.innerText =
@@ -1209,15 +837,11 @@ function startListening(){
     }
 
 
-    resultBox.innerText =
-        "";
-
-
     recognition.start();
 
 
     recognition.onresult =
-        function(event){
+        async function(event){
 
             const spokenText =
                 event.results[0][0].transcript;
@@ -1227,35 +851,118 @@ function startListening(){
                 "🗣️ " + spokenText;
 
 
-            /*
-                Read the farmer's words
-                back to them.
-            */
+            const disease =
+                diagnosisResult?.detected_issue ||
+                "Tomato Bacterial Spot";
 
-            const reply =
-                new SpeechSynthesisUtterance(
-                    spokenText
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "question",
+                spokenText
+            );
+
+
+            formData.append(
+                "crop_name",
+                "Tomato"
+            );
+
+
+            formData.append(
+                "disease",
+                disease
+            );
+
+
+            try{
+
+                const response =
+                    await fetch(
+                        "http://127.0.0.1:8000/api/v1/voice/advice",
+                        {
+                            method:"POST",
+                            body:formData
+                        }
+                    );
+
+
+                if(!response.ok){
+
+                    throw new Error(
+                        "Server error"
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                let finalAdvice =
+                    data.advice;
+
+
+                if(language === "te"){
+
+                    finalAdvice =
+                        "మీ టమాటా పంటలో " +
+                        disease +
+                        " సమస్య గుర్తించబడింది. సోకిన ఆకులను తొలగించి సురక్షితంగా పారవేయండి. ఆకులపై నేరుగా నీరు పోయకండి.";
+
+                }
+                else if(language === "hi"){
+
+                    finalAdvice =
+                        "आपकी टमाटर की फसल में " +
+                        disease +
+                        " की समस्या पाई गई है। संक्रमित पत्तियों को हटाकर सुरक्षित रूप से नष्ट करें। पत्तियों पर सीधे पानी न डालें.";
+
+                }
+
+
+                resultBox.innerText =
+                    "🤖 " + finalAdvice;
+
+
+                const speech =
+                    new SpeechSynthesisUtterance(
+                        finalAdvice
+                    );
+
+
+                speech.lang =
+                    recognition.lang;
+
+
+                speech.rate =
+                    0.85;
+
+
+                window.speechSynthesis.cancel();
+
+                window.speechSynthesis.speak(
+                    speech
                 );
 
 
-            reply.lang =
-                recognition.lang;
+            }
+            catch(error){
 
-            reply.rate =
-                0.85;
+                resultBox.innerText =
+                    "❌ Unable to get advice. Please try again.";
 
-
-            window.speechSynthesis.cancel();
-
-            window.speechSynthesis.speak(
-                reply
-            );
+            }
 
         };
 
 
     recognition.onerror =
-        function(event){
+        function(){
 
             if(language === "te"){
 
@@ -1263,14 +970,12 @@ function startListening(){
                     "🎤 మళ్లీ ప్రయత్నించండి. స్పష్టంగా మాట్లాడండి.";
 
             }
-
             else if(language === "hi"){
 
                 resultBox.innerText =
                     "🎤 कृपया फिर से कोशिश करें और साफ बोलें.";
 
             }
-
             else{
 
                 resultBox.innerText =
@@ -1301,23 +1006,26 @@ function startListening(){
 }
 
 
-/* =========================
-   LOAD SAVED LANGUAGE
-========================= */
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
 
-const savedLanguage =
-    localStorage.getItem(
-        "selectedLanguage"
-    ) || "en";
+        const savedLanguage =
+            getLanguage();
 
 
-document.getElementById(
-    "languageSelect"
-).value =
-    savedLanguage;
+        document.getElementById(
+            "languageSelect"
+        ).value =
+            savedLanguage;
 
 
-changeLanguage();
+        loadResult();
+
+        changeLanguage();
+
+    }
+);
 
 </script>
 
