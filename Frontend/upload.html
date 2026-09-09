@@ -1,368 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Crop Analysis | AGRI-SHIELD AI</title>
+    <title>Check Your Crop | AGRI-SHIELD AI</title>
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: Arial, Helvetica, sans-serif;
             min-height: 100vh;
-            color: #17391e;
+            color: white;
 
-            background-image:
+            background:
                 linear-gradient(
-                    110deg,
-                    rgba(4, 35, 14, 0.94),
-                    rgba(18, 84, 34, 0.82)
+                    rgba(4, 35, 18, 0.82),
+                    rgba(4, 35, 18, 0.90)
                 ),
-                url("https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=2000&q=85");
-
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+                url("https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=2000&q=85")
+                center/cover fixed;
         }
 
-        /* ================= NAVBAR ================= */
+        /* NAVBAR */
 
         nav {
-            height: 78px;
-
-            padding: 0 7%;
-
+            height: 75px;
             display: flex;
             align-items: center;
             justify-content: space-between;
 
-            background: rgba(5, 35, 14, 0.72);
+            padding: 0 7%;
 
+            background: rgba(255,255,255,0.10);
             backdrop-filter: blur(15px);
 
             border-bottom: 1px solid rgba(255,255,255,0.15);
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-
-            color: white;
-
-            font-size: 21px;
-
-            font-weight: 700;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 11px;
-
-            background: rgba(255,255,255,0.14);
-
-            font-size: 22px;
+        .logo span {
+            color: #8ee28e;
         }
 
         .home-link {
             color: white;
-
             text-decoration: none;
-
-            font-size: 14px;
 
             padding: 10px 18px;
 
-            border-radius: 8px;
-
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 25px;
 
             transition: 0.3s;
         }
 
         .home-link:hover {
-            background: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.15);
         }
 
-        /* ================= MAIN ================= */
+        /* MAIN */
 
-        .page {
-            min-height: calc(100vh - 78px);
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            padding: 55px 20px;
+        .container {
+            width: min(900px, 92%);
+            margin: 55px auto;
         }
 
-        .main-card {
-            width: 100%;
-
-            max-width: 850px;
-
-            background: rgba(255,255,255,0.96);
-
-            border-radius: 24px;
-
-            padding: 45px;
-
-            box-shadow:
-                0 30px 80px rgba(0,0,0,0.30);
-
-            border: 1px solid rgba(255,255,255,0.6);
-        }
-
-        /* ================= HEADER ================= */
-
-        .header {
+        .heading {
             text-align: center;
-
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
-        .ai-icon {
-            width: 70px;
-            height: 70px;
-
-            margin: 0 auto 18px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius: 20px;
-
-            background: linear-gradient(
-                135deg,
-                #e2f5d8,
-                #c6eab8
-            );
-
-            font-size: 35px;
-
-            box-shadow: 0 10px 25px rgba(50,120,50,0.12);
-        }
-
-        .header h1 {
-            color: #173f20;
-
-            font-size: 34px;
-
+        .heading h1 {
+            font-size: 44px;
             margin-bottom: 12px;
         }
 
-        .header p {
-            max-width: 600px;
-
-            margin: auto;
-
-            color: #718074;
-
-            line-height: 1.7;
-
-            font-size: 15px;
+        .heading h1 span {
+            color: #91ed91;
         }
 
-        /* ================= ANALYSIS INFO ================= */
-
-        .info-row {
-            display: grid;
-
-            grid-template-columns: repeat(3, 1fr);
-
-            gap: 15px;
-
-            margin-bottom: 28px;
+        .heading p {
+            color: #d9e7dc;
+            font-size: 17px;
+            line-height: 1.6;
         }
 
-        .info {
-            padding: 17px;
+        /* MAIN CARD */
 
-            background: #f5faf3;
+        .box {
+            background: rgba(255,255,255,0.11);
 
-            border: 1px solid #e2ebdf;
+            border: 1px solid rgba(255,255,255,0.18);
 
-            border-radius: 12px;
+            backdrop-filter: blur(16px);
 
-            text-align: center;
+            border-radius: 22px;
+
+            padding: 38px;
+
+            box-shadow: 0 20px 60px rgba(0,0,0,0.30);
         }
 
-        .info-icon {
-            font-size: 20px;
-
-            margin-bottom: 7px;
-        }
-
-        .info strong {
-            display: block;
-
-            color: #2d6938;
-
-            font-size: 14px;
-
-            margin-bottom: 4px;
-        }
-
-        .info span {
-            color: #7a857b;
-
-            font-size: 12px;
-        }
-
-        /* ================= UPLOAD AREA ================= */
+        /* UPLOAD AREA */
 
         .upload-area {
-            position: relative;
+            display: block;
 
-            border: 2px dashed #76b86b;
+            border: 2px dashed rgba(170,255,170,0.60);
 
             border-radius: 18px;
 
-            padding: 42px 25px;
+            padding: 48px 20px;
 
             text-align: center;
 
-            background: #f6fbf4;
+            cursor: pointer;
+
+            background: rgba(0,0,0,0.13);
 
             transition: 0.3s;
         }
 
         .upload-area:hover {
-            background: #edf8ea;
+            background: rgba(60,150,70,0.15);
 
-            border-color: #3d873f;
+            border-color: #9bea9b;
         }
 
-        .upload-symbol {
-            width: 65px;
-            height: 65px;
-
-            margin: 0 auto 18px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius: 50%;
-
-            background: white;
-
-            box-shadow: 0 8px 25px rgba(30,80,30,0.10);
-
-            font-size: 29px;
+        .upload-icon {
+            font-size: 58px;
+            margin-bottom: 15px;
         }
 
         .upload-area h2 {
-            color: #214d29;
-
-            font-size: 20px;
-
-            margin-bottom: 9px;
+            font-size: 25px;
+            margin-bottom: 10px;
         }
 
         .upload-area p {
-            color: #7a857b;
-
+            color: #d5e2d8;
             font-size: 14px;
-
-            margin-bottom: 20px;
+            line-height: 1.6;
+            margin-bottom: 22px;
         }
 
-        /* ================= FILE INPUT ================= */
+        /* FILE INPUT */
 
-        .file-label {
-            display: inline-flex;
+        input[type="file"] {
+            display: none;
+        }
 
-            align-items: center;
+        .choose {
+            display: inline-block;
 
-            gap: 8px;
+            background: #35a853;
 
-            padding: 12px 21px;
+            padding: 14px 25px;
 
-            border-radius: 8px;
+            border-radius: 9px;
 
-            background: #2f7e3c;
-
-            color: white;
-
-            font-size: 14px;
-
-            font-weight: 700;
+            font-weight: bold;
 
             cursor: pointer;
 
             transition: 0.3s;
         }
 
-        .file-label:hover {
-            background: #205f2c;
+        .choose:hover {
+            background: #2d9348;
 
             transform: translateY(-2px);
         }
 
-        #cropImage {
-            display: none;
-        }
-
-        /* ================= FILE NAME ================= */
-
-        #fileName {
-            margin-top: 15px;
-
-            color: #43834b;
-
-            font-size: 13px;
-
-            font-weight: 600;
-        }
-
-        /* ================= IMAGE PREVIEW ================= */
+        /* IMAGE PREVIEW */
 
         #preview {
             display: none;
 
-            max-width: 100%;
+            max-width: 280px;
+            max-height: 230px;
 
-            max-height: 260px;
+            margin: 25px auto 10px;
 
-            margin: 25px auto 5px;
-
-            border-radius: 14px;
+            border-radius: 15px;
 
             object-fit: cover;
 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 3px solid rgba(150,255,150,0.5);
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
         }
 
-        /* ================= BUTTON ================= */
+        #filename {
+            text-align: center;
 
-        .analyze-button {
+            color: #b8ffb8;
+
+            margin-top: 10px;
+
+            font-size: 14px;
+        }
+
+        /* ANALYZE BUTTON */
+
+        .analyze {
             width: 100%;
 
             margin-top: 25px;
@@ -373,345 +225,323 @@
 
             border-radius: 10px;
 
-            background: linear-gradient(
-                135deg,
-                #2f7e3c,
-                #438f4a
-            );
+            background: #2f9e4b;
 
             color: white;
 
-            font-size: 16px;
+            font-size: 17px;
 
-            font-weight: 700;
+            font-weight: bold;
 
             cursor: pointer;
 
             transition: 0.3s;
 
-            box-shadow: 0 10px 25px rgba(40,110,50,0.18);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.20);
         }
 
-        .analyze-button:hover {
-            transform: translateY(-3px);
+        .analyze:hover {
+            background: #268640;
 
-            box-shadow: 0 15px 30px rgba(40,110,50,0.25);
+            transform: translateY(-2px);
         }
 
-        /* ================= NOTE ================= */
+        /* TIPS */
 
-        .note {
-            display: flex;
+        .tips {
+            display: grid;
 
-            gap: 9px;
+            grid-template-columns: repeat(3,1fr);
 
-            align-items: flex-start;
+            gap: 15px;
 
-            margin-top: 20px;
+            margin-top: 22px;
+        }
 
-            padding: 15px;
+        .tip {
+            padding: 19px;
 
-            border-radius: 10px;
+            border-radius: 14px;
 
-            background: #f7faf6;
+            background: rgba(0,0,0,0.16);
 
-            color: #788279;
+            text-align: center;
 
-            font-size: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .tip-icon {
+            font-size: 28px;
+
+            margin-bottom: 9px;
+        }
+
+        .tip strong {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 15px;
+        }
+
+        .tip small {
+            color: #d1ded4;
+
+            line-height: 1.5;
+        }
+
+        /* INFO */
+
+        .info {
+            margin-top: 25px;
+
+            text-align: center;
+
+            color: #cfe0d2;
+
+            font-size: 13px;
 
             line-height: 1.6;
         }
 
-        /* ================= FOOTER TEXT ================= */
+        /* MOBILE */
 
-        .bottom-text {
-            text-align: center;
+        @media(max-width: 700px) {
 
-            margin-top: 25px;
+            .container {
+                margin: 35px auto;
+            }
 
-            color: #879187;
+            .box {
+                padding: 22px;
+            }
 
-            font-size: 12px;
+            .heading h1 {
+                font-size: 34px;
+            }
+
+            .heading p {
+                font-size: 15px;
+            }
+
+            .tips {
+                grid-template-columns: 1fr;
+            }
         }
 
-        /* ================= RESPONSIVE ================= */
-
-        @media (max-width: 700px) {
+        @media(max-width: 450px) {
 
             nav {
                 padding: 0 5%;
             }
 
-            .main-card {
-                padding: 30px 20px;
+            .logo {
+                font-size: 17px;
             }
 
-            .header h1 {
-                font-size: 28px;
-            }
-
-            .info-row {
-                grid-template-columns: 1fr;
+            .home-link {
+                padding: 8px 13px;
+                font-size: 13px;
             }
 
             .upload-area {
-                padding: 35px 18px;
+                padding: 35px 15px;
+            }
+
+            .upload-icon {
+                font-size: 48px;
             }
         }
-
     </style>
-
 </head>
-
 
 <body>
 
+<!-- NAVBAR -->
 
-    <!-- ================= NAVBAR ================= -->
+<nav>
 
-    <nav>
+    <div class="logo">
+        🌾 AGRI-<span>SHIELD AI</span>
+    </div>
 
-        <div class="logo">
+    <a href="index.html" class="home-link">
+        ← Home
+    </a>
 
-            <div class="logo-icon">
-                🌱
-            </div>
-
-            AGRI-SHIELD AI
-
-        </div>
-
-
-        <a href="index.html" class="home-link">
-            ← Home
-        </a>
-
-    </nav>
+</nav>
 
 
+<!-- MAIN CONTENT -->
 
-    <!-- ================= MAIN CONTENT ================= -->
+<div class="container">
 
-    <main class="page">
+    <div class="heading">
 
-        <div class="main-card">
+        <h1>
+            Check Your <span>Crop</span> 🌱
+        </h1>
+
+        <p>
+            Upload a clear photo of your crop leaf or plant.
+            <br>
+            Our AI will analyze the image and help identify possible problems.
+        </p>
+
+    </div>
 
 
-            <!-- HEADER -->
+    <div class="box">
 
-            <div class="header">
+        <form action="result.html">
 
-                <div class="ai-icon">
-                    🤖
+            <!-- UPLOAD -->
+
+            <label class="upload-area" for="cropImage">
+
+                <div class="upload-icon">
+                    📷
                 </div>
 
-                <h1>
-                    AI Crop Analysis
-                </h1>
+                <h2>
+                    Upload Crop Photo
+                </h2>
 
                 <p>
-                    Upload a clear image of your crop leaf.
-                    AGRI-SHIELD AI will analyze the image
-                    and identify possible crop diseases,
-                    pests or agricultural risks.
+                    Take a clear photo in good light
+                    for better AI analysis.
                 </p>
 
-            </div>
+                <span class="choose">
+                    📁 Choose Photo
+                </span>
 
-
-
-            <!-- INFORMATION -->
-
-            <div class="info-row">
-
-                <div class="info">
-
-                    <div class="info-icon">
-                        🔍
-                    </div>
-
-                    <strong>
-                        AI Detection
-                    </strong>
-
-                    <span>
-                        Crop Image Analysis
-                    </span>
-
-                </div>
-
-
-                <div class="info">
-
-                    <div class="info-icon">
-                        🌿
-                    </div>
-
-                    <strong>
-                        Disease Check
-                    </strong>
-
-                    <span>
-                        Disease & Pest Risk
-                    </span>
-
-                </div>
-
-
-                <div class="info">
-
-                    <div class="info-icon">
-                        ⚡
-                    </div>
-
-                    <strong>
-                        Smart Result
-                    </strong>
-
-                    <span>
-                        Fast Recommendation
-                    </span>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- UPLOAD FORM -->
-
-            <form action="result.html">
-
-
-                <div class="upload-area">
-
-                    <div class="upload-symbol">
-                        📷
-                    </div>
-
-                    <h2>
-                        Upload Crop Image
-                    </h2>
-
-                    <p>
-                        Select a JPG or PNG image of the affected crop leaf
-                    </p>
-
-
-                    <label for="cropImage" class="file-label">
-                        📁 Choose Crop Image
-                    </label>
-
-
-                    <input
-                        type="file"
-                        id="cropImage"
-                        name="cropImage"
-                        accept="image/png, image/jpeg, image/jpg"
-                        required
-                    >
-
-
-                    <div id="fileName">
-                        No image selected
-                    </div>
-
-
-                    <img
-                        id="preview"
-                        alt="Crop Image Preview"
-                    >
-
-                </div>
-
-
-
-                <button
-                    type="submit"
-                    class="analyze-button"
+                <input
+                    type="file"
+                    id="cropImage"
+                    accept="image/*"
+                    required
                 >
-                    🔍 Analyze Crop with AI
-                </button>
+
+                <img
+                    id="preview"
+                    alt="Selected crop image"
+                >
+
+                <div id="filename"></div>
+
+            </label>
 
 
-            </form>
+            <!-- ANALYZE -->
+
+            <button
+                class="analyze"
+                type="submit"
+            >
+                🤖 Analyze My Crop
+            </button>
+
+        </form>
 
 
+        <!-- TIPS -->
 
-            <!-- NOTE -->
+        <div class="tips">
 
-            <div class="note">
+            <div class="tip">
 
-                <span>
-                    💡
-                </span>
+                <div class="tip-icon">
+                    ☀️
+                </div>
 
-                <span>
-                    For better analysis, upload a clear image
-                    with good lighting and make sure the affected
-                    crop leaf is clearly visible.
-                </span>
+                <strong>
+                    Good Lighting
+                </strong>
+
+                <small>
+                    Take the photo in clear and natural light.
+                </small>
 
             </div>
 
 
-            <div class="bottom-text">
-                AGRI-SHIELD AI • Smart Farming Assistant • Team Bug Boosters
+            <div class="tip">
+
+                <div class="tip-icon">
+                    🔍
+                </div>
+
+                <strong>
+                    Clear Image
+                </strong>
+
+                <small>
+                    Keep the affected leaf clearly visible.
+                </small>
+
             </div>
 
+
+            <div class="tip">
+
+                <div class="tip-icon">
+                    🌿
+                </div>
+
+                <strong>
+                    Show the Leaf
+                </strong>
+
+                <small>
+                    Capture the affected part of the plant.
+                </small>
+
+            </div>
 
         </div>
 
-    </main>
+
+        <div class="info">
+            🔒 Your crop image is used only for analysis.
+            <br>
+            Better photos can help the AI provide better results.
+        </div>
+
+    </div>
+
+</div>
 
 
+<!-- IMAGE PREVIEW SCRIPT -->
 
-    <!-- ================= JAVASCRIPT ================= -->
+<script>
 
-    <script>
+    const input = document.getElementById("cropImage");
 
-        const imageInput = document.getElementById("cropImage");
+    const preview = document.getElementById("preview");
 
-        const fileName = document.getElementById("fileName");
-
-        const preview = document.getElementById("preview");
+    const filename = document.getElementById("filename");
 
 
-        imageInput.addEventListener("change", function () {
+    input.addEventListener("change", function () {
+
+        if (this.files && this.files[0]) {
 
             const file = this.files[0];
 
-            if (file) {
+            filename.textContent =
+                "Selected: " + file.name;
 
-                fileName.textContent =
-                    "Selected: " + file.name;
+            preview.src =
+                URL.createObjectURL(file);
 
-                const reader = new FileReader();
+            preview.style.display = "block";
+        }
 
-                reader.onload = function (event) {
+    });
 
-                    preview.src = event.target.result;
-
-                    preview.style.display = "block";
-
-                };
-
-                reader.readAsDataURL(file);
-
-            } else {
-
-                fileName.textContent =
-                    "No image selected";
-
-                preview.style.display = "none";
-
-            }
-
-        });
-
-    </script>
-
+</script>
 
 </body>
-
 </html>
