@@ -1,1 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Result | AGRI-SHIELD AI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(5,45,18,.9),
+                    rgba(25,100,45,.9)
+                ),
+                linear-gradient(135deg,#123c1c,#4caf50);
+
+            color: #17351f;
+        }
+
+        nav {
+            padding: 22px 7%;
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0,0,0,.18);
+        }
+
+        .logo {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 70px auto;
+            padding: 20px;
+        }
+
+        .result-card {
+            background: white;
+            padding: 45px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,.25);
+        }
+
+        .icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #1b5e20;
+            margin-bottom: 30px;
+        }
+
+        .result-box {
+            background: #f1f8f2;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .result-box h2 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .recommendation {
+            text-align: left;
+            background: #e8f5e9;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .recommendation h3 {
+            color: #1b5e20;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 14px 25px;
+            background: #2e7d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #1b5e20;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        🌱 AGRI-SHIELD AI
+    </div>
+
+    <a href="index.html">
+        Home
+    </a>
+
+</nav>
+
+<div class="container">
+
+    <div class="result-card">
+
+        <div class="icon">
+            🤖
+        </div>
+
+        <h1>
+            AI Analysis Result
+        </h1>
+
+        <div class="result-box">
+
+            <h2>
+                Crop Disease
+            </h2>
+
+            <p>
+                AI prediction will appear here.
+            </p>
+
+        </div>
+
+        <div class="result-box">
+
+            <h2>
+                Confidence
+            </h2>
+
+            <p>
+                -- %
+            </p>
+
+        </div>
+
+        <div class="recommendation">
+
+            <h3>
+                🌱 Smart Recommendation
+            </h3>
+
+            <p>
+                AI-generated farming recommendation
+                will appear here after connecting the
+                machine learning model.
+            </p>
+
+        </div>
+
+        <a href="upload.html" class="btn">
+            Analyze Another Image
+        </a>
+
+        <br>
+
+        <a href="index.html" class="btn">
+            Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
