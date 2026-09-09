@@ -389,4 +389,29 @@ if __name__ == "__main__":
     print("  Swagger Docs at:   http://127.0.0.1:8000/docs")
     print("======================================================================")
     uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)
+    @app.post("/api/v1/voice/advice")
+async def voice_advice(
+    question: str = Form(...),
+    crop_name: str = Form("Tomato"),
+    disease: str = Form("Tomato Bacterial Spot")
+):
+    q = question.lower()
+
+    if any(word in q for word in ["what", "how", "do", "treatment", "advice", "చేయాలి", "ఏం", "ఏమి", "ఎలా", "क्या", "कैसे"]):
+        advice = (
+            f"For your {crop_name} crop, the detected problem is {disease}. "
+            "Remove infected leaves and safely dispose of them. "
+            "Avoid watering the leaves and keep good air circulation."
+        )
+    else:
+        advice = (
+            f"Your {crop_name} crop has been identified with {disease}. "
+            "Please follow the recommended treatment shown on the result page."
+        )
+
+    return {
+        "crop_name": crop_name,
+        "disease": disease,
+        "advice": advice
+    }
 STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
