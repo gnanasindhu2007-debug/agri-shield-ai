@@ -388,7 +388,7 @@ async def scan_crop_pathology(
     file: Optional[UploadFile] = File(None)
 ):
 
-    selected_crop = (
+        selected_crop = (
         crop_name.capitalize()
         if crop_name
         else "Rice"
@@ -402,7 +402,6 @@ async def scan_crop_pathology(
         features = {
             "chlorosis_ratio": 0.9
         }
-
     # --------------------------------------------------------
     # Tomato ML Model
     # --------------------------------------------------------
