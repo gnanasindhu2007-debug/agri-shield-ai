@@ -1,370 +1,668 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Check Your Crop | AGRI-SHIELD AI</title>
 
 <style>
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
 *{
     margin:0;
     padding:0;
-    box-sizing:border-box
+    box-sizing:border-box;
 }
 
 html{
-    scroll-behavior:smooth
+    scroll-behavior:smooth;
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
+    font-family:Arial, Helvetica, sans-serif;
     min-height:100vh;
-    color:#17351d;
 
-    /* ==============================
-       FARMER + FARM FIELD BACKGROUND
-       ============================== */
+    /* DARK TEXT */
+    color:#111827;
+
+    /* FARM BACKGROUND */
     background-image:url("farmer-farming-background.png");
     background-size:cover;
     background-position:center;
     background-attachment:fixed;
     background-repeat:no-repeat;
+
+    /* Makes text visible even if background image is missing */
+    background-color:#eaf5e6;
 }
 
-/* NAVBAR */
+
+/* =========================================================
+   BACKGROUND OVERLAY
+   ========================================================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:rgba(255,255,255,0.68);
+
+    z-index:-1;
+}
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
 nav{
     height:70px;
-    background:rgba(4,48,18,.96);
+
+    background:rgba(4,48,18,0.97);
+
     display:flex;
     justify-content:space-between;
     align-items:center;
+
     padding:0 6%;
+
     color:white;
+
     position:sticky;
     top:0;
+
     z-index:1000;
-    box-shadow:0 5px 25px rgba(0,0,0,.25);
+
+    box-shadow:0 5px 25px rgba(0,0,0,0.25);
 }
 
 .logo{
     font-size:21px;
     font-weight:800;
     letter-spacing:.2px;
+
+    color:white !important;
 }
 
 .home-btn{
     text-decoration:none;
-    color:white;
+
+    color:white !important;
+
     background:#2f7e3c;
+
     padding:11px 18px;
+
     border-radius:9px;
+
     font-weight:700;
+
     transition:.2s;
 }
 
 .home-btn:hover{
     background:#3d9650;
-    transform:translateY(-1px)
+
+    transform:translateY(-1px);
 }
 
-/* MAIN */
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
 .container{
     width:92%;
     max-width:880px;
+
     margin:35px auto 55px;
 }
 
-/* HEADER */
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
 .header{
     text-align:center;
+
     margin-bottom:25px;
-    color:#ffffff;
-    text-shadow:0 2px 8px rgba(0,0,0,.35);
+
+    /* CHANGED FROM WHITE TO BLACK */
+    color:#111827;
+
+    text-shadow:none;
+
+    background:rgba(255,255,255,0.78);
+
+    padding:20px;
+
+    border-radius:18px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,0.10);
 }
 
 .header .icon{
-    font-size:55px
+    font-size:55px;
 }
 
 .header h1{
     font-size:34px;
+
     margin:8px 0;
+
+    color:#111827 !important;
+
+    font-weight:800;
 }
 
 .header p{
     max-width:720px;
+
     margin:auto;
-    color:#f0f8ee;
+
+    color:#26352b !important;
+
     font-size:16px;
+
     line-height:1.7;
+
+    font-weight:600;
 }
 
-/* STEPS */
+
+/* =========================================================
+   STEPS
+   ========================================================= */
+
 .steps{
     display:flex;
+
     justify-content:center;
+
     gap:10px;
+
     margin-bottom:25px;
+
     flex-wrap:wrap;
 }
 
 .step{
-    background:rgba(255,255,255,.94);
+    background:rgba(255,255,255,0.97);
+
     padding:11px 17px;
+
     border-radius:20px;
-    border:1px solid #d9e7d5;
-    color:#315a39;
-    font-weight:700;
+
+    border:1px solid #c9ddc5;
+
+    color:#111827 !important;
+
+    font-weight:800;
+
     font-size:14px;
+
     box-shadow:0 6px 18px rgba(0,0,0,.12);
 }
 
-/* CARD */
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
 .card{
-    background:rgba(255,255,255,.97);
+    background:rgba(255,255,255,0.98);
+
     padding:30px;
+
     border-radius:22px;
+
     box-shadow:0 20px 60px rgba(0,0,0,.24);
+
     backdrop-filter:blur(5px);
+
+    color:#111827;
 }
 
-/* INSTRUCTION */
+
+/* =========================================================
+   INSTRUCTION
+   ========================================================= */
+
 .instruction{
     background:#edf8e9;
+
     border-left:5px solid #3b8d46;
+
     padding:20px;
+
     border-radius:12px;
+
     margin-bottom:20px;
 }
 
 .instruction h2{
-    color:#20582c;
+    color:#173d20 !important;
+
     font-size:21px;
+
     margin-bottom:9px;
+
+    font-weight:800;
 }
 
 .instruction p{
-    color:#526157;
+    color:#26352b !important;
+
     line-height:1.7;
+
     font-size:15px;
+
+    font-weight:600;
 }
 
-/* PHOTO TIPS */
+
+/* =========================================================
+   PHOTO TIPS
+   ========================================================= */
+
 .photo-tips{
     display:grid;
+
     grid-template-columns:repeat(3,1fr);
+
     gap:10px;
+
     margin-bottom:20px;
 }
 
 .tip{
     background:#f8fbf6;
-    border:1px solid #dfeade;
+
+    border:1px solid #d5e5d1;
+
     border-radius:12px;
+
     padding:14px 10px;
+
     text-align:center;
+
     font-size:13px;
-    color:#526157;
+
+    color:#26352b !important;
+
     line-height:1.5;
+
+    font-weight:600;
 }
 
 .tip-icon{
     font-size:25px;
-    margin-bottom:5px
+
+    margin-bottom:5px;
 }
 
-/* UPLOAD BOX */
+.tip span{
+    color:#26352b !important;
+}
+
+
+/* =========================================================
+   UPLOAD BOX
+   ========================================================= */
+
 .upload-box{
-    border:3px dashed #86ad7e;
+    border:3px dashed #6f9e68;
+
     background:#f8fcf6;
+
     border-radius:18px;
+
     padding:38px 20px;
+
     text-align:center;
+
     cursor:pointer;
+
     transition:.2s;
 }
 
 .upload-box:hover{
     background:#eef8eb;
+
     border-color:#3b8d46;
+
     transform:translateY(-2px);
 }
 
 .upload-icon{
     font-size:60px;
-    margin-bottom:10px
+
+    margin-bottom:10px;
 }
 
 .upload-box h3{
-    color:#20582c;
+    color:#173d20 !important;
+
     font-size:21px;
+
     margin-bottom:8px;
+
+    font-weight:800;
 }
 
 .upload-box p{
-    color:#68756b;
+    color:#37453b !important;
+
     margin-bottom:18px;
+
     line-height:1.5;
+
+    font-weight:600;
 }
 
 .choose-btn{
     display:inline-block;
+
     background:#2f7e3c;
-    color:white;
+
+    color:white !important;
+
     padding:14px 25px;
+
     border-radius:10px;
+
     font-weight:800;
+
+    box-shadow:0 5px 15px rgba(47,126,60,.25);
 }
 
-/* FILE */
+
+/* =========================================================
+   FILE INPUT
+   ========================================================= */
+
 #fileInput{
-    display:none
+    display:none;
 }
 
-/* PREVIEW */
+
+/* =========================================================
+   PREVIEW
+   ========================================================= */
+
 .preview-area{
     display:none;
+
     margin-top:22px;
+
     text-align:center;
 }
 
 .preview-area h3{
-    color:#20582c;
+    color:#173d20 !important;
+
     margin-bottom:12px;
+
+    font-weight:800;
 }
 
 #preview{
     width:100%;
+
     max-height:360px;
+
     object-fit:contain;
+
     border-radius:15px;
+
     background:#edf5e9;
+
     padding:8px;
+
     border:1px solid #dce9d9;
 }
 
-/* ANALYZE */
+
+/* =========================================================
+   ANALYZE BUTTON
+   ========================================================= */
+
 .analyze-btn{
     width:100%;
+
     margin-top:22px;
+
     padding:18px;
+
     border:none;
+
     border-radius:12px;
+
     background:#1f7130;
-    color:white;
+
+    color:white !important;
+
     font-size:18px;
+
     font-weight:800;
+
     cursor:pointer;
+
     display:none;
+
     transition:.2s;
 }
 
 .analyze-btn:hover{
     background:#185b27;
-    transform:translateY(-1px)
+
+    transform:translateY(-1px);
 }
 
 .analyze-btn:disabled{
     opacity:.7;
+
     cursor:not-allowed;
-    transform:none
+
+    transform:none;
 }
 
-/* STATUS */
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
 .status{
     display:none;
+
     text-align:center;
+
     margin-top:20px;
+
     padding:20px;
+
     background:#eef7eb;
+
     border-radius:12px;
-    color:#245b2e;
+
+    color:#173d20 !important;
+
     font-weight:700;
+
     line-height:1.7;
 }
 
 .loader{
     width:32px;
+
     height:32px;
+
     border:4px solid #d7e7d2;
+
     border-top:4px solid #2f7e3c;
+
     border-radius:50%;
+
     animation:spin 1s linear infinite;
+
     margin:0 auto 10px;
 }
 
 @keyframes spin{
+
     to{
-        transform:rotate(360deg)
+        transform:rotate(360deg);
     }
+
 }
 
-/* VOICE */
+
+/* =========================================================
+   VOICE BUTTON
+   ========================================================= */
+
 .voice-btn{
     width:100%;
+
     margin-top:12px;
+
     padding:14px;
+
     border:1px solid #c8ddc2;
+
     border-radius:10px;
+
     background:#f4faf2;
-    color:#286238;
+
+    color:#20552c !important;
+
     font-weight:800;
+
     cursor:pointer;
+
     transition:.2s;
 }
 
 .voice-btn:hover{
-    background:#e7f3e3
+    background:#e7f3e3;
 }
 
-/* SMALL INFO */
+
+/* =========================================================
+   API NOTE
+   ========================================================= */
+
 .api-note{
     margin-top:14px;
+
     text-align:center;
-    color:#718074;
+
+    color:#4b5b50 !important;
+
     font-size:12px;
+
+    font-weight:600;
 }
 
-/* MOBILE */
+
+/* =========================================================
+   FORCE TEXT VISIBILITY
+   ========================================================= */
+
+h1,
+h2,
+h3,
+p,
+span,
+label,
+div{
+    /* Do not make navbar/buttons white */
+}
+
+.header h1,
+.header p,
+.step,
+.instruction h2,
+.instruction p,
+.tip,
+.tip span,
+.upload-box h3,
+.upload-box p,
+.preview-area h3,
+.status,
+.api-note{
+    text-shadow:none !important;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
 @media(max-width:650px){
 
     .card{
-        padding:20px
+        padding:20px;
+    }
+
+    .header{
+        padding:16px;
     }
 
     .header h1{
-        font-size:28px
+        font-size:28px;
+    }
+
+    .header p{
+        font-size:14px;
     }
 
     .steps{
         flex-direction:column;
-        align-items:stretch
+
+        align-items:stretch;
     }
 
     .step{
-        text-align:center
+        text-align:center;
     }
 
     .photo-tips{
-        grid-template-columns:1fr
+        grid-template-columns:1fr;
     }
 
     nav{
-        padding:0 4%
+        padding:0 4%;
     }
 
     .logo{
-        font-size:18px
+        font-size:18px;
     }
 
     .home-btn{
-        padding:9px 13px
+        padding:9px 13px;
     }
+
 }
+
 </style>
+
 </head>
 
+
 <body>
+
+
+<!-- =========================================================
+     NAVBAR
+     ========================================================= -->
 
 <nav>
 
@@ -372,16 +670,25 @@ nav{
         🌱 AGRI-SHIELD AI
     </div>
 
-    <a href="index.html"
-       class="home-btn"
-       id="homeBtn">
+    <a
+        href="index.html"
+        class="home-btn"
+        id="homeBtn"
+    >
         🏠 Home
     </a>
 
 </nav>
 
 
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
+
 <div class="container">
+
+
+    <!-- HEADER -->
 
     <div class="header">
 
@@ -401,6 +708,8 @@ nav{
     </div>
 
 
+    <!-- STEPS -->
+
     <div class="steps">
 
         <div class="step" id="step1">
@@ -418,7 +727,12 @@ nav{
     </div>
 
 
+    <!-- CARD -->
+
     <div class="card">
+
+
+        <!-- INSTRUCTION -->
 
         <div class="instruction">
 
@@ -434,7 +748,10 @@ nav{
         </div>
 
 
+        <!-- PHOTO TIPS -->
+
         <div class="photo-tips">
+
 
             <div class="tip">
 
@@ -474,10 +791,16 @@ nav{
 
             </div>
 
+
         </div>
 
 
-        <div class="upload-box" id="uploadBox">
+        <!-- UPLOAD BOX -->
+
+        <div
+            class="upload-box"
+            id="uploadBox"
+        >
 
             <div class="upload-icon">
                 📸
@@ -491,12 +814,17 @@ nav{
                 Tap here to choose the crop photo from your phone or computer.
             </p>
 
-            <span class="choose-btn" id="chooseBtn">
+            <span
+                class="choose-btn"
+                id="chooseBtn"
+            >
                 📷 Choose Crop Photo
             </span>
 
         </div>
 
+
+        <!-- FILE -->
 
         <input
             type="file"
@@ -505,7 +833,12 @@ nav{
         >
 
 
-        <div class="preview-area" id="previewArea">
+        <!-- PREVIEW -->
+
+        <div
+            class="preview-area"
+            id="previewArea"
+        >
 
             <h3 id="readyText">
                 ✅ Your photo is ready
@@ -519,6 +852,8 @@ nav{
         </div>
 
 
+        <!-- ANALYZE -->
+
         <button
             class="analyze-btn"
             id="analyzeBtn"
@@ -527,6 +862,8 @@ nav{
             🔍 Check My Crop
         </button>
 
+
+        <!-- VOICE -->
 
         <button
             class="voice-btn"
@@ -537,7 +874,12 @@ nav{
         </button>
 
 
-        <div class="status" id="status">
+        <!-- STATUS -->
+
+        <div
+            class="status"
+            id="status"
+        >
 
             <div class="loader"></div>
 
@@ -554,9 +896,12 @@ nav{
         </div>
 
 
+        <!-- API NOTE -->
+
         <div class="api-note">
             AGRI-SHIELD AI • Smart India Hackathon 2026
         </div>
+
 
     </div>
 
@@ -564,6 +909,7 @@ nav{
 
 
 <script>
+
 
 /* =========================================================
    API CONFIG
@@ -582,6 +928,7 @@ let currentLanguage =
 
 
 const languageData = {
+
 
     "en-IN": {
 
@@ -638,6 +985,7 @@ const languageData = {
 
         large:
         "Please choose a photo smaller than 5 MB."
+
     },
 
 
@@ -708,6 +1056,7 @@ const languageData = {
 
         large:
         "దయచేసి 5 MB కంటే తక్కువ పరిమాణం ఉన్న ఫోటోను ఎంచుకోండి."
+
     },
 
 
@@ -778,6 +1127,7 @@ const languageData = {
 
         large:
         "कृपया 5 MB से छोटी फोटो चुनें।"
+
     }
 
 };
@@ -891,11 +1241,15 @@ const statusBox =
 let selectedFile = null;
 
 
+/* CLICK UPLOAD BOX */
+
 uploadBox.addEventListener(
     "click",
     () => fileInput.click()
 );
 
+
+/* FILE SELECTED */
 
 fileInput.addEventListener(
     "change",
@@ -910,6 +1264,8 @@ fileInput.addEventListener(
             languageData[currentLanguage];
 
 
+        /* IMAGE CHECK */
+
         if(!file.type.startsWith("image/")){
 
             alert(lang.invalid);
@@ -921,6 +1277,8 @@ fileInput.addEventListener(
             return;
         }
 
+
+        /* SIZE CHECK */
 
         if(file.size > 5 * 1024 * 1024){
 
@@ -936,6 +1294,8 @@ fileInput.addEventListener(
 
         selectedFile = file;
 
+
+        /* PREVIEW */
 
         const reader =
             new FileReader();
@@ -981,7 +1341,8 @@ async function analyzeCrop(){
         languageData[currentLanguage];
 
 
-    analyzeBtn.disabled = true;
+    analyzeBtn.disabled =
+        true;
 
 
     if(currentLanguage === "te-IN"){
@@ -1067,6 +1428,7 @@ async function analyzeCrop(){
                     event.target.result
                 );
 
+
                 window.location.href =
                     "result.html";
             };
@@ -1078,6 +1440,7 @@ async function analyzeCrop(){
 
 
     }
+
 
     catch(error){
 
@@ -1101,6 +1464,7 @@ async function analyzeCrop(){
 
         alert(lang.error);
     }
+
 }
 
 
@@ -1150,14 +1514,12 @@ function getBestVoice(language){
         v.lang.toLowerCase()
         .startsWith(prefix)
     ) || null;
+
 }
 
 
 /* =========================================================
    VOICE INSTRUCTIONS
-   Telugu -> Telugu
-   Hindi  -> Hindi
-   English -> English
    ========================================================= */
 
 function listenInstructions(){
@@ -1188,6 +1550,7 @@ function listenInstructions(){
         "తర్వాత ఫోటోను ఇక్కడ పెట్టండి. " +
         "ఫోటో స్పష్టంగా కనిపించిన తర్వాత నా పంటను పరీక్షించండి అనే బటన్ నొక్కండి. " +
         "మీ పంటను పరిశీలించి, తర్వాత ఏం చేయాలో మేము చెబుతాము.";
+
     }
 
 
@@ -1200,7 +1563,8 @@ function listenInstructions(){
         "अच्छी रोशनी रखें। " +
         "फिर फोटो यहां डालें। " +
         "फोटो साफ दिखाई देने के बाद मेरी फसल जांचें बटन दबाएं। " +
-        "हम आपकी फसल की जांच करके बताएंगे कि आगे क्या करना है।";
+        "हम आपकी फसल की जांच करके बताएंगे कि आगे क्या करना है.";
+
     }
 
 
@@ -1214,6 +1578,7 @@ function listenInstructions(){
         "Then upload the photo here. " +
         "After the photo is ready, press Check My Crop. " +
         "We will check your crop and tell you what to do next.";
+
     }
 
 
@@ -1255,6 +1620,7 @@ function listenInstructions(){
     window.speechSynthesis.speak(
         speech
     );
+
 }
 
 
@@ -1273,6 +1639,7 @@ if("speechSynthesis" in window){
             );
 
         };
+
 }
 
 
