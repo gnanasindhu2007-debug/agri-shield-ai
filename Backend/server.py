@@ -3,7 +3,7 @@ import math
 import random
 import io
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional, List, Dict, Any
 
 from fastapi import FastAPI, File, UploadFile, Form, Query, HTTPException
@@ -16,7 +16,21 @@ import numpy as np
 
 
 # ============================================================
-# 1. FASTAPI APPLICATION & CORS SETUP
+# 1. BASE DIRECTORY & PATH RESOLUTION
+# ============================================================
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def find_dir(dir_name: str) -> str:
+    path_1 = os.path.join(BASE_DIR, dir_name)
+    path_2 = os.path.join(os.path.dirname(BASE_DIR), dir_name)
+    if os.path.exists(path_1):
+        return path_1
+    return path_2
+
+
+# ============================================================
+# 2. FASTAPI APPLICATION & CORS SETUP
 # ============================================================
 
 app = FastAPI(
@@ -37,7 +51,7 @@ app.add_middleware(
 
 
 # ============================================================
-# 2. AGRICULTURAL KNOWLEDGE BASE
+# 3. AGRICULTURAL KNOWLEDGE BASE
 # ============================================================
 
 PATHOLOGY_KNOWLEDGE_BASE = {
@@ -178,7 +192,7 @@ PATHOLOGY_KNOWLEDGE_BASE = {
 
 
 # ============================================================
-# 3. STATE CLIMATE PROFILES
+# 4. STATE CLIMATE PROFILES
 # ============================================================
 
 STATE_CLIMATE_PROFILES = {
@@ -227,7 +241,7 @@ STATE_CLIMATE_PROFILES = {
 
 
 # ============================================================
-# 4. MANDI PRICE DATABASE
+# 5. MANDI PRICE DATABASE
 # ============================================================
 
 MANDI_RATES_DATABASE = {
@@ -267,7 +281,7 @@ MANDI_RATES_DATABASE = {
 
 
 # ============================================================
-# 5. PYDANTIC MODELS
+# 6. PYDANTIC MODELS
 # ============================================================
 
 class IrrigationRequest(BaseModel):
@@ -290,7 +304,7 @@ class OfflineSyncPayload(BaseModel):
 
 
 # ============================================================
-# 6. IMAGE PROCESSING
+# 7. IMAGE PROCESSING
 # ============================================================
 
 def process_image_features(image_bytes: bytes) -> Dict[str, float]:
@@ -339,7 +353,7 @@ def process_image_features(image_bytes: bytes) -> Dict[str, float]:
 
 
 # ============================================================
-# 7. MULTILINGUAL ADVISORY
+# 8. MULTILINGUAL ADVISORY
 # ============================================================
 
 def generate_multilingual_voice_advisory(
@@ -365,7 +379,7 @@ def generate_multilingual_voice_advisory(
 
 
 # ============================================================
-# 8. TOMATO DISEASE DIAGNOSIS
+# 9. TOMATO DISEASE DIAGNOSIS
 # ============================================================
 
 @app.post("/api/v1/diagnosis/scan")
@@ -388,6 +402,7 @@ async def scan_crop_pathology(
         features = {
             "chlorosis_ratio": 0.9
         }
+
     # --------------------------------------------------------
     # Tomato ML Model
     # --------------------------------------------------------
@@ -396,24 +411,14 @@ async def scan_crop_pathology(
 
         import pickle
 
-        model_path = os.path.join(
-
-            os.path.dirname(
-                os.path.dirname(
-                    os.path.abspath(__file__)
-                )
-            ),
-
-            "ml-model",
-
-            "tomato_model.pkl"
-        )
+        ml_dir = find_dir("ml-model")
+        model_path = os.path.join(ml_dir, "tomato_model.pkl")
 
         if not os.path.exists(model_path):
 
             raise HTTPException(
                 status_code=500,
-                detail="Tomato ML model file not found."
+                detail=f"Tomato ML model file not found at {model_path}."
             )
 
         with open(
@@ -449,7 +454,7 @@ async def scan_crop_pathology(
 
         else:
 
-            detected_issue = prediction
+            detected_issue = str(prediction)
 
         first_remedy = (
             "Remove infected leaves and dispose of them safely."
@@ -574,7 +579,7 @@ async def scan_crop_pathology(
 
 
 # ============================================================
-# 9. CLIMATE ALERTS
+# 10. CLIMATE ALERTS
 # ============================================================
 
 @app.get("/api/v1/climate/alerts")
@@ -619,7 +624,7 @@ async def get_climate_risk_alerts(
 
             "valid_until":
             (
-                datetime.utcnow()
+                datetime.now(timezone.utc)
                 + timedelta(days=2)
             ).isoformat()
         })
@@ -645,7 +650,7 @@ async def get_climate_risk_alerts(
 
             "valid_until":
             (
-                datetime.utcnow()
+                datetime.now(timezone.utc)
                 + timedelta(days=3)
             ).isoformat()
         })
@@ -684,7 +689,7 @@ async def get_climate_risk_alerts(
 
 
 # ============================================================
-# 10. SMART IRRIGATION
+# 11. SMART IRRIGATION
 # ============================================================
 
 @app.post("/api/v1/irrigation/calculate")
@@ -764,7 +769,7 @@ async def calculate_smart_irrigation(
 
 
 # ============================================================
-# 11. MANDI PRICES
+# 12. MANDI PRICES
 # ============================================================
 
 @app.get("/api/v1/mandi/prices")
@@ -836,7 +841,7 @@ async def get_mandi_commodity_prices(
 
 
 # ============================================================
-# 12. OFFLINE DATA SYNC
+# 13. OFFLINE DATA SYNC
 # ============================================================
 
 @app.post("/api/v1/sync/delta")
@@ -857,26 +862,17 @@ async def delta_sync_offline_data(
         len(payload.offline_telemetry),
 
         "server_timestamp":
-        datetime.utcnow().isoformat()
+        datetime.now(timezone.utc).isoformat()
     }
 
 
 # ============================================================
-# 13. WEATHER MODULE
+# 14. WEATHER MODULE
 # ============================================================
 
-WEATHER_DIR = os.path.join(
+WEATHER_DIR = find_dir("weather")
 
-    os.path.dirname(
-        os.path.dirname(
-            os.path.abspath(__file__)
-        )
-    ),
-
-    "weather"
-)
-
-if WEATHER_DIR not in sys.path:
+if os.path.exists(WEATHER_DIR) and WEATHER_DIR not in sys.path:
 
     sys.path.append(
         WEATHER_DIR
@@ -897,7 +893,7 @@ except ImportError as error:
 
 
 # ============================================================
-# 14. WEATHER API ENDPOINT
+# 15. WEATHER API ENDPOINT
 # ============================================================
 
 @app.get("/api/v1/weather")
@@ -965,7 +961,7 @@ async def get_weather_data(
 
 
 # ============================================================
-# 15. VOICE ADVICE ENDPOINT
+# 16. VOICE ADVICE ENDPOINT
 # ============================================================
 
 @app.post("/api/v1/voice/advice")
@@ -1035,65 +1031,37 @@ async def voice_advice(
 
 
 # ============================================================
-# 16. STATIC FRONTEND
+# 17. STATIC FRONTEND
 # ============================================================
 
-STATIC_DIR = os.path.join(
+STATIC_DIR = find_dir("static")
 
-    os.path.dirname(
-        os.path.abspath(__file__)
-    ),
 
-    "static"
-)
+def serve_static_file(filename: str):
+    file_path = os.path.join(STATIC_DIR, filename)
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    return {"message": f"{filename} not found in static folder."}
 
 
 @app.get("/")
 async def serve_index():
-
-    return FileResponse(
-
-        os.path.join(
-            STATIC_DIR,
-            "index.html"
-        )
-    )
+    return serve_static_file("index.html")
 
 
 @app.get("/index.html")
 async def serve_index_html():
-
-    return FileResponse(
-
-        os.path.join(
-            STATIC_DIR,
-            "index.html"
-        )
-    )
+    return serve_static_file("index.html")
 
 
 @app.get("/upload.html")
 async def serve_upload_html():
-
-    return FileResponse(
-
-        os.path.join(
-            STATIC_DIR,
-            "upload.html"
-        )
-    )
+    return serve_static_file("upload.html")
 
 
 @app.get("/result.html")
 async def serve_result_html():
-
-    return FileResponse(
-
-        os.path.join(
-            STATIC_DIR,
-            "result.html"
-        )
-    )
+    return serve_static_file("result.html")
 
 
 if os.path.exists(STATIC_DIR):
@@ -1111,7 +1079,7 @@ if os.path.exists(STATIC_DIR):
 
 
 # ============================================================
-# 17. RUN SERVER
+# 18. RUN SERVER
 # ============================================================
 
 if __name__ == "__main__":
@@ -1140,11 +1108,10 @@ if __name__ == "__main__":
 
     uvicorn.run(
 
-        "server:app",
+        app,
 
         host="0.0.0.0",
 
-        port=8000,
+        port=8000
 
-        reload=True
     )
