@@ -2,40 +2,25 @@ import os
 import math
 import random
 import io
-import sys
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Any
 
-from fastapi import FastAPI, File, UploadFile, Form, Query, HTTPException
+from fastapi import FastAPI, File, UploadFile, Form, Query, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 from PIL import Image
 import numpy as np
 
 
-# ============================================================
-# 1. BASE DIRECTORY & PATH RESOLUTION
-# ============================================================
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-def find_dir(dir_name: str) -> str:
-    path_1 = os.path.join(BASE_DIR, dir_name)
-    path_2 = os.path.join(os.path.dirname(BASE_DIR), dir_name)
-    if os.path.exists(path_1):
-        return path_1
-    return path_2
-
-
-# ============================================================
-# 2. FASTAPI APPLICATION & CORS SETUP
-# ============================================================
+# ==========================================
+# 1. FastAPI Application & CORS Setup
+# ==========================================
 
 app = FastAPI(
     title="AGRI-SHIELD AI - Production Backend",
-    description="AI Smart Farming Assistant Backend for Team Bug Boosters",
+    description="Field-Deployable AI Smart Farming Assistant Backend for Team Bug Boosters (#194)",
     version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
@@ -50,18 +35,16 @@ app.add_middleware(
 )
 
 
-# ============================================================
-# 3. AGRICULTURAL KNOWLEDGE BASE
-# ============================================================
+# ==========================================
+# 2. Agricultural Knowledge Base
+# ==========================================
 
 PATHOLOGY_KNOWLEDGE_BASE = {
-
     "Rice": [
         {
             "issue": "Rice Blast (Magnaporthe oryzae)",
             "category": "Fungal Disease",
             "severity": "High",
-
             "organic": [
                 {
                     "title": "Neem Oil Extract (3%)",
@@ -74,7 +57,6 @@ PATHOLOGY_KNOWLEDGE_BASE = {
                     "dosage": "5g/liter"
                 }
             ],
-
             "chemical": [
                 {
                     "title": "Tricyclazole 75% WP",
@@ -82,15 +64,12 @@ PATHOLOGY_KNOWLEDGE_BASE = {
                     "dosage": "0.6g/liter"
                 }
             ],
-
             "npk": "Excess Nitrogen promotes blast fungal growth. Reduce N fertilizer by 20% and top-dress with Muriate of Potash (MOP)."
         },
-
         {
             "issue": "Bacterial Leaf Blight (Xanthomonas oryzae)",
             "category": "Bacterial Disease",
             "severity": "Severe",
-
             "organic": [
                 {
                     "title": "Cow Dung & Curd Bio-spray",
@@ -98,7 +77,6 @@ PATHOLOGY_KNOWLEDGE_BASE = {
                     "dosage": "100 ml/liter"
                 }
             ],
-
             "chemical": [
                 {
                     "title": "Streptocycline + Copper Oxychloride",
@@ -106,7 +84,6 @@ PATHOLOGY_KNOWLEDGE_BASE = {
                     "dosage": "0.1g Streptocycline + 2g COC per liter"
                 }
             ],
-
             "npk": "Split Nitrogen into 3-4 doses. Apply extra Potash (25 kg/ha) to enhance cell wall resistance against bacterial entry."
         }
     ],
@@ -116,7 +93,6 @@ PATHOLOGY_KNOWLEDGE_BASE = {
             "issue": "Yellow Rust / Stripe Rust (Puccinia striiformis)",
             "category": "Fungal Disease",
             "severity": "Severe",
-
             "organic": [
                 {
                     "title": "Garlic Extract & Fermented Whey",
@@ -124,7 +100,6 @@ PATHOLOGY_KNOWLEDGE_BASE = {
                     "dosage": "50 ml/liter"
                 }
             ],
-
             "chemical": [
                 {
                     "title": "Propiconazole 25% EC",
@@ -132,7 +107,6 @@ PATHOLOGY_KNOWLEDGE_BASE = {
                     "dosage": "1 ml/liter"
                 }
             ],
-
             "npk": "Maintain 4:2:1 NPK ratio. Avoid late Nitrogen top-dressing which prolongs vegetative growth during rust season."
         }
     ],
@@ -142,7 +116,6 @@ PATHOLOGY_KNOWLEDGE_BASE = {
             "issue": "Cotton Leaf Curl Virus (CLCuV)",
             "category": "Viral Disease",
             "severity": "Severe",
-
             "organic": [
                 {
                     "title": "Whitefly Trap & Yellow Sticky Cards",
@@ -150,7 +123,6 @@ PATHOLOGY_KNOWLEDGE_BASE = {
                     "dosage": "25 traps/acre"
                 }
             ],
-
             "chemical": [
                 {
                     "title": "Diafenthiuron 50% WP",
@@ -158,7 +130,6 @@ PATHOLOGY_KNOWLEDGE_BASE = {
                     "dosage": "1.2g/liter"
                 }
             ],
-
             "npk": "Foliar spray of Magnesium Sulphate (1%) and Zinc Sulphate (0.5%) to alleviate viral leaf stunting."
         }
     ],
@@ -168,7 +139,6 @@ PATHOLOGY_KNOWLEDGE_BASE = {
             "issue": "Tomato Early Blight (Alternaria solani)",
             "category": "Fungal Disease",
             "severity": "High",
-
             "organic": [
                 {
                     "title": "Baking Soda & Liquid Soap Spray",
@@ -176,7 +146,6 @@ PATHOLOGY_KNOWLEDGE_BASE = {
                     "dosage": "5g Baking Soda / liter"
                 }
             ],
-
             "chemical": [
                 {
                     "title": "Mancozeb 75% WP",
@@ -184,68 +153,32 @@ PATHOLOGY_KNOWLEDGE_BASE = {
                     "dosage": "2g/liter"
                 }
             ],
-
             "npk": "Prune lower infected leaves. Apply Calcium Nitrate (0.5%) spray to prevent fruit end rot."
         }
     ]
 }
 
 
-# ============================================================
-# 4. STATE CLIMATE PROFILES
-# ============================================================
+# ==========================================
+# 3. Climate Profiles
+# ==========================================
 
 STATE_CLIMATE_PROFILES = {
-    "Punjab": {
-        "temp": 39.5,
-        "drought": 0.42,
-        "flood": 0.15
-    },
-
-    "Maharashtra": {
-        "temp": 41.2,
-        "drought": 0.78,
-        "flood": 0.35
-    },
-
-    "Tamil Nadu": {
-        "temp": 39.8,
-        "drought": 0.65,
-        "flood": 0.45
-    },
-
-    "Uttar Pradesh": {
-        "temp": 42.0,
-        "drought": 0.55,
-        "flood": 0.60
-    },
-
-    "Bihar": {
-        "temp": 37.0,
-        "drought": 0.30,
-        "flood": 0.85
-    },
-
-    "Rajasthan": {
-        "temp": 45.5,
-        "drought": 0.92,
-        "flood": 0.10
-    },
-
-    "West Bengal": {
-        "temp": 36.5,
-        "drought": 0.25,
-        "flood": 0.80
-    }
+    "Punjab": {"temp": 39.5, "drought": 0.42, "flood": 0.15},
+    "Maharashtra": {"temp": 41.2, "drought": 0.78, "flood": 0.35},
+    "Tamil Nadu": {"temp": 39.8, "drought": 0.65, "flood": 0.45},
+    "Uttar Pradesh": {"temp": 42.0, "drought": 0.55, "flood": 0.60},
+    "Bihar": {"temp": 37.0, "drought": 0.30, "flood": 0.85},
+    "Rajasthan": {"temp": 45.5, "drought": 0.92, "flood": 0.10},
+    "West Bengal": {"temp": 36.5, "drought": 0.25, "flood": 0.80}
 }
 
 
-# ============================================================
-# 5. MANDI PRICE DATABASE
-# ============================================================
+# ==========================================
+# 4. Mandi Rates
+# ==========================================
 
 MANDI_RATES_DATABASE = {
-
     "Rice": {
         "mandi": "Amritsar Grain Market",
         "state": "Punjab",
@@ -253,7 +186,6 @@ MANDI_RATES_DATABASE = {
         "trend": "Rising",
         "change": 4.1
     },
-
     "Wheat": {
         "mandi": "Indore APMC",
         "state": "Madhya Pradesh",
@@ -261,7 +193,6 @@ MANDI_RATES_DATABASE = {
         "trend": "Rising",
         "change": 5.0
     },
-
     "Cotton": {
         "mandi": "Rajkot APMC",
         "state": "Gujarat",
@@ -269,7 +200,6 @@ MANDI_RATES_DATABASE = {
         "trend": "Rising",
         "change": 3.5
     },
-
     "Tomato": {
         "mandi": "Pimpalgaon APMC",
         "state": "Maharashtra",
@@ -280,9 +210,9 @@ MANDI_RATES_DATABASE = {
 }
 
 
-# ============================================================
-# 6. PYDANTIC MODELS
-# ============================================================
+# ==========================================
+# 5. Pydantic Models
+# ==========================================
 
 class IrrigationRequest(BaseModel):
     crop_type: str = "Rice"
@@ -303,35 +233,22 @@ class OfflineSyncPayload(BaseModel):
     offline_telemetry: List[Dict[str, Any]]
 
 
-# ============================================================
-# 7. IMAGE PROCESSING
-# ============================================================
+# ==========================================
+# 6. Core AI Functions
+# ==========================================
 
 def process_image_features(image_bytes: bytes) -> Dict[str, float]:
 
     try:
-
-        img = Image.open(
-            io.BytesIO(image_bytes)
-        ).convert("RGB")
-
+        img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
         img_arr = np.array(img)
 
-        r_mean = float(
-            np.mean(img_arr[:, :, 0])
-        )
-
-        g_mean = float(
-            np.mean(img_arr[:, :, 1])
-        )
-
-        b_mean = float(
-            np.mean(img_arr[:, :, 2])
-        )
+        r_mean = float(np.mean(img_arr[:, :, 0]))
+        g_mean = float(np.mean(img_arr[:, :, 1]))
+        b_mean = float(np.mean(img_arr[:, :, 2]))
 
         chlorosis_ratio = round(
-            (r_mean + 1.0) /
-            (g_mean + 1.0),
+            (r_mean + 1.0) / (g_mean + 1.0),
             2
         )
 
@@ -343,7 +260,6 @@ def process_image_features(image_bytes: bytes) -> Dict[str, float]:
         }
 
     except Exception:
-
         return {
             "r": 120.0,
             "g": 140.0,
@@ -352,10 +268,6 @@ def process_image_features(image_bytes: bytes) -> Dict[str, float]:
         }
 
 
-# ============================================================
-# 8. MULTILINGUAL ADVISORY
-# ============================================================
-
 def generate_multilingual_voice_advisory(
     crop: str,
     issue: str,
@@ -363,24 +275,19 @@ def generate_multilingual_voice_advisory(
 ) -> Dict[str, str]:
 
     return {
+        "hi": f"किसान ध्यान दें: आपकी {crop} की फसल में '{issue}' पाया गया है। अनुशंसित उपाय: {remedy}।",
 
-        "hi":
-        f"किसान ध्यान दें: आपकी {crop} की फसल में '{issue}' पाया गया है। अनुशंसित उपाय: {remedy}।",
+        "en": f"Farmer Alert: For your {crop} crop, AI detected '{issue}'. Recommended action: {remedy}.",
 
-        "en":
-        f"Farmer Alert: For your {crop} crop, AI detected '{issue}'. Recommended action: {remedy}.",
+        "pa": f"ਕਿਸਾਨ ਵੀਰੋ ਧਿਆਨ ਦਿਓ: ਤੁਹਾਡੀ {crop} ਦੀ ਫਸਲ ਵਿੱਚ '{issue}' ਪਾਇਆ ਗਿਆ ਹੈ। ਸੁਝਾਇਆ ਗਿਆ ਇਲਾਜ: {remedy}।",
 
-        "pa":
-        f"ਕਿਸਾਨ ਵੀਰੋ ਧਿਆਨ ਦਿਓ: ਤੁਹਾਡੀ {crop} ਦੀ ਫਸਲ ਵਿੱਚ '{issue}' ਪਾਇਆ ਗਿਆ ਹੈ। ਸੁਝਾਇਆ ਗਿਆ ਇਲਾਜ: {remedy}।",
-
-        "mr":
-        f"शेतकरी लक्ष द्या: तुमच्या {crop} पिकात '{issue}' आढळले आहे. शिफारस केलेला उपाय: {remedy}."
+        "mr": f"शेतकरी लक्ष द्या: तुमच्या {crop} पिकात '{issue}' आढळले आहे. शिफारस केलेला उपाय: {remedy}."
     }
 
 
-# ============================================================
-# 9. TOMATO DISEASE DIAGNOSIS
-# ============================================================
+# ==========================================
+# 7. Disease Diagnosis API
+# ==========================================
 
 @app.post("/api/v1/diagnosis/scan")
 async def scan_crop_pathology(
@@ -388,11 +295,7 @@ async def scan_crop_pathology(
     file: Optional[UploadFile] = File(None)
 ):
 
-        selected_crop = (
-        crop_name.capitalize()
-        if crop_name
-        else "Rice"
-    )
+    selected_crop = crop_name.capitalize() if crop_name else "Rice"
 
     if file:
         image_bytes = await file.read()
@@ -402,197 +305,127 @@ async def scan_crop_pathology(
         features = {
             "chlorosis_ratio": 0.9
         }
-    # --------------------------------------------------------
+
+    # ======================================
     # Tomato ML Model
-    # --------------------------------------------------------
+    # ======================================
 
     if selected_crop == "Tomato" and image_bytes:
 
         import pickle
 
-        ml_dir = find_dir("ml-model")
-        model_path = os.path.join(ml_dir, "tomato_model.pkl")
+        model_path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "ml-model",
+            "tomato_model.pkl"
+        )
 
-        if not os.path.exists(model_path):
-
-            raise HTTPException(
-                status_code=500,
-                detail=f"Tomato ML model file not found at {model_path}."
-            )
-
-        with open(
-            model_path,
-            "rb"
-        ) as f:
-
+        with open(model_path, "rb") as f:
             model = pickle.load(f)
 
         img = Image.open(
             io.BytesIO(image_bytes)
         ).convert("RGB")
 
-        img = img.resize(
-            (64, 64)
-        )
+        img = img.resize((64, 64))
 
-        image = np.array(
-            img
-        ).flatten().reshape(
-            1, -1
-        )
+        image = np.array(img).flatten().reshape(1, -1)
 
-        prediction = model.predict(
-            image
-        )[0]
+        prediction = model.predict(image)[0]
 
         if prediction == "Tomato___Bacterial_spot":
-
-            detected_issue = (
-                "Tomato Bacterial Spot"
-            )
-
+            detected_issue = "Tomato Bacterial Spot"
         else:
-
-            detected_issue = str(prediction)
+            detected_issue = prediction
 
         first_remedy = (
             "Remove infected leaves and dispose of them safely."
         )
 
         advisory = generate_multilingual_voice_advisory(
-
             selected_crop,
-
             detected_issue,
-
             first_remedy
         )
 
         return {
-
             "crop_name": selected_crop,
-
             "detected_issue": detected_issue,
-
             "category": "Bacterial Disease",
-
             "confidence_score": 1.0,
-
             "severity_level": "High",
-
             "image_features": features,
 
             "organic_remedies": [
-
                 {
                     "title": "Remove infected leaves",
-
-                    "description":
-                    "Remove infected leaves and safely dispose of them.",
-
+                    "description": "Remove infected leaves and safely dispose of them.",
                     "dosage": "As needed"
                 }
-
             ],
 
             "chemical_remedies": [],
 
             "npk_advice":
-            "Maintain balanced nutrition and avoid excessive nitrogen.",
+                "Maintain balanced nutrition and avoid excessive nitrogen.",
 
             "localized_advisory": advisory
         }
 
-    # --------------------------------------------------------
-    # Existing diagnosis for other crops
-    # --------------------------------------------------------
+    # ======================================
+    # Existing Diagnosis For Other Crops
+    # ======================================
 
     options = PATHOLOGY_KNOWLEDGE_BASE.get(
-
         selected_crop,
-
         PATHOLOGY_KNOWLEDGE_BASE["Rice"]
     )
 
-    selected_diag = random.choice(
-        options
-    )
+    selected_diag = random.choice(options)
 
     confidence = round(
-        random.uniform(
-            0.89,
-            0.98
-        ),
+        random.uniform(0.89, 0.98),
         2
     )
 
     first_remedy = (
-
         selected_diag["organic"][0]["title"]
-
         if selected_diag["organic"]
-
         else "Apply recommended treatment."
     )
 
     advisory = generate_multilingual_voice_advisory(
-
         selected_crop,
-
         selected_diag["issue"],
-
         first_remedy
     )
 
     return {
-
         "crop_name": selected_crop,
-
-        "detected_issue":
-        selected_diag["issue"],
-
-        "category":
-        selected_diag["category"],
-
-        "confidence_score":
-        confidence,
-
-        "severity_level":
-        selected_diag["severity"],
-
-        "image_features":
-        features,
-
-        "organic_remedies":
-        selected_diag["organic"],
-
-        "chemical_remedies":
-        selected_diag["chemical"],
-
-        "npk_advice":
-        selected_diag["npk"],
-
-        "localized_advisory":
-        advisory
+        "detected_issue": selected_diag["issue"],
+        "category": selected_diag["category"],
+        "confidence_score": confidence,
+        "severity_level": selected_diag["severity"],
+        "image_features": features,
+        "organic_remedies": selected_diag["organic"],
+        "chemical_remedies": selected_diag["chemical"],
+        "npk_advice": selected_diag["npk"],
+        "localized_advisory": advisory
     }
 
 
-# ============================================================
-# 10. CLIMATE ALERTS
-# ============================================================
+# ==========================================
+# 8. Climate Alerts API
+# ==========================================
 
 @app.get("/api/v1/climate/alerts")
 async def get_climate_risk_alerts(
-
     state: str = Query("Punjab"),
-
     district: str = Query("Ludhiana")
 ):
 
     prof = STATE_CLIMATE_PROFILES.get(
-
         state,
-
         {
             "temp": 40.0,
             "drought": 0.50,
@@ -605,91 +438,57 @@ async def get_climate_risk_alerts(
     if prof["temp"] >= 41.0:
 
         alerts.append({
-
-            "alert_type":
-            "Severe Heatwave Warning",
-
-            "severity":
-            "Critical",
-
+            "alert_type": "Severe Heatwave Warning",
+            "severity": "Critical",
             "headline":
-            f"Extreme Heat Stress Warning for {district}, {state}",
-
+                f"Extreme Heat Stress Warning for {district}, {state}",
             "description":
-            f"Forecast temperatures reaching {prof['temp']}°C. Risk of pollen sterilization and severe canopy wilting.",
-
+                f"Forecast temperatures reaching {prof['temp']}°C. "
+                "Risk of pollen sterilization and severe canopy wilting.",
             "recommended_action":
-            "Apply kaolin clay anti-transpirant spray (3%) or light evening sprinkler irrigation.",
-
+                "Apply kaolin clay anti-transpirant spray (3%) "
+                "or light evening sprinkler irrigation.",
             "valid_until":
-            (
-                datetime.now(timezone.utc)
-                + timedelta(days=2)
-            ).isoformat()
+                (datetime.utcnow() + timedelta(days=2)).isoformat()
         })
 
     else:
 
         alerts.append({
-
-            "alert_type":
-            "Moderate Thermal Advisory",
-
-            "severity":
-            "Warning",
-
+            "alert_type": "Moderate Thermal Advisory",
+            "severity": "Warning",
             "headline":
-            f"Temperature Alert for {district}, {state}",
-
+                f"Temperature Alert for {district}, {state}",
             "description":
-            f"Ambient temperature at {prof['temp']}°C.",
-
+                f"Ambient temperature at {prof['temp']}°C.",
             "recommended_action":
-            "Maintain adequate soil moisture with morning irrigation.",
-
+                "Maintain adequate soil moisture with morning irrigation.",
             "valid_until":
-            (
-                datetime.now(timezone.utc)
-                + timedelta(days=3)
-            ).isoformat()
+                (datetime.utcnow() + timedelta(days=3)).isoformat()
         })
 
     return {
-
         "state": state,
-
         "district": district,
-
-        "heat_stress_index":
-        prof["temp"],
-
-        "drought_vulnerability_index":
-        prof["drought"],
-
-        "flood_risk_score":
-        prof["flood"],
-
+        "heat_stress_index": prof["temp"],
+        "drought_vulnerability_index": prof["drought"],
+        "flood_risk_score": prof["flood"],
         "overall_risk_level":
-        (
             "High Risk Zone"
             if prof["temp"] >= 41.0
-            else "Moderate Risk Zone"
-        ),
-
+            else "Moderate Risk Zone",
         "alerts": alerts,
 
         "resilience_tips": [
-
             "Apply straw mulching to preserve 30% more soil moisture.",
-
             "Adopt Alternate Wetting and Drying (AWD) for paddy fields to conserve water."
         ]
     }
 
 
-# ============================================================
-# 11. SMART IRRIGATION
-# ============================================================
+# ==========================================
+# 9. Smart Irrigation API
+# ==========================================
 
 @app.post("/api/v1/irrigation/calculate")
 async def calculate_smart_irrigation(
@@ -712,21 +511,15 @@ async def calculate_smart_irrigation(
     target_moisture = 45.0
 
     deficit_pct = max(
-
         0.0,
-
-        target_moisture
-        - req.soil_moisture_pct
+        target_moisture - req.soil_moisture_pct
     )
 
     water_liters = round(
-
         (
             deficit_pct * 350.0
             + etc * 400.0
-        )
-        * req.field_area_acres,
-
+        ) * req.field_area_acres,
         1
     )
 
@@ -737,65 +530,44 @@ async def calculate_smart_irrigation(
     )
 
     return {
-
-        "crop_type":
-        req.crop_type,
-
-        "growth_stage":
-        req.growth_stage,
-
-        "evapotranspiration_et0_mm_day":
-        et0,
-
-        "crop_evapotranspiration_etc_mm_day":
-        etc,
-
+        "crop_type": req.crop_type,
+        "growth_stage": req.growth_stage,
+        "evapotranspiration_et0_mm_day": et0,
+        "crop_evapotranspiration_etc_mm_day": etc,
         "current_soil_moisture_pct":
-        req.soil_moisture_pct,
-
+            req.soil_moisture_pct,
         "target_soil_moisture_pct":
-        target_moisture,
-
+            target_moisture,
         "total_water_needed_liters":
-        water_liters,
-
+            water_liters,
         "recommended_pump_duration_minutes":
-        pump_minutes,
-
+            pump_minutes,
         "water_conservation_tip":
-        "Schedule irrigation early morning (5:00 AM - 8:00 AM) to minimize evapotranspiration losses."
+            "Schedule irrigation early morning (5:00 AM - 8:00 AM) "
+            "to minimize evapotranspiration losses."
     }
 
 
-# ============================================================
-# 12. MANDI PRICES
-# ============================================================
+# ==========================================
+# 10. Mandi Prices API
+# ==========================================
 
 @app.get("/api/v1/mandi/prices")
 async def get_mandi_commodity_prices(
-
     commodity: str = Query("Rice"),
-
     state: Optional[str] = Query(None)
 ):
 
-    cmd = (
-        commodity.capitalize()
-        if commodity
-        else "Rice"
-    )
+    cmd = commodity.capitalize() if commodity else "Rice"
 
     info = MANDI_RATES_DATABASE.get(
-
         cmd,
-
         MANDI_RATES_DATABASE["Rice"]
     )
 
     if info["trend"] == "Rising":
 
         recommendation = (
-
             f"Prices for {cmd} are rising "
             f"(+{info['change']}%). "
             f"Consider holding produce for 5-7 days "
@@ -805,182 +577,67 @@ async def get_mandi_commodity_prices(
     else:
 
         recommendation = (
-
             f"Prices for {cmd} are declining. "
             f"Sell immediately at {info['mandi']} "
             f"(₹{info['modal_price']}/quintal) "
-            f"to avoid post-harvest losses."
+            "to avoid post-harvest losses."
         )
 
     return {
-
         "commodity": cmd,
-
-        "state":
-        state or info["state"],
+        "state": state or info["state"],
 
         "best_selling_mandi": {
-
-            "mandi_name":
-            info["mandi"],
-
+            "mandi_name": info["mandi"],
             "modal_price_rs_quintal":
-            info["modal_price"],
-
+                info["modal_price"],
             "price_trend":
-            info["trend"],
-
+                info["trend"],
             "price_change_pct":
-            info["change"]
+                info["change"]
         },
 
         "harvest_recommendation":
-        recommendation
+            recommendation
     }
 
 
-# ============================================================
-# 13. OFFLINE DATA SYNC
-# ============================================================
+# ==========================================
+# 11. Offline Sync API
+# ==========================================
 
 @app.post("/api/v1/sync/delta")
 async def delta_sync_offline_data(
-
     payload: OfflineSyncPayload
 ):
 
     return {
-
-        "status":
-        "Success",
-
+        "status": "Success",
         "synced_diagnoses_count":
-        len(payload.offline_diagnoses),
-
+            len(payload.offline_diagnoses),
         "synced_telemetry_count":
-        len(payload.offline_telemetry),
-
+            len(payload.offline_telemetry),
         "server_timestamp":
-        datetime.now(timezone.utc).isoformat()
+            datetime.utcnow().isoformat()
     }
 
 
-# ============================================================
-# 14. WEATHER MODULE
-# ============================================================
-
-WEATHER_DIR = find_dir("weather")
-
-if os.path.exists(WEATHER_DIR) and WEATHER_DIR not in sys.path:
-
-    sys.path.append(
-        WEATHER_DIR
-    )
-
-try:
-
-    from weather import weather_report
-
-except ImportError as error:
-
-    weather_report = None
-
-    print(
-        "WARNING: Weather module could not be imported:",
-        error
-    )
-
-
-# ============================================================
-# 15. WEATHER API ENDPOINT
-# ============================================================
-
-@app.get("/api/v1/weather")
-async def get_weather_data(
-
-    latitude: float = Query(...),
-
-    longitude: float = Query(...)
-):
-
-    """
-    Get current weather and farming risk alerts.
-    """
-
-    if weather_report is None:
-
-        raise HTTPException(
-
-            status_code=500,
-
-            detail="Weather module is not available."
-        )
-
-    try:
-
-        result = weather_report(
-
-            latitude,
-
-            longitude
-        )
-
-        return {
-
-            "success":
-            True,
-
-            "weather":
-            result["weather"],
-
-            "alerts":
-            result["alerts"],
-
-            "recommendations":
-            result["recommendations"]
-        }
-
-    except ValueError as error:
-
-        raise HTTPException(
-
-            status_code=400,
-
-            detail=str(error)
-        )
-
-    except Exception as error:
-
-        raise HTTPException(
-
-            status_code=500,
-
-            detail=f"Unable to get weather data: {error}"
-        )
-
-
-# ============================================================
-# 16. VOICE ADVICE ENDPOINT
-# ============================================================
+# ==========================================
+# 12. Voice Advice API
+# ==========================================
 
 @app.post("/api/v1/voice/advice")
 async def voice_advice(
-
     question: str = Form(...),
-
     crop_name: str = Form("Tomato"),
-
     disease: str = Form("Tomato Bacterial Spot")
 ):
 
     q = question.lower()
 
     if any(
-
         word in q
-
         for word in [
-
             "what",
             "how",
             "do",
@@ -996,121 +653,91 @@ async def voice_advice(
     ):
 
         advice = (
-
             f"For your {crop_name} crop, "
             f"the detected problem is {disease}. "
-
             "Remove infected leaves and safely dispose of them. "
-
             "Avoid watering the leaves and keep good air circulation."
         )
 
     else:
 
         advice = (
-
-            f"Your {crop_name} crop has been identified "
-            f"with {disease}. "
-
-            "Please follow the recommended treatment "
-            "shown on the result page."
+            f"Your {crop_name} crop has been identified with "
+            f"{disease}. "
+            "Please follow the recommended treatment shown "
+            "on the result page."
         )
 
     return {
-
-        "crop_name":
-        crop_name,
-
-        "disease":
-        disease,
-
-        "advice":
-        advice
+        "crop_name": crop_name,
+        "disease": disease,
+        "advice": advice
     }
 
 
-# ============================================================
-# 17. STATIC FRONTEND
-# ============================================================
+# ==========================================
+# 13. Static HTML Frontend Serving
+# ==========================================
 
-STATIC_DIR = find_dir("static")
-
-
-def serve_static_file(filename: str):
-    file_path = os.path.join(STATIC_DIR, filename)
-    if os.path.exists(file_path):
-        return FileResponse(file_path)
-    return {"message": f"{filename} not found in static folder."}
+STATIC_DIR = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "static"
+)
 
 
 @app.get("/")
 async def serve_index():
-    return serve_static_file("index.html")
+    return FileResponse(
+        os.path.join(STATIC_DIR, "index.html")
+    )
 
 
 @app.get("/index.html")
 async def serve_index_html():
-    return serve_static_file("index.html")
+    return FileResponse(
+        os.path.join(STATIC_DIR, "index.html")
+    )
 
 
 @app.get("/upload.html")
 async def serve_upload_html():
-    return serve_static_file("upload.html")
+    return FileResponse(
+        os.path.join(STATIC_DIR, "upload.html")
+    )
 
 
 @app.get("/result.html")
 async def serve_result_html():
-    return serve_static_file("result.html")
+    return FileResponse(
+        os.path.join(STATIC_DIR, "result.html")
+    )
 
 
 if os.path.exists(STATIC_DIR):
-
     app.mount(
-
         "/static",
-
-        StaticFiles(
-            directory=STATIC_DIR
-        ),
-
+        StaticFiles(directory=STATIC_DIR),
         name="static"
     )
 
 
-# ============================================================
-# 18. RUN SERVER
-# ============================================================
+# ==========================================
+# 14. Run Server
+# ==========================================
 
 if __name__ == "__main__":
 
     import uvicorn
 
-    print(
-        "======================================================================"
-    )
-
-    print(
-        "  AGRI-SHIELD AI - Production Backend Gateway"
-    )
-
-    print(
-        "  Server running at: http://127.0.0.1:8000"
-    )
-
-    print(
-        "  Swagger Docs at:   http://127.0.0.1:8000/docs"
-    )
-
-    print(
-        "======================================================================"
-    )
+    print("======================================================================")
+    print("  🌱 AGRI-SHIELD AI - Production Backend Gateway")
+    print("  Server running at: http://127.0.0.1:8000")
+    print("  Swagger Docs at:   http://127.0.0.1:8000/docs")
+    print("======================================================================")
 
     uvicorn.run(
-
-        app,
-
+        "server:app",
         host="0.0.0.0",
-
-        port=8000
-
+        port=8000,
+        reload=True
     )
