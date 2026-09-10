@@ -1,58 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check Your Crop | AGRI-SHIELD AI</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box
+}
+
+html{
+    scroll-behavior:smooth
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+    color:#17351d;
+
+    /* ==============================
+       FARMER + FARM FIELD BACKGROUND
+       ============================== */
+    background-image:url("farmer-farming-background.png");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+}
+
+/* NAVBAR */
+nav{
+    height:70px;
+    background:rgba(4,48,18,.96);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 6%;
+    color:white;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 5px 25px rgba(0,0,0,.25);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:800;
+    letter-spacing:.2px;
+}
+
+.home-btn{
+    text-decoration:none;
+    color:white;
+    background:#2f7e3c;
+    padding:11px 18px;
+    border-radius:9px;
+    font-weight:700;
+    transition:.2s;
+}
+
+.home-btn:hover{
+    background:#3d9650;
+    transform:translateY(-1px)
+}
+
+/* MAIN */
+.container{
+    width:92%;
+    max-width:880px;
+    margin:35px auto 55px;
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    margin-bottom:25px;
+    color:#ffffff;
+    text-shadow:0 2px 8px rgba(0,0,0,.35);
+}
+
+.header .icon{
+    font-size:55px
+}
+
+.header h1{
+    font-size:34px;
+    margin:8px 0;
+}
+
+.header p{
+    max-width:720px;
+    margin:auto;
+    color:#f0f8ee;
+    font-size:16px;
+    line-height:1.7;
+}
+
+/* STEPS */
+.steps{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+}
+
+.step{
+    background:rgba(255,255,255,.94);
+    padding:11px 17px;
+    border-radius:20px;
+    border:1px solid #d9e7d5;
+    color:#315a39;
+    font-weight:700;
+    font-size:14px;
+    box-shadow:0 6px 18px rgba(0,0,0,.12);
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,.97);
+    padding:30px;
+    border-radius:22px;
+    box-shadow:0 20px 60px rgba(0,0,0,.24);
+    backdrop-filter:blur(5px);
+}
+
+/* INSTRUCTION */
+.instruction{
+    background:#edf8e9;
+    border-left:5px solid #3b8d46;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+.instruction h2{
+    color:#20582c;
+    font-size:21px;
+    margin-bottom:9px;
+}
+
+.instruction p{
+    color:#526157;
+    line-height:1.7;
+    font-size:15px;
+}
+
+/* PHOTO TIPS */
+.photo-tips{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.tip{
+    background:#f8fbf6;
+    border:1px solid #dfeade;
+    border-radius:12px;
+    padding:14px 10px;
+    text-align:center;
+    font-size:13px;
+    color:#526157;
+    line-height:1.5;
+}
+
+.tip-icon{
+    font-size:25px;
+    margin-bottom:5px
+}
+
+/* UPLOAD BOX */
+.upload-box{
+    border:3px dashed #86ad7e;
+    background:#f8fcf6;
+    border-radius:18px;
+    padding:38px 20px;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.upload-box:hover{
+    background:#eef8eb;
+    border-color:#3b8d46;
+    transform:translateY(-2px);
+}
+
+.upload-icon{
+    font-size:60px;
+    margin-bottom:10px
+}
+
+.upload-box h3{
+    color:#20582c;
+    font-size:21px;
+    margin-bottom:8px;
+}
+
+.upload-box p{
+    color:#68756b;
+    margin-bottom:18px;
+    line-height:1.5;
+}
+
+.choose-btn{
+    display:inline-block;
+    background:#2f7e3c;
+    color:white;
+    padding:14px 25px;
+    border-radius:10px;
+    font-weight:800;
+}
+
+/* FILE */
+#fileInput{
+    display:none
+}
+
+/* PREVIEW */
+.preview-area{
+    display:none;
+    margin-top:22px;
+    text-align:center;
+}
+
+.preview-area h3{
+    color:#20582c;
+    margin-bottom:12px;
+}
+
+#preview{
+    width:100%;
+    max-height:360px;
+    object-fit:contain;
+    border-radius:15px;
+    background:#edf5e9;
+    padding:8px;
+    border:1px solid #dce9d9;
+}
+
+/* ANALYZE */
+.analyze-btn{
+    width:100%;
+    margin-top:22px;
+    padding:18px;
+    border:none;
+    border-radius:12px;
+    background:#1f7130;
+    color:white;
+    font-size:18px;
+    font-weight:800;
+    cursor:pointer;
+    display:none;
+    transition:.2s;
+}
+
+.analyze-btn:hover{
+    background:#185b27;
+    transform:translateY(-1px)
+}
+
+.analyze-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+    transform:none
+}
+
+/* STATUS */
+.status{
+    display:none;
+    text-align:center;
+    margin-top:20px;
+    padding:20px;
+    background:#eef7eb;
+    border-radius:12px;
+    color:#245b2e;
+    font-weight:700;
+    line-height:1.7;
+}
+
+.loader{
+    width:32px;
+    height:32px;
+    border:4px solid #d7e7d2;
+    border-top:4px solid #2f7e3c;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:0 auto 10px;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg)
+    }
+}
+
+/* VOICE */
+.voice-btn{
+    width:100%;
+    margin-top:12px;
+    padding:14px;
+    border:1px solid #c8ddc2;
+    border-radius:10px;
+    background:#f4faf2;
+    color:#286238;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.voice-btn:hover{
+    background:#e7f3e3
+}
+
+/* SMALL INFO */
+.api-note{
+    margin-top:14px;
+    text-align:center;
+    color:#718074;
+    font-size:12px;
+}
+
+/* MOBILE */
+@media(max-width:650px){
+
+    .card{
+        padding:20px
+    }
+
+    .header h1{
+        font-size:28px
+    }
+
+    .steps{
+        flex-direction:column;
+        align-items:stretch
+    }
+
+    .step{
+        text-align:center
+    }
+
+    .photo-tips{
+        grid-template-columns:1fr
+    }
+
+    nav{
+        padding:0 4%
+    }
+
+    .logo{
+        font-size:18px
+    }
+
+    .home-btn{
+        padding:9px 13px
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        🌱 AGRI-SHIELD AI
+    </div>
+
+    <a href="index.html"
+       class="home-btn"
+       id="homeBtn">
+        🏠 Home
+    </a>
+
+</nav>
+
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="icon">
+            🌿
+        </div>
+
+        <h1 id="pageTitle">
+            Check Your Crop
+        </h1>
+
+        <p id="pageDescription">
+            Take a clear photo of the affected leaf and upload it here.
+            We will check your crop and tell you what to do next.
+        </p>
+
+    </div>
+
+
+    <div class="steps">
+
+        <div class="step" id="step1">
+            1️⃣ Take a photo
+        </div>
+
+        <div class="step" id="step2">
+            2️⃣ Add the photo
+        </div>
+
+        <div class="step" id="step3">
+            3️⃣ Check your crop
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="instruction">
+
+            <h2 id="instructionTitle">
+                📸 Step 1 — Take a good photo
+            </h2>
+
+            <p id="instructionText">
+                Take a clear photo of the affected leaf.
+                Keep the leaf close and make sure the photo is not blurry.
+            </p>
+
+        </div>
+
+
+        <div class="photo-tips">
+
+            <div class="tip">
+
+                <div class="tip-icon">
+                    ☀️
+                </div>
+
+                <span id="tip1">
+                    Use good light
+                </span>
+
+            </div>
+
+
+            <div class="tip">
+
+                <div class="tip-icon">
+                    📷
+                </div>
+
+                <span id="tip2">
+                    Keep the leaf clear
+                </span>
+
+            </div>
+
+
+            <div class="tip">
+
+                <div class="tip-icon">
+                    🚫
+                </div>
+
+                <span id="tip3">
+                    Avoid blurry photos
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="upload-box" id="uploadBox">
+
+            <div class="upload-icon">
+                📸
+            </div>
+
+            <h3 id="uploadTitle">
+                Step 2 — Add your crop photo
+            </h3>
+
+            <p id="uploadText">
+                Tap here to choose the crop photo from your phone or computer.
+            </p>
+
+            <span class="choose-btn" id="chooseBtn">
+                📷 Choose Crop Photo
+            </span>
+
+        </div>
+
+
+        <input
+            type="file"
+            id="fileInput"
+            accept="image/jpeg,image/jpg,image/png,image/webp"
+        >
+
+
+        <div class="preview-area" id="previewArea">
+
+            <h3 id="readyText">
+                ✅ Your photo is ready
+            </h3>
+
+            <img
+                id="preview"
+                alt="Crop photo preview"
+            >
+
+        </div>
+
+
+        <button
+            class="analyze-btn"
+            id="analyzeBtn"
+            onclick="analyzeCrop()"
+        >
+            🔍 Check My Crop
+        </button>
+
+
+        <button
+            class="voice-btn"
+            id="voiceBtn"
+            onclick="listenInstructions()"
+        >
+            🔊 Listen to Instructions
+        </button>
+
+
+        <div class="status" id="status">
+
+            <div class="loader"></div>
+
+            <span id="statusText">
+                🌱 We are checking your crop...
+            </span>
+
+            <br>
+
+            <span id="statusSubText">
+                Please wait. We will show you what to do next.
+            </span>
+
+        </div>
+
+
+        <div class="api-note">
+            AGRI-SHIELD AI • Smart India Hackathon 2026
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
-/* ================================
+
+/* =========================================================
+   API CONFIG
+   ========================================================= */
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
+
+
+/* =========================================================
    LANGUAGE
-================================ */
+   ========================================================= */
 
 let currentLanguage =
     localStorage.getItem("selectedLanguage") || "en-IN";
 
 
-/* ================================
-   BEST VOICE FINDER
-================================ */
+const languageData = {
 
-function getBestVoice(language){
+    "en-IN": {
 
-    const voices =
-        window.speechSynthesis.getVoices();
+        title:"Check Your Crop",
 
-    if(!voices || voices.length === 0){
-        return null;
+        description:
+        "Take a clear photo of the affected leaf and upload it here. We will check your crop and tell you what to do next.",
+
+        home:"🏠 Home",
+
+        step1:"1️⃣ Take a photo",
+
+        step2:"2️⃣ Add the photo",
+
+        step3:"3️⃣ Check your crop",
+
+        instructionTitle:
+        "📸 Step 1 — Take a good photo",
+
+        instructionText:
+        "Take a clear photo of the affected leaf. Keep the leaf close and make sure the photo is not blurry.",
+
+        tip1:"Use good light",
+
+        tip2:"Keep the leaf clear",
+
+        tip3:"Avoid blurry photos",
+
+        uploadTitle:
+        "Step 2 — Add your crop photo",
+
+        uploadText:
+        "Tap here to choose the crop photo from your phone or computer.",
+
+        choose:"📷 Choose Crop Photo",
+
+        ready:"✅ Your photo is ready",
+
+        analyze:"🔍 Check My Crop",
+
+        voice:"🔊 Listen to Instructions",
+
+        checking:
+        "🌱 We are checking your crop...",
+
+        checkingSub:
+        "Please wait. We will show you what to do next.",
+
+        error:
+        "We could not check the crop. Please try again.",
+
+        invalid:
+        "Please choose a crop photo.",
+
+        large:
+        "Please choose a photo smaller than 5 MB."
+    },
+
+
+    "te-IN": {
+
+        title:
+        "మీ పంటను పరీక్షించండి",
+
+        description:
+        "రైతు గారూ, సమస్య ఉన్న ఆకుకు స్పష్టమైన ఫోటో తీసి ఇక్కడ పెట్టండి. మీ పంటలో సమస్య ఉందో తెలుసుకొని, తర్వాత ఏం చేయాలో చెబుతాము.",
+
+        home:
+        "🏠 మొదటి పేజీ",
+
+        step1:
+        "1️⃣ ఆకు ఫోటో తీయండి",
+
+        step2:
+        "2️⃣ ఫోటోను ఇక్కడ పెట్టండి",
+
+        step3:
+        "3️⃣ మీ పంటను పరీక్షించండి",
+
+        instructionTitle:
+        "📸 దశ 1 — మంచి ఫోటో తీయండి",
+
+        instructionText:
+        "సమస్య ఉన్న ఆకుకు స్పష్టమైన ఫోటో తీయండి. ఆకును దగ్గరగా చూపించండి. ఫోటో అస్పష్టంగా ఉండకూడదు.",
+
+        tip1:
+        "మంచి వెలుతురు ఉండాలి",
+
+        tip2:
+        "ఆకు స్పష్టంగా కనిపించాలి",
+
+        tip3:
+        "అస్పష్టమైన ఫోటో వద్దు",
+
+        uploadTitle:
+        "దశ 2 — పంట ఫోటోను ఇక్కడ పెట్టండి",
+
+        uploadText:
+        "మీ ఫోన్ లేదా కంప్యూటర్ నుండి పంట ఫోటోను ఎంచుకోవడానికి ఇక్కడ నొక్కండి.",
+
+        choose:
+        "📷 పంట ఫోటో ఎంచుకోండి",
+
+        ready:
+        "✅ మీ ఫోటో సిద్ధంగా ఉంది",
+
+        analyze:
+        "🔍 నా పంటను పరీక్షించండి",
+
+        voice:
+        "🔊 సూచనలు వినండి",
+
+        checking:
+        "🌱 మీ పంటను పరిశీలిస్తున్నాము...",
+
+        checkingSub:
+        "కొద్దిసేపు వేచి ఉండండి. తర్వాత ఏం చేయాలో మేము చెబుతాము.",
+
+        error:
+        "పంటను పరీక్షించలేకపోయాము. దయచేసి మళ్లీ ప్రయత్నించండి.",
+
+        invalid:
+        "దయచేసి పంట ఫోటోను ఎంచుకోండి.",
+
+        large:
+        "దయచేసి 5 MB కంటే తక్కువ పరిమాణం ఉన్న ఫోటోను ఎంచుకోండి."
+    },
+
+
+    "hi-IN": {
+
+        title:
+        "अपनी फसल की जांच करें",
+
+        description:
+        "किसान भाई, प्रभावित पत्ती की साफ फोटो लें और यहां डालें। हम आपकी फसल की जांच करके बताएंगे कि आगे क्या करना है।",
+
+        home:
+        "🏠 होम",
+
+        step1:
+        "1️⃣ पत्ती की फोटो लें",
+
+        step2:
+        "2️⃣ फोटो यहां डालें",
+
+        step3:
+        "3️⃣ फसल की जांच करें",
+
+        instructionTitle:
+        "📸 चरण 1 — अच्छी फोटो लें",
+
+        instructionText:
+        "जिस पत्ती में समस्या है उसकी साफ फोटो लें। पत्ती को पास से दिखाएं और फोटो धुंधली नहीं होनी चाहिए।",
+
+        tip1:
+        "अच्छी रोशनी रखें",
+
+        tip2:
+        "पत्ती साफ दिखाई दे",
+
+        tip3:
+        "धुंधली फोटो न लें",
+
+        uploadTitle:
+        "चरण 2 — अपनी फसल की फोटो डालें",
+
+        uploadText:
+        "अपने फोन या कंप्यूटर से फसल की फोटो चुनने के लिए यहां दबाएं।",
+
+        choose:
+        "📷 फसल की फोटो चुनें",
+
+        ready:
+        "✅ आपकी फोटो तैयार है",
+
+        analyze:
+        "🔍 मेरी फसल जांचें",
+
+        voice:
+        "🔊 निर्देश सुनें",
+
+        checking:
+        "🌱 आपकी फसल की जांच हो रही है...",
+
+        checkingSub:
+        "कृपया थोड़ा इंतजार करें। हम आपको आगे क्या करना है बताएंगे।",
+
+        error:
+        "फसल की जांच नहीं हो पाई। कृपया फिर से कोशिश करें।",
+
+        invalid:
+        "कृपया फसल की फोटो चुनें।",
+
+        large:
+        "कृपया 5 MB से छोटी फोटो चुनें।"
     }
 
-    const lang =
-        language.toLowerCase();
-
-    /* First: exact language match */
-    let voice =
-        voices.find(v =>
-            v.lang &&
-            v.lang.toLowerCase() === lang
-        );
-
-    if(voice){
-        return voice;
-    }
-
-    /* Second: language prefix match */
-    const prefix =
-        lang.split("-")[0];
-
-    voice =
-        voices.find(v =>
-            v.lang &&
-            v.lang.toLowerCase().startsWith(prefix)
-        );
-
-    return voice || null;
-}
+};
 
 
-/* ================================
-   LANGUAGE CHANGE
-================================ */
+/* =========================================================
+   LANGUAGE UI
+   ========================================================= */
 
 function setLanguage(language){
+
+    if(!languageData[language]){
+        language = "en-IN";
+    }
 
     currentLanguage = language;
 
@@ -61,15 +800,365 @@ function setLanguage(language){
         language
     );
 
-    /* Your existing UI language code
-       goes here */
+    const lang =
+        languageData[language];
 
+    document.documentElement.lang =
+        language;
+
+    document.getElementById("pageTitle").innerText =
+        lang.title;
+
+    document.getElementById("pageDescription").innerText =
+        lang.description;
+
+    document.getElementById("homeBtn").innerText =
+        lang.home;
+
+    document.getElementById("step1").innerText =
+        lang.step1;
+
+    document.getElementById("step2").innerText =
+        lang.step2;
+
+    document.getElementById("step3").innerText =
+        lang.step3;
+
+    document.getElementById("instructionTitle").innerText =
+        lang.instructionTitle;
+
+    document.getElementById("instructionText").innerText =
+        lang.instructionText;
+
+    document.getElementById("tip1").innerText =
+        lang.tip1;
+
+    document.getElementById("tip2").innerText =
+        lang.tip2;
+
+    document.getElementById("tip3").innerText =
+        lang.tip3;
+
+    document.getElementById("uploadTitle").innerText =
+        lang.uploadTitle;
+
+    document.getElementById("uploadText").innerText =
+        lang.uploadText;
+
+    document.getElementById("chooseBtn").innerText =
+        lang.choose;
+
+    document.getElementById("readyText").innerText =
+        lang.ready;
+
+    document.getElementById("analyzeBtn").innerText =
+        lang.analyze;
+
+    document.getElementById("voiceBtn").innerText =
+        lang.voice;
+
+    document.getElementById("statusText").innerText =
+        lang.checking;
+
+    document.getElementById("statusSubText").innerText =
+        lang.checkingSub;
 }
 
 
-/* ================================
-   LISTEN BUTTON
-================================ */
+/* =========================================================
+   FILE SELECTION
+   ========================================================= */
+
+const fileInput =
+    document.getElementById("fileInput");
+
+const uploadBox =
+    document.getElementById("uploadBox");
+
+const preview =
+    document.getElementById("preview");
+
+const previewArea =
+    document.getElementById("previewArea");
+
+const analyzeBtn =
+    document.getElementById("analyzeBtn");
+
+const statusBox =
+    document.getElementById("status");
+
+
+let selectedFile = null;
+
+
+uploadBox.addEventListener(
+    "click",
+    () => fileInput.click()
+);
+
+
+fileInput.addEventListener(
+    "change",
+    function(){
+
+        const file =
+            this.files[0];
+
+        if(!file) return;
+
+        const lang =
+            languageData[currentLanguage];
+
+
+        if(!file.type.startsWith("image/")){
+
+            alert(lang.invalid);
+
+            this.value = "";
+
+            selectedFile = null;
+
+            return;
+        }
+
+
+        if(file.size > 5 * 1024 * 1024){
+
+            alert(lang.large);
+
+            this.value = "";
+
+            selectedFile = null;
+
+            return;
+        }
+
+
+        selectedFile = file;
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(event){
+
+                preview.src =
+                    event.target.result;
+
+                previewArea.style.display =
+                    "block";
+
+                analyzeBtn.style.display =
+                    "block";
+            };
+
+
+        reader.readAsDataURL(file);
+
+    }
+);
+
+
+/* =========================================================
+   ANALYZE CROP
+   ========================================================= */
+
+async function analyzeCrop(){
+
+    if(!selectedFile){
+
+        alert(
+            languageData[currentLanguage].invalid
+        );
+
+        return;
+    }
+
+
+    const lang =
+        languageData[currentLanguage];
+
+
+    analyzeBtn.disabled = true;
+
+
+    if(currentLanguage === "te-IN"){
+
+        analyzeBtn.innerText =
+            "🔄 పంటను పరిశీలిస్తున్నాము...";
+
+    }
+
+    else if(currentLanguage === "hi-IN"){
+
+        analyzeBtn.innerText =
+            "🔄 फसल की जांच हो रही है...";
+
+    }
+
+    else{
+
+        analyzeBtn.innerText =
+            "🔄 Checking your crop...";
+    }
+
+
+    statusBox.style.display =
+        "block";
+
+
+    try{
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "crop_name",
+            "Tomato"
+        );
+
+
+        formData.append(
+            "file",
+            selectedFile
+        );
+
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/diagnosis/scan`,
+                {
+                    method:"POST",
+                    body:formData
+                }
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                `Server returned ${response.status}`
+            );
+        }
+
+
+        const result =
+            await response.json();
+
+
+        localStorage.setItem(
+            "diagnosisResult",
+            JSON.stringify(result)
+        );
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(event){
+
+                localStorage.setItem(
+                    "cropImage",
+                    event.target.result
+                );
+
+                window.location.href =
+                    "result.html";
+            };
+
+
+        reader.readAsDataURL(
+            selectedFile
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Crop analysis error:",
+            error
+        );
+
+
+        statusBox.style.display =
+            "none";
+
+
+        analyzeBtn.disabled =
+            false;
+
+
+        analyzeBtn.innerText =
+            lang.analyze;
+
+
+        alert(lang.error);
+    }
+}
+
+
+/* =========================================================
+   FIND BEST BROWSER VOICE
+   ========================================================= */
+
+function getBestVoice(language){
+
+    if(!("speechSynthesis" in window)){
+        return null;
+    }
+
+
+    const voices =
+        window.speechSynthesis.getVoices();
+
+
+    if(!voices.length){
+        return null;
+    }
+
+
+    const exact =
+        voices.find(
+            v =>
+            v.lang &&
+            v.lang.toLowerCase() ===
+            language.toLowerCase()
+        );
+
+
+    if(exact){
+        return exact;
+    }
+
+
+    const prefix =
+        language
+        .split("-")[0]
+        .toLowerCase();
+
+
+    return voices.find(
+        v =>
+        v.lang &&
+        v.lang.toLowerCase()
+        .startsWith(prefix)
+    ) || null;
+}
+
+
+/* =========================================================
+   VOICE INSTRUCTIONS
+   Telugu -> Telugu
+   Hindi  -> Hindi
+   English -> English
+   ========================================================= */
 
 function listenInstructions(){
 
@@ -83,49 +1172,39 @@ function listenInstructions(){
     }
 
 
-    /* Stop previous voice */
-
     window.speechSynthesis.cancel();
 
 
     let text = "";
 
 
-    /* ============================
-       TELUGU
-    ============================ */
+    /* TELUGU */
 
     if(currentLanguage === "te-IN"){
 
         text =
         "మొదట సమస్య ఉన్న పంట ఆకుకు స్పష్టమైన ఫోటో తీయండి. " +
         "మంచి వెలుతురు ఉండేలా చూసుకోండి. " +
-        "తర్వాత ఫోటోను ఇక్కడ అప్లోడ్ చేయండి. " +
+        "తర్వాత ఫోటోను ఇక్కడ పెట్టండి. " +
         "ఫోటో స్పష్టంగా కనిపించిన తర్వాత నా పంటను పరీక్షించండి అనే బటన్ నొక్కండి. " +
-        "మీ పంటను పరిశీలించి, సమస్య ఏమిటో మరియు తరువాత ఏం చేయాలో మేము చెబుతాము.";
-
+        "మీ పంటను పరిశీలించి, తర్వాత ఏం చేయాలో మేము చెబుతాము.";
     }
 
 
-    /* ============================
-       HINDI
-    ============================ */
+    /* HINDI */
 
     else if(currentLanguage === "hi-IN"){
 
         text =
         "सबसे पहले जिस पत्ती में समस्या है उसकी साफ फोटो लें। " +
         "अच्छी रोशनी रखें। " +
-        "फिर फोटो यहां अपलोड करें। " +
+        "फिर फोटो यहां डालें। " +
         "फोटो साफ दिखाई देने के बाद मेरी फसल जांचें बटन दबाएं। " +
-        "हम आपकी फसल की जांच करके बताएंगे कि समस्या क्या है और आगे क्या करना चाहिए।";
-
+        "हम आपकी फसल की जांच करके बताएंगे कि आगे क्या करना है।";
     }
 
 
-    /* ============================
-       ENGLISH
-    ============================ */
+    /* ENGLISH */
 
     else{
 
@@ -134,43 +1213,30 @@ function listenInstructions(){
         "Make sure there is good light. " +
         "Then upload the photo here. " +
         "After the photo is ready, press Check My Crop. " +
-        "We will check your crop and tell you what the problem is and what you should do next.";
-
+        "We will check your crop and tell you what to do next.";
     }
 
-
-    /* ============================
-       CREATE SPEECH
-    ============================ */
 
     const speech =
         new SpeechSynthesisUtterance(text);
 
-
-    /* VERY IMPORTANT */
 
     speech.lang =
         currentLanguage;
 
 
     speech.rate =
-        0.80;
+        0.82;
 
 
     speech.pitch =
-        1.0;
+        1;
 
-
-    speech.volume =
-        1.0;
-
-
-    /* ============================
-       SELECT CORRECT VOICE
-    ============================ */
 
     const voice =
-        getBestVoice(currentLanguage);
+        getBestVoice(
+            currentLanguage
+        );
 
 
     if(voice){
@@ -183,47 +1249,60 @@ function listenInstructions(){
             voice.name,
             voice.lang
         );
-
     }
 
-
-    /* ============================
-       SPEAK
-    ============================ */
 
     window.speechSynthesis.speak(
         speech
     );
-
 }
 
 
-/* ================================
+/* =========================================================
    LOAD BROWSER VOICES
-================================ */
+   ========================================================= */
 
-window.speechSynthesis.onvoiceschanged =
-    function(){
+if("speechSynthesis" in window){
 
-        console.log(
-            "Available voices:",
-            window.speechSynthesis.getVoices()
-        );
+    window.speechSynthesis.onvoiceschanged =
+        function(){
 
-    };
+            console.log(
+                "Available voices:",
+                window.speechSynthesis.getVoices()
+            );
+
+        };
+}
 
 
-/* ================================
+/* =========================================================
    STOP VOICE WHEN LEAVING
-================================ */
+   ========================================================= */
 
 window.addEventListener(
     "beforeunload",
     function(){
 
-        window.speechSynthesis.cancel();
+        if("speechSynthesis" in window){
+
+            window.speechSynthesis.cancel();
+
+        }
 
     }
 );
 
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+setLanguage(
+    currentLanguage
+);
+
 </script>
+
+</body>
+</html>
