@@ -3,1099 +3,1453 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>AGRI-SHIELD AI | Smart Farming Assistant</title>
+    <meta
+        name="description"
+        content="AGRI-SHIELD AI - Smart farming assistant for crop disease checking, weather information and farmer guidance."
+    >
 
+    <title>AGRI-SHIELD AI | Smart Farming Assistant</title>
 
-<style>
 
+    <style>
 
-/* ================= RESET ================= */
+        /* =====================================================
+           RESET
+        ===================================================== */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
 
 
-html{
-    scroll-behavior:smooth;
-}
+        html{
+            scroll-behavior:smooth;
+        }
 
 
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f8f1;
-    color:#17351d;
-}
+        body{
+            font-family:Arial, Helvetica, sans-serif;
+            background:#f4f8f1;
+            color:#17351d;
+            overflow-x:hidden;
+        }
 
 
+        a{
+            color:inherit;
+        }
 
-/* ================= NAVBAR ================= */
 
-nav{
-    position:fixed;
-    top:0;
-    left:0;
+        button,
+        select,
+        input{
+            font:inherit;
+        }
 
-    width:100%;
-    height:72px;
 
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+        button{
+            cursor:pointer;
+        }
 
-    padding:0 6%;
 
-    background:#063514;
+        /* =====================================================
+           ACCESSIBILITY
+        ===================================================== */
 
-    z-index:1000;
+        .skip-link{
+            position:absolute;
 
-    box-shadow:0 3px 20px rgba(0,0,0,.15);
-}
+            top:-60px;
+            left:20px;
 
+            background:white;
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:9px;
+            color:#17351d;
 
-    color:white;
+            padding:12px 18px;
 
-    font-size:21px;
-    font-weight:800;
-}
+            border-radius:8px;
 
+            z-index:5000;
 
-.logo-icon{
-    width:42px;
-    height:42px;
+            text-decoration:none;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+            font-weight:bold;
 
-    border-radius:12px;
+            transition:.3s;
+        }
 
-    background:#2f7e3c;
 
-    font-size:24px;
-}
+        .skip-link:focus{
+            top:20px;
+        }
 
 
-nav ul{
-    display:flex;
-    align-items:center;
+        a:focus-visible,
+        button:focus-visible,
+        select:focus-visible{
+            outline:3px solid #91d96d;
 
-    gap:28px;
+            outline-offset:4px;
+        }
 
-    list-style:none;
-}
 
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
 
-nav a{
-    color:white;
+        header{
+            width:100%;
+        }
 
-    text-decoration:none;
 
-    font-size:14px;
+        nav{
 
-    font-weight:700;
-}
+            position:fixed;
 
+            top:0;
+            left:0;
 
-nav a:hover{
-    color:#a9e88b;
-}
+            width:100%;
 
+            height:72px;
 
-.nav-button{
-    background:#91d96d;
+            display:flex;
 
-    color:#123018 !important;
+            justify-content:space-between;
 
-    padding:12px 20px;
+            align-items:center;
 
-    border-radius:25px;
-}
+            padding:0 6%;
 
+            background:#063514;
 
+            z-index:1000;
 
-/* ================= LANGUAGE ================= */
+            box-shadow:0 3px 20px rgba(0,0,0,.15);
 
-.language-box{
-    position:fixed;
+        }
 
-    right:20px;
-    bottom:20px;
 
-    z-index:2000;
+        .logo{
 
-    display:flex;
-    align-items:center;
+            display:flex;
 
-    gap:8px;
+            align-items:center;
 
-    background:white;
+            gap:10px;
 
-    padding:10px 14px;
+            color:white;
 
-    border-radius:12px;
+            font-size:21px;
 
-    box-shadow:0 8px 30px rgba(0,0,0,.18);
+            font-weight:800;
 
-    border:1px solid #dce8d8;
-}
+            text-decoration:none;
 
+            white-space:nowrap;
 
-.language-box span{
-    font-size:18px;
-}
+        }
 
 
-.language-box select{
-    border:none;
+        .logo-icon{
 
-    outline:none;
+            width:42px;
 
-    background:white;
+            height:42px;
 
-    color:#24552b;
+            display:flex;
 
-    font-weight:700;
+            align-items:center;
 
-    cursor:pointer;
-}
+            justify-content:center;
 
+            border-radius:12px;
 
+            background:#2f7e3c;
 
-/* ================= HERO ================= */
+            font-size:24px;
 
-.hero{
-    min-height:760px;
+        }
 
-    display:flex;
-    align-items:center;
 
-    padding:140px 8% 90px;
+        nav ul{
 
-    position:relative;
+            display:flex;
 
+            align-items:center;
 
-    background-image:
+            gap:28px;
 
-    linear-gradient(
-        90deg,
-        rgba(2,31,12,.90),
-        rgba(5,55,21,.68),
-        rgba(5,55,21,.30)
-    ),
+            list-style:none;
 
-    url("farmer.jpg");
+        }
 
 
-    background-size:cover;
+        nav a{
 
-    background-position:center;
+            color:white;
 
-    color:white;
-}
+            text-decoration:none;
 
+            font-size:14px;
 
-.hero-content{
-    max-width:820px;
-}
+            font-weight:700;
 
+            transition:.25s;
 
-.badge{
-    display:inline-block;
+        }
 
-    padding:10px 17px;
 
-    margin-bottom:22px;
+        nav a:hover{
+            color:#a9e88b;
+        }
 
-    border-radius:30px;
 
-    background:rgba(157,224,128,.18);
+        .nav-button{
 
-    border:1px solid rgba(173,237,144,.4);
+            background:#91d96d;
 
-    color:#c8f5b0;
+            color:#123018 !important;
 
-    font-size:13px;
+            padding:12px 20px;
 
-    font-weight:800;
-}
+            border-radius:25px;
 
+            transition:.25s;
 
-.hero h1{
-    font-size:clamp(40px,6vw,68px);
+        }
 
-    line-height:1.08;
 
-    margin-bottom:22px;
-}
+        .nav-button:hover{
 
+            background:#b8ed9b;
 
-.hero h1 span{
-    color:#a1e781;
-}
+            transform:translateY(-2px);
 
+        }
 
-.hero-description{
-    max-width:720px;
 
-    color:#edf7ec;
+        /* =====================================================
+           LANGUAGE BOX
+        ===================================================== */
 
-    font-size:18px;
+        .language-box{
 
-    line-height:1.8;
+            position:fixed;
 
-    margin-bottom:22px;
-}
+            right:20px;
 
+            bottom:20px;
 
+            z-index:2000;
 
-/* ================= VOICE ================= */
+            display:flex;
 
-.speak-button{
-    display:inline-flex;
+            align-items:center;
 
-    align-items:center;
+            gap:8px;
 
-    gap:8px;
+            background:white;
 
-    padding:11px 16px;
+            padding:10px 14px;
 
-    margin-bottom:25px;
+            border-radius:12px;
 
-    border-radius:10px;
+            box-shadow:0 8px 30px rgba(0,0,0,.18);
 
-    border:1px solid rgba(255,255,255,.35);
+            border:1px solid #dce8d8;
 
-    background:rgba(255,255,255,.10);
+        }
 
-    color:white;
 
-    cursor:pointer;
+        .language-box span{
+            font-size:18px;
+        }
 
-    font-weight:700;
-}
 
+        .language-box label{
+            display:none;
+        }
 
-.speak-button:hover{
-    background:rgba(255,255,255,.20);
-}
 
+        .language-box select{
 
+            border:none;
 
-/* ================= BUTTONS ================= */
+            outline:none;
 
-.buttons{
-    display:flex;
+            background:white;
 
-    gap:14px;
+            color:#24552b;
 
-    flex-wrap:wrap;
-}
+            font-weight:700;
 
+            cursor:pointer;
 
-.primary-button{
-    display:inline-flex;
+        }
 
-    align-items:center;
 
-    justify-content:center;
+        /* =====================================================
+           HERO
+        ===================================================== */
 
-    gap:8px;
+        .hero{
 
-    padding:17px 25px;
+            min-height:760px;
 
-    border-radius:11px;
+            display:flex;
 
-    background:#91d96d;
+            align-items:center;
 
-    color:#102b17;
+            padding:140px 8% 90px;
 
-    text-decoration:none;
+            position:relative;
 
-    font-weight:800;
+            background-image:
 
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
+                linear-gradient(
+                    90deg,
+                    rgba(2,31,12,.92),
+                    rgba(5,55,21,.70),
+                    rgba(5,55,21,.35)
+                ),
 
-    transition:.25s;
-}
+                url("farmer.jpg");
 
+            background-size:cover;
 
-.primary-button:hover{
-    transform:translateY(-3px);
+            background-position:center;
 
-    background:#b8ed9b;
-}
+            color:white;
 
+        }
 
-.secondary-button{
-    display:inline-flex;
 
-    align-items:center;
+        .hero-content{
 
-    justify-content:center;
+            max-width:820px;
 
-    padding:17px 25px;
+            width:100%;
 
-    border-radius:11px;
+        }
 
-    border:1px solid rgba(255,255,255,.45);
 
-    color:white;
+        .badge{
 
-    text-decoration:none;
+            display:inline-block;
 
-    font-weight:700;
+            padding:10px 17px;
 
-    background:rgba(255,255,255,.08);
-}
+            margin-bottom:22px;
 
+            border-radius:30px;
 
+            background:rgba(157,224,128,.18);
 
-/* ================= FARMER MESSAGE ================= */
+            border:1px solid rgba(173,237,144,.4);
 
-.farmer-note{
-    margin-top:30px;
+            color:#c8f5b0;
 
-    max-width:650px;
+            font-size:13px;
 
-    padding:18px 20px;
+            font-weight:800;
 
-    display:flex;
+            letter-spacing:.5px;
 
-    align-items:center;
+        }
 
-    gap:14px;
 
-    background:rgba(0,0,0,.30);
+        .hero h1{
 
-    border:1px solid rgba(255,255,255,.18);
+            font-size:clamp(40px,6vw,68px);
 
-    border-radius:14px;
-}
+            line-height:1.08;
 
+            margin-bottom:22px;
 
-.farmer-note-icon{
-    font-size:32px;
-}
+        }
 
 
-.farmer-note strong{
-    color:white;
-}
+        .hero h1 span{
+            color:#a1e781;
+        }
 
 
+        .hero-description{
 
-/* ================= CHECK MY CROP BOX ================= */
+            max-width:720px;
 
-.check-crop-box{
-    margin-top:22px;
+            color:#edf7ec;
 
-    max-width:650px;
+            font-size:18px;
 
-    display:flex;
+            line-height:1.8;
 
-    align-items:center;
+            margin-bottom:22px;
 
-    gap:18px;
+        }
 
-    padding:20px 22px;
 
-    background:rgba(255,255,255,.13);
+        /* =====================================================
+           VOICE BUTTON
+        ===================================================== */
 
-    border:1px solid rgba(255,255,255,.28);
+        .speak-button{
 
-    border-radius:16px;
+            display:inline-flex;
 
-    backdrop-filter:blur(8px);
+            align-items:center;
 
-    box-shadow:0 10px 30px rgba(0,0,0,.12);
-}
+            gap:8px;
 
+            padding:11px 16px;
 
-.check-crop-icon{
-    width:55px;
+            margin-bottom:25px;
 
-    height:55px;
+            border-radius:10px;
 
-    display:flex;
+            border:1px solid rgba(255,255,255,.35);
 
-    align-items:center;
+            background:rgba(255,255,255,.10);
 
-    justify-content:center;
+            color:white;
 
-    font-size:27px;
+            font-weight:700;
 
-    border-radius:14px;
+            transition:.25s;
 
-    background:#91d96d;
-}
+        }
 
 
-.check-crop-text{
-    flex:1;
-}
+        .speak-button:hover{
 
+            background:rgba(255,255,255,.20);
 
-.check-crop-text h3{
-    margin-bottom:5px;
+        }
 
-    color:white;
 
-    font-size:18px;
-}
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
 
+        .buttons{
 
-.check-crop-text p{
-    color:#e2eee0;
+            display:flex;
 
-    font-size:14px;
+            gap:14px;
 
-    line-height:1.5;
-}
+            flex-wrap:wrap;
 
+            align-items:center;
 
-.check-crop-link{
-    padding:12px 18px;
+        }
 
-    background:#91d96d;
 
-    color:#102b17;
+        .primary-button{
 
-    text-decoration:none;
+            display:inline-flex;
 
-    font-weight:800;
+            align-items:center;
 
-    border-radius:10px;
+            justify-content:center;
 
-    white-space:nowrap;
+            gap:8px;
 
-    transition:.25s;
-}
+            padding:17px 25px;
 
+            border-radius:11px;
 
-.check-crop-link:hover{
-    background:#b8ed9b;
+            background:#91d96d;
 
-    transform:translateY(-2px);
-}
+            color:#102b17;
 
+            text-decoration:none;
 
+            font-weight:800;
 
-/* ================= STATS ================= */
+            box-shadow:0 10px 25px rgba(0,0,0,.15);
 
-.stats-wrapper{
-    position:relative;
+            transition:.25s;
 
-    margin-top:-55px;
+        }
 
-    z-index:10;
 
-    padding:0 8%;
-}
+        .primary-button:hover{
 
+            transform:translateY(-3px);
 
-.stats{
-    display:grid;
+            background:#b8ed9b;
 
-    grid-template-columns:repeat(4,1fr);
+        }
 
-    background:white;
 
-    border-radius:18px;
+        .secondary-button{
 
-    padding:28px;
+            display:inline-flex;
 
-    box-shadow:0 20px 60px rgba(20,60,25,.15);
-}
+            align-items:center;
 
+            justify-content:center;
 
-.stat{
-    text-align:center;
+            padding:17px 25px;
 
-    border-right:1px solid #e3e9e1;
-}
+            border-radius:11px;
 
+            border:1px solid rgba(255,255,255,.45);
 
-.stat:last-child{
-    border-right:none;
-}
+            color:white;
 
+            text-decoration:none;
 
-.stat h2{
-    color:#28743a;
+            font-weight:700;
 
-    font-size:22px;
+            background:rgba(255,255,255,.08);
 
-    margin-bottom:7px;
-}
+            transition:.25s;
 
+        }
 
-.stat p{
-    color:#728074;
 
-    font-size:13px;
-}
+        .secondary-button:hover{
 
+            background:rgba(255,255,255,.18);
 
+            transform:translateY(-3px);
 
-/* ================= SECTION ================= */
+        }
 
-.section{
-    padding:105px 8%;
-}
 
+        /* =====================================================
+           FARMER MESSAGE
+        ===================================================== */
 
-.section-header{
-    max-width:720px;
+        .farmer-note{
 
-    margin:0 auto 50px;
+            margin-top:30px;
 
-    text-align:center;
-}
+            max-width:650px;
 
+            padding:18px 20px;
 
-.section-label{
-    color:#438c4e;
+            display:flex;
 
-    font-size:13px;
+            align-items:center;
 
-    font-weight:800;
+            gap:14px;
 
-    letter-spacing:2px;
+            background:rgba(0,0,0,.35);
 
-    margin-bottom:12px;
-}
+            border:1px solid rgba(255,255,255,.18);
 
+            border-radius:14px;
 
-.section-header h2{
-    color:#163b1d;
+        }
 
-    font-size:40px;
 
-    margin-bottom:15px;
-}
+        .farmer-note-icon{
+            font-size:32px;
+        }
 
 
-.section-header p{
-    color:#718074;
+        .farmer-note strong{
+            color:white;
+        }
 
-    line-height:1.7;
-}
 
+        /* =====================================================
+           CHECK MY CROP BOX
+        ===================================================== */
 
+        .check-crop-box{
 
-/* ================= FEATURES ================= */
+            margin-top:22px;
 
-.features{
-    display:grid;
+            max-width:650px;
 
-    grid-template-columns:repeat(4,1fr);
+            display:flex;
 
-    gap:22px;
-}
+            align-items:center;
 
+            gap:18px;
 
-.feature-card{
-    padding:30px 24px;
+            padding:20px 22px;
 
-    background:white;
+            background:rgba(0,0,0,.42);
 
-    border-radius:17px;
+            border:1px solid rgba(255,255,255,.30);
 
-    border:1px solid #e4ebe2;
+            border-radius:16px;
 
-    box-shadow:0 10px 35px rgba(30,70,35,.07);
+            backdrop-filter:blur(8px);
 
-    transition:.3s;
-}
+            box-shadow:0 10px 30px rgba(0,0,0,.20);
 
+        }
 
-.feature-card:hover{
-    transform:translateY(-7px);
-}
 
+        .check-crop-icon{
 
-.feature-icon{
-    width:55px;
+            width:58px;
 
-    height:55px;
+            height:58px;
 
-    display:flex;
+            min-width:58px;
 
-    align-items:center;
+            display:flex;
 
-    justify-content:center;
+            align-items:center;
 
-    border-radius:14px;
+            justify-content:center;
 
-    background:#edf8e9;
+            font-size:27px;
 
-    font-size:27px;
+            border-radius:14px;
 
-    margin-bottom:20px;
-}
+            background:#91d96d;
 
+        }
 
-.feature-card h3{
-    color:#214d29;
 
-    font-size:18px;
+        .check-crop-text{
+            flex:1;
+        }
 
-    margin-bottom:10px;
-}
 
+        .check-crop-text h3{
 
-.feature-card p{
-    color:#748076;
+            margin-bottom:6px;
 
-    font-size:14px;
+            color:#ffffff;
 
-    line-height:1.7;
+            font-size:19px;
 
-    margin-bottom:17px;
-}
+        }
 
 
-.card-speak{
-    border:none;
+        .check-crop-text p{
 
-    background:#edf8e9;
+            color:#f0f5ef;
 
-    color:#286238;
+            font-size:14px;
 
-    padding:9px 13px;
+            line-height:1.6;
 
-    border-radius:8px;
+        }
 
-    cursor:pointer;
 
-    font-weight:700;
-}
+        .check-crop-link{
 
+            display:inline-flex;
 
+            align-items:center;
 
-/* ================= HOW IT WORKS ================= */
+            justify-content:center;
 
-.how-section{
-    background:#eaf4e8;
-}
+            padding:12px 18px;
 
+            background:#91d96d;
 
-.steps{
-    max-width:1100px;
+            color:#102b17;
 
-    margin:auto;
+            text-decoration:none;
 
-    display:grid;
+            font-weight:800;
 
-    grid-template-columns:repeat(4,1fr);
+            border-radius:10px;
 
-    gap:20px;
-}
+            white-space:nowrap;
 
+            transition:.25s;
 
-.step{
-    text-align:center;
+        }
 
-    background:white;
 
-    padding:30px 20px;
+        .check-crop-link:hover{
 
-    border-radius:17px;
+            background:#b8ed9b;
 
-    box-shadow:0 8px 25px rgba(20,70,25,.07);
-}
+            transform:translateY(-2px);
 
+        }
 
-.step-number{
-    width:55px;
 
-    height:55px;
+        /* =====================================================
+           STATS
+        ===================================================== */
 
-    margin:0 auto 17px;
+        .stats-wrapper{
 
-    display:flex;
+            position:relative;
 
-    align-items:center;
+            margin-top:-55px;
 
-    justify-content:center;
+            z-index:10;
 
-    border-radius:50%;
+            padding:0 8%;
 
-    background:#2f7e3c;
+        }
 
-    color:white;
 
-    font-weight:800;
-}
+        .stats{
 
+            display:grid;
 
-.step h3{
-    color:#214d29;
+            grid-template-columns:repeat(4,1fr);
 
-    margin-bottom:10px;
-}
+            background:white;
 
+            border-radius:18px;
 
-.step p{
-    color:#718074;
+            padding:28px;
 
-    font-size:14px;
+            box-shadow:0 20px 60px rgba(20,60,25,.15);
 
-    line-height:1.6;
-}
+        }
 
 
+        .stat{
 
-/* ================= FARMER SECTION ================= */
+            text-align:center;
 
-.farmer-section{
-    padding:100px 8%;
+            border-right:1px solid #e3e9e1;
 
-    background:white;
-}
+            padding:5px;
 
+        }
 
-.farmer-box{
-    display:grid;
 
-    grid-template-columns:1fr 1fr;
+        .stat:last-child{
+            border-right:none;
+        }
 
-    overflow:hidden;
 
-    border-radius:25px;
+        .stat h2{
 
-    background:#173d20;
+            color:#28743a;
 
-    box-shadow:0 20px 60px rgba(20,60,25,.15);
-}
+            font-size:24px;
 
+            margin-bottom:7px;
 
+        }
 
-/* ================= FARMER IMAGE ================= */
 
-.farmer-image{
-    min-height:430px;
+        .stat p{
 
-    background-image:
+            color:#728074;
 
-    linear-gradient(
-        rgba(20,70,28,.15),
-        rgba(20,70,28,.15)
-    ),
+            font-size:13px;
 
-    url("farmer.jpg");
+        }
 
 
-    background-size:cover;
+        /* =====================================================
+           GENERAL SECTION
+        ===================================================== */
 
-    background-position:center;
-}
+        .section{
 
+            padding:105px 8%;
 
+        }
 
-/* ================= FARMER CONTENT ================= */
 
-.farmer-content{
-    padding:55px 50px;
+        .section-header{
 
-    color:white;
+            max-width:720px;
 
-    display:flex;
+            margin:0 auto 50px;
 
-    flex-direction:column;
+            text-align:center;
 
-    justify-content:center;
-}
+        }
 
 
-.farmer-content .small-title{
-    color:#a9e88b;
+        .section-label{
 
-    font-size:13px;
+            color:#438c4e;
 
-    font-weight:800;
+            font-size:13px;
 
-    letter-spacing:2px;
+            font-weight:800;
 
-    margin-bottom:14px;
-}
+            letter-spacing:2px;
 
+            margin-bottom:12px;
 
-.farmer-content h2{
-    font-size:38px;
+        }
 
-    line-height:1.2;
 
-    margin-bottom:17px;
-}
+        .section-header h2{
 
+            color:#163b1d;
 
-.farmer-content p{
-    color:#d8e9d8;
+            font-size:clamp(32px,4vw,40px);
 
-    line-height:1.8;
+            margin-bottom:15px;
 
-    margin-bottom:25px;
-}
+        }
 
 
+        .section-header p{
 
-/* ================= CTA ================= */
+            color:#718074;
 
-.cta-section{
-    padding:90px 8%;
+            line-height:1.7;
 
-    background:#f4f8f1;
-}
+        }
 
 
-.cta{
-    padding:70px 25px;
+        /* =====================================================
+           FEATURES
+        ===================================================== */
 
-    border-radius:25px;
+        .features{
 
-    text-align:center;
+            display:grid;
 
-    color:white;
+            grid-template-columns:repeat(4,1fr);
 
-    background-image:
+            gap:22px;
 
-    linear-gradient(
-        120deg,
-        rgba(13,68,27,.94),
-        rgba(48,125,56,.87)
-    ),
+        }
 
-    url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=85");
 
+        .feature-card{
 
-    background-size:cover;
+            padding:30px 24px;
 
-    background-position:center;
-}
+            background:white;
 
+            border-radius:17px;
 
-.cta h2{
-    font-size:40px;
+            border:1px solid #e4ebe2;
 
-    margin-bottom:14px;
-}
+            box-shadow:0 10px 35px rgba(30,70,35,.07);
 
+            transition:.3s;
 
-.cta p{
-    color:#d9ead9;
+        }
 
-    margin-bottom:28px;
-}
 
+        .feature-card:hover{
 
+            transform:translateY(-7px);
 
-/* ================= FOOTER ================= */
+            box-shadow:0 18px 45px rgba(30,70,35,.12);
 
-footer{
-    padding:45px 8%;
+        }
 
-    background:#0c2512;
 
-    color:#9caf9e;
-}
+        .feature-icon{
 
+            width:55px;
 
-.footer-content{
-    display:flex;
+            height:55px;
 
-    justify-content:space-between;
+            display:flex;
 
-    align-items:center;
-}
+            align-items:center;
 
+            justify-content:center;
 
-.footer-logo{
-    color:white;
+            border-radius:14px;
 
-    font-size:20px;
+            background:#edf8e9;
 
-    font-weight:700;
+            font-size:27px;
 
-    margin-bottom:7px;
-}
+            margin-bottom:20px;
 
+        }
 
-.footer-text{
-    font-size:13px;
-}
 
+        .feature-card h3{
 
-.team{
-    text-align:right;
+            color:#214d29;
 
-    font-size:13px;
+            font-size:18px;
 
-    line-height:1.7;
-}
+            margin-bottom:10px;
 
+        }
 
 
-/* ================= TABLET ================= */
+        .feature-card p{
 
-@media(max-width:1000px){
+            color:#748076;
 
-    .features{
-        grid-template-columns:repeat(2,1fr);
-    }
+            font-size:14px;
 
+            line-height:1.7;
 
-    .steps{
-        grid-template-columns:repeat(2,1fr);
-    }
+            margin-bottom:17px;
 
+        }
 
-    .stats{
-        grid-template-columns:repeat(2,1fr);
 
-        gap:20px;
-    }
+        .card-speak{
 
+            border:none;
 
-    .stat{
-        border-right:none;
-    }
+            background:#edf8e9;
 
+            color:#286238;
 
-    .farmer-box{
-        grid-template-columns:1fr;
-    }
+            padding:9px 13px;
 
-}
+            border-radius:8px;
 
+            font-weight:700;
 
+            transition:.25s;
 
-/* ================= MOBILE ================= */
+        }
 
-@media(max-width:700px){
 
-    nav{
-        padding:0 5%;
-    }
+        .card-speak:hover{
 
+            background:#d8efd1;
 
-    nav ul li:not(:last-child){
-        display:none;
-    }
+        }
 
 
-    .hero{
-        min-height:750px;
+        /* =====================================================
+           HOW IT WORKS
+        ===================================================== */
 
-        padding:120px 6% 80px;
-    }
+        .how-section{
 
+            background:#eaf4e8;
 
-    .hero h1{
-        font-size:42px;
-    }
+        }
 
 
-    .hero-description{
-        font-size:16px;
-    }
+        .steps{
 
+            max-width:1100px;
 
-    .stats-wrapper{
-        padding:0 5%;
-    }
+            margin:auto;
 
+            display:grid;
 
-    .features,
-    .steps{
-        grid-template-columns:1fr;
-    }
+            grid-template-columns:repeat(4,1fr);
 
+            gap:20px;
 
-    .stats{
-        grid-template-columns:1fr 1fr;
-    }
+        }
 
 
-    .section{
-        padding:75px 6%;
-    }
+        .step{
 
+            text-align:center;
 
-    .section-header h2{
-        font-size:32px;
-    }
+            background:white;
 
+            padding:30px 20px;
 
-    .farmer-section{
-        padding:70px 5%;
-    }
+            border-radius:17px;
 
+            box-shadow:0 8px 25px rgba(20,70,25,.07);
 
-    .farmer-content{
-        padding:40px 28px;
-    }
+        }
 
 
-    .farmer-content h2{
-        font-size:30px;
-    }
+        .step-number{
 
+            width:55px;
 
-    .cta-section{
-        padding:60px 5%;
-    }
+            height:55px;
 
+            margin:0 auto 17px;
 
-    .cta h2{
-        font-size:30px;
-    }
+            display:flex;
 
+            align-items:center;
 
-    .footer-content{
-        flex-direction:column;
+            justify-content:center;
 
-        align-items:flex-start;
+            border-radius:50%;
 
-        gap:20px;
-    }
+            background:#2f7e3c;
 
+            color:white;
 
-    .team{
-        text-align:left;
-    }
+            font-weight:800;
 
+            font-size:18px;
 
-    .check-crop-box{
-        flex-direction:column;
+        }
 
-        align-items:flex-start;
-    }
 
+        .step h3{
 
-    .check-crop-link{
-        width:100%;
+            color:#214d29;
 
-        text-align:center;
-    }
+            margin-bottom:10px;
 
-}
+        }
 
-</style>
+
+        .step p{
+
+            color:#718074;
+
+            font-size:14px;
+
+            line-height:1.6;
+
+        }
+
+
+        /* =====================================================
+           FARMER SECTION
+        ===================================================== */
+
+        .farmer-section{
+
+            padding:100px 8%;
+
+            background:white;
+
+        }
+
+
+        .farmer-box{
+
+            display:grid;
+
+            grid-template-columns:1fr 1fr;
+
+            overflow:hidden;
+
+            border-radius:25px;
+
+            background:#173d20;
+
+            box-shadow:0 20px 60px rgba(20,60,25,.15);
+
+        }
+
+
+        .farmer-image{
+
+            min-height:430px;
+
+            background-image:
+
+                linear-gradient(
+                    rgba(20,70,28,.15),
+                    rgba(20,70,28,.15)
+                ),
+
+                url("farmer.jpg");
+
+            background-size:cover;
+
+            background-position:center;
+
+        }
+
+
+        .farmer-content{
+
+            padding:55px 50px;
+
+            color:white;
+
+            display:flex;
+
+            flex-direction:column;
+
+            justify-content:center;
+
+        }
+
+
+        .farmer-content .small-title{
+
+            color:#a9e88b;
+
+            font-size:13px;
+
+            font-weight:800;
+
+            letter-spacing:2px;
+
+            margin-bottom:14px;
+
+        }
+
+
+        .farmer-content h2{
+
+            font-size:clamp(30px,4vw,38px);
+
+            line-height:1.2;
+
+            margin-bottom:17px;
+
+        }
+
+
+        .farmer-content p{
+
+            color:#d8e9d8;
+
+            line-height:1.8;
+
+            margin-bottom:25px;
+
+        }
+
+
+        /* =====================================================
+           CTA
+        ===================================================== */
+
+        .cta-section{
+
+            padding:90px 8%;
+
+            background:#f4f8f1;
+
+        }
+
+
+        .cta{
+
+            padding:70px 25px;
+
+            border-radius:25px;
+
+            text-align:center;
+
+            color:white;
+
+            background-image:
+
+                linear-gradient(
+                    120deg,
+                    rgba(13,68,27,.94),
+                    rgba(48,125,56,.87)
+                ),
+
+                url(
+                    "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=85"
+                );
+
+            background-size:cover;
+
+            background-position:center;
+
+        }
+
+
+        .cta h2{
+
+            font-size:clamp(30px,4vw,40px);
+
+            margin-bottom:14px;
+
+        }
+
+
+        .cta p{
+
+            color:#d9ead9;
+
+            margin-bottom:28px;
+
+            line-height:1.7;
+
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer{
+
+            padding:45px 8%;
+
+            background:#0c2512;
+
+            color:#9caf9e;
+
+        }
+
+
+        .footer-content{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            gap:25px;
+
+        }
+
+
+        .footer-logo{
+
+            color:white;
+
+            font-size:20px;
+
+            font-weight:700;
+
+            margin-bottom:7px;
+
+        }
+
+
+        .footer-text{
+
+            font-size:13px;
+
+        }
+
+
+        .team{
+
+            text-align:right;
+
+            font-size:13px;
+
+            line-height:1.7;
+
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media(max-width:1000px){
+
+            .features{
+                grid-template-columns:repeat(2,1fr);
+            }
+
+
+            .steps{
+                grid-template-columns:repeat(2,1fr);
+            }
+
+
+            .stats{
+
+                grid-template-columns:repeat(2,1fr);
+
+                gap:20px;
+
+            }
+
+
+            .stat{
+                border-right:none;
+            }
+
+
+            .farmer-box{
+                grid-template-columns:1fr;
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media(max-width:700px){
+
+            nav{
+
+                padding:0 5%;
+
+                height:68px;
+
+            }
+
+
+            .logo{
+
+                font-size:16px;
+
+            }
+
+
+            .logo-icon{
+
+                width:38px;
+
+                height:38px;
+
+                font-size:20px;
+
+            }
+
+
+            nav ul{
+
+                gap:10px;
+
+            }
+
+
+            nav ul li:not(:last-child){
+                display:none;
+            }
+
+
+            .nav-button{
+
+                padding:10px 14px;
+
+                font-size:12px;
+
+            }
+
+
+            .hero{
+
+                min-height:780px;
+
+                padding:120px 6% 80px;
+
+                background-position:center;
+
+            }
+
+
+            .hero h1{
+                font-size:42px;
+            }
+
+
+            .hero-description{
+                font-size:16px;
+            }
+
+
+            .stats-wrapper{
+                padding:0 5%;
+            }
+
+
+            .features,
+            .steps{
+                grid-template-columns:1fr;
+            }
+
+
+            .stats{
+                grid-template-columns:1fr 1fr;
+            }
+
+
+            .section{
+                padding:75px 6%;
+            }
+
+
+            .farmer-section{
+                padding:70px 5%;
+            }
+
+
+            .farmer-content{
+                padding:40px 28px;
+            }
+
+
+            .cta-section{
+                padding:60px 5%;
+            }
+
+
+            .footer-content{
+
+                flex-direction:column;
+
+                align-items:flex-start;
+
+            }
+
+
+            .team{
+                text-align:left;
+            }
+
+
+            .check-crop-box{
+
+                flex-direction:column;
+
+                align-items:flex-start;
+
+            }
+
+
+            .check-crop-link{
+
+                width:100%;
+
+            }
+
+
+            .language-box{
+
+                right:12px;
+
+                bottom:12px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           SMALL MOBILE
+        ===================================================== */
+
+        @media(max-width:400px){
+
+            .hero h1{
+                font-size:36px;
+            }
+
+
+            .primary-button,
+            .secondary-button{
+
+                width:100%;
+
+            }
+
+
+            .buttons{
+                width:100%;
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -1104,1237 +1458,1468 @@ footer{
 <body>
 
 
+    <!-- ACCESSIBILITY -->
 
-<!-- ================= NAVBAR ================= -->
+    <a
+        href="#main-content"
+        class="skip-link"
+    >
+        Skip to main content
+    </a>
 
-<nav>
 
-    <div class="logo">
 
-        <div class="logo-icon">
-            🌱
-        </div>
+    <!-- =====================================================
+         HEADER / NAVBAR
+    ===================================================== -->
 
-        AGRI-SHIELD AI
+    <header>
+
+        <nav
+            aria-label="Main navigation"
+        >
+
+
+            <!-- LOGO -->
+
+            <a
+                href="index.html"
+                class="logo"
+                aria-label="AGRI-SHIELD AI Home"
+            >
+
+                <div
+                    class="logo-icon"
+                    aria-hidden="true"
+                >
+                    🌱
+                </div>
+
+                AGRI-SHIELD AI
+
+            </a>
+
+
+
+            <!-- NAVIGATION -->
+
+            <ul>
+
+                <li>
+
+                    <a href="index.html">
+                        Home
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="#features">
+                        Features
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="#how">
+                        How It Works
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a
+                        href="upload.html"
+                        class="nav-button"
+                    >
+
+                        📷 Check My Crop
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         LANGUAGE SELECTOR
+    ===================================================== -->
+
+    <div
+        class="language-box"
+        aria-label="Language selector"
+    >
+
+        <span aria-hidden="true">
+            🌐
+        </span>
+
+
+        <label
+            for="languageSelect"
+        >
+            Select language
+        </label>
+
+
+        <select
+            id="languageSelect"
+            onchange="changeLanguage()"
+        >
+
+            <option value="en-IN">
+                English
+            </option>
+
+
+            <option value="te-IN">
+                తెలుగు
+            </option>
+
+
+            <option value="hi-IN">
+                हिंदी
+            </option>
+
+        </select>
 
     </div>
 
 
-    <ul>
 
-        <li>
+    <!-- =====================================================
+         MAIN CONTENT
+    ===================================================== -->
 
-            <a href="index.html">
-                Home
-            </a>
+    <main
+        id="main-content"
+    >
 
-        </li>
 
 
-        <li>
+        <!-- =================================================
+             HERO
+        ================================================= -->
 
-            <a href="#features">
-                Features
-            </a>
+        <section
+            class="hero"
+            aria-labelledby="heroTitle"
+        >
 
-        </li>
+            <div class="hero-content">
 
 
-        <li>
+                <!-- BADGE -->
 
-            <a href="#how">
-                How It Works
-            </a>
+                <div class="badge">
 
-        </li>
+                    🌱 SMART FARMING ASSISTANT
 
+                </div>
 
-        <li>
 
-            <a
-                href="upload.html"
-                class="nav-button">
 
-                📷 Check My Crop
+                <!-- TITLE -->
 
-            </a>
+                <h1 id="heroTitle">
 
-        </li>
+                    Check Your Crop.
 
-    </ul>
+                    <br>
 
-</nav>
+                    Get the Right
 
+                    <span>
+                        Advice.
+                    </span>
 
+                </h1>
 
-<!-- ================= LANGUAGE ================= -->
 
-<div class="language-box">
 
-    <span>
-        🌐
-    </span>
+                <!-- DESCRIPTION -->
 
+                <p
+                    class="hero-description"
+                    id="heroDescription"
+                >
 
-    <select
-        id="languageSelect"
-        onchange="changeLanguage()">
+                    Take a photo of your affected crop leaf.
+                    Upload it here and get simple guidance
+                    about what may be wrong and what you
+                    should do next.
 
-
-        <option value="en-IN">
-            English
-        </option>
-
-
-        <option value="te-IN">
-            తెలుగు
-        </option>
-
-
-        <option value="hi-IN">
-            हिंदी
-        </option>
-
-
-    </select>
-
-</div>
-
-
-
-<!-- ================= HERO ================= -->
-
-<section class="hero">
-
-    <div class="hero-content">
-
-
-        <!-- BADGE -->
-
-        <div class="badge">
-
-            🌱 SMART FARMING ASSISTANT
-
-        </div>
-
-
-
-        <!-- TITLE -->
-
-        <h1 id="heroTitle">
-
-            Check Your Crop.
-
-            <br>
-
-            Get the Right
-
-            <span>
-                Advice.
-            </span>
-
-        </h1>
-
-
-
-        <!-- DESCRIPTION -->
-
-        <p
-            class="hero-description"
-            id="heroDescription">
-
-            Take a photo of your affected crop leaf.
-            Upload it here and get simple guidance
-            about what may be wrong and what you
-            should do next.
-
-        </p>
-
-
-
-        <!-- VOICE -->
-
-        <button
-            class="speak-button"
-            id="heroSpeak"
-            onclick="speakHero()">
-
-            🔊 Listen to this
-
-        </button>
-
-
-
-        <!-- MAIN BUTTONS -->
-
-        <div class="buttons">
-
-
-            <a
-                href="upload.html"
-                class="primary-button">
-
-                📷 Check My Crop
-
-            </a>
-
-
-
-            <a
-                href="#how"
-                class="secondary-button">
-
-                👨‍🌾 How to Use
-
-            </a>
-
-
-        </div>
-
-
-
-        <!-- FARMER MESSAGE -->
-
-        <div class="farmer-note">
-
-
-            <div class="farmer-note-icon">
-
-                👨‍🌾
-
-            </div>
-
-
-
-            <div id="farmerMessage">
-
-                <strong>
-                    Simple for Every Farmer
-                </strong>
-
-                <br>
-
-                No technical knowledge is needed.
-                Just take a crop photo and follow
-                the simple steps.
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- ================= NEW CHECK MY CROP BOX ================= -->
-
-        <div class="check-crop-box">
-
-
-            <div class="check-crop-icon">
-
-                📷
-
-            </div>
-
-
-
-            <div class="check-crop-text">
-
-                <h3>
-                    Check My Crop
-                </h3>
-
-
-                <p>
-                    Upload a photo of your crop leaf
-                    and get simple guidance.
                 </p>
 
-            </div>
 
 
-
-            <a
-                href="upload.html"
-                class="check-crop-link">
-
-                Check Now →
-
-            </a>
-
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- ================= STATS ================= -->
-
-<div class="stats-wrapper">
-
-    <div class="stats">
-
-
-        <div class="stat">
-
-            <h2>
-                📷
-            </h2>
-
-
-            <p>
-                Crop Photo
-            </p>
-
-        </div>
-
-
-
-        <div class="stat">
-
-            <h2>
-                🔍
-            </h2>
-
-
-            <p>
-                Crop Check
-            </p>
-
-        </div>
-
-
-
-        <div class="stat">
-
-            <h2>
-                💡
-            </h2>
-
-
-            <p>
-                Simple Advice
-            </p>
-
-        </div>
-
-
-
-        <div class="stat">
-
-            <h2>
-                🔊
-            </h2>
-
-
-            <p>
-                Voice Support
-            </p>
-
-        </div>
-
-
-    </div>
-
-</div>
-
-
-
-<!-- ================= FEATURES ================= -->
-
-<section
-    class="section"
-    id="features">
-
-
-    <div class="section-header">
-
-
-        <div class="section-label">
-
-            FOR FARMERS
-
-        </div>
-
-
-
-        <h2 id="featureTitle">
-
-            Everything You Need in One Place
-
-        </h2>
-
-
-
-        <p id="featureDescription">
-
-            AGRI-SHIELD AI makes crop information
-            easier to understand and easier to act on.
-
-        </p>
-
-
-    </div>
-
-
-
-    <div class="features">
-
-
-        <!-- CARD 1 -->
-
-        <div class="feature-card">
-
-
-            <div class="feature-icon">
-
-                🌿
-
-            </div>
-
-
-
-            <h3>
-
-                Check Crop Disease
-
-            </h3>
-
-
-
-            <p>
-
-                Take a photo of a damaged leaf
-                and check what problem may be
-                affecting your crop.
-
-            </p>
-
-
-
-            <button
-                class="card-speak"
-                onclick="speakText(this.parentElement.innerText)">
-
-                🔊 Listen
-
-            </button>
-
-
-        </div>
-
-
-
-        <!-- CARD 2 -->
-
-        <div class="feature-card">
-
-
-            <div class="feature-icon">
-
-                🐛
-
-            </div>
-
-
-
-            <h3>
-
-                Identify Crop Problems
-
-            </h3>
-
-
-
-            <p>
-
-                Get easy-to-understand information
-                about possible crop and pest problems.
-
-            </p>
-
-
-
-            <button
-                class="card-speak"
-                onclick="speakText(this.parentElement.innerText)">
-
-                🔊 Listen
-
-            </button>
-
-
-        </div>
-
-
-
-        <!-- CARD 3 -->
-
-        <div class="feature-card">
-
-
-            <div class="feature-icon">
-
-                🌦️
-
-            </div>
-
-
-
-            <h3>
-
-                Weather Information
-
-            </h3>
-
-
-
-            <p>
-
-                Understand weather conditions that
-                can affect your crop and farming work.
-
-            </p>
-
-
-
-            <button
-                class="card-speak"
-                onclick="speakText(this.parentElement.innerText)">
-
-                🔊 Listen
-
-            </button>
-
-
-        </div>
-
-
-
-        <!-- CARD 4 -->
-
-        <div class="feature-card">
-
-
-            <div class="feature-icon">
-
-                💡
-
-            </div>
-
-
-
-            <h3>
-
-                What Should I Do?
-
-            </h3>
-
-
-
-            <p>
-
-                Get simple next-step guidance instead
-                of complicated technical information.
-
-            </p>
-
-
-
-            <button
-                class="card-speak"
-                onclick="speakText(this.parentElement.innerText)">
-
-                🔊 Listen
-
-            </button>
-
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- ================= HOW IT WORKS ================= -->
-
-<section
-    class="section how-section"
-    id="how">
-
-
-    <div class="section-header">
-
-
-        <div class="section-label">
-
-            VERY EASY
-
-        </div>
-
-
-
-        <h2>
-
-            How to Check Your Crop
-
-        </h2>
-
-
-
-        <p>
-
-            Follow these four simple steps.
-            You don't need any technical knowledge.
-
-        </p>
-
-
-    </div>
-
-
-
-    <div class="steps">
-
-
-        <!-- STEP 1 -->
-
-        <div class="step">
-
-
-            <div class="step-number">
-
-                1
-
-            </div>
-
-
-
-            <h3>
-
-                📷 Take a Photo
-
-            </h3>
-
-
-
-            <p>
-
-                Take a clear photo of the affected
-                crop leaf.
-
-            </p>
-
-
-        </div>
-
-
-
-        <!-- STEP 2 -->
-
-        <div class="step">
-
-
-            <div class="step-number">
-
-                2
-
-            </div>
-
-
-
-            <h3>
-
-                📤 Upload Photo
-
-            </h3>
-
-
-
-            <p>
-
-                Select the crop photo from your
-                phone or computer.
-
-            </p>
-
-
-        </div>
-
-
-
-        <!-- STEP 3 -->
-
-        <div class="step">
-
-
-            <div class="step-number">
-
-                3
-
-            </div>
-
-
-
-            <h3>
-
-                🔍 Check Crop
-
-            </h3>
-
-
-
-            <p>
-
-                Press the Check My Crop button
-                and wait a moment.
-
-            </p>
-
-
-        </div>
-
-
-
-        <!-- STEP 4 -->
-
-        <div class="step">
-
-
-            <div class="step-number">
-
-                4
-
-            </div>
-
-
-
-            <h3>
-
-                💡 Take Action
-
-            </h3>
-
-
-
-            <p>
-
-                See the problem and follow the
-                simple advice shown on the screen.
-
-            </p>
-
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- ================= FARMER SECTION ================= -->
-
-<section class="farmer-section">
-
-
-    <div class="farmer-box">
-
-
-        <!-- FARMER IMAGE -->
-
-        <div class="farmer-image">
-        </div>
-
-
-
-        <!-- FARMER CONTENT -->
-
-        <div class="farmer-content">
-
-
-            <div class="small-title">
-
-                MADE FOR FARMERS
-
-            </div>
-
-
-
-            <h2>
-
-                Your Crop.
-
-                Your Photo.
-
-                Simple Guidance.
-
-            </h2>
-
-
-
-            <p>
-
-                You don't need to understand complicated
-                technology. Take a photo of your crop,
-                upload it and see simple information about
-                the problem and what you can do next.
-
-            </p>
-
-
-
-            <div class="buttons">
-
-
-                <a
-                    href="upload.html"
-                    class="primary-button">
-
-                    📷 Check My Crop
-
-                </a>
-
-
+                <!-- VOICE -->
 
                 <button
                     class="speak-button"
-                    onclick="speakText(document.querySelector('.farmer-content').innerText)">
+                    id="heroSpeak"
+                    type="button"
+                    onclick="speakHero()"
+                    aria-label="Listen to crop guidance"
+                >
 
-                    🔊 Listen
+                    🔊 Listen to this
 
                 </button>
 
 
+
+                <!-- MAIN BUTTONS -->
+
+                <div class="buttons">
+
+
+                    <a
+                        href="upload.html"
+                        class="primary-button"
+                    >
+
+                        📷 Check My Crop
+
+                    </a>
+
+
+
+                    <a
+                        href="#how"
+                        class="secondary-button"
+                    >
+
+                        👨‍🌾 How to Use
+
+                    </a>
+
+
+                </div>
+
+
+
+                <!-- FARMER MESSAGE -->
+
+                <div
+                    class="farmer-note"
+                    id="farmerMessage"
+                >
+
+
+                    <div
+                        class="farmer-note-icon"
+                        aria-hidden="true"
+                    >
+
+                        👨‍🌾
+
+                    </div>
+
+
+
+                    <div>
+
+                        <strong>
+                            Simple for Every Farmer
+                        </strong>
+
+                        <br>
+
+                        No technical knowledge is needed.
+                        Just take a crop photo and follow
+                        the simple steps.
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     CHECK MY CROP BOX
+                ================================================= -->
+
+                <div class="check-crop-box">
+
+
+                    <div
+                        class="check-crop-icon"
+                        aria-hidden="true"
+                    >
+
+                        📷
+
+                    </div>
+
+
+
+                    <div class="check-crop-text">
+
+                        <h3>
+                            Check My Crop
+                        </h3>
+
+
+                        <p>
+                            Upload a photo of your crop leaf
+                            and get simple guidance.
+                        </p>
+
+                    </div>
+
+
+
+                    <a
+                        href="upload.html"
+                        class="check-crop-link"
+                    >
+
+                        Check Now →
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             STATS
+        ================================================= -->
+
+        <section
+            class="stats-wrapper"
+            aria-label="AGRI-SHIELD AI process"
+        >
+
+            <div class="stats">
+
+
+                <div class="stat">
+
+                    <h2 aria-hidden="true">
+                        📷
+                    </h2>
+
+                    <p>
+                        Crop Photo
+                    </p>
+
+                </div>
+
+
+
+                <div class="stat">
+
+                    <h2 aria-hidden="true">
+                        🔍
+                    </h2>
+
+                    <p>
+                        Crop Check
+                    </p>
+
+                </div>
+
+
+
+                <div class="stat">
+
+                    <h2 aria-hidden="true">
+                        💡
+                    </h2>
+
+                    <p>
+                        Simple Advice
+                    </p>
+
+                </div>
+
+
+
+                <div class="stat">
+
+                    <h2 aria-hidden="true">
+                        🔊
+                    </h2>
+
+                    <p>
+                        Voice Support
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FEATURES
+        ================================================= -->
+
+        <section
+            class="section"
+            id="features"
+            aria-labelledby="featureTitle"
+        >
+
+
+            <div class="section-header">
+
+
+                <div class="section-label">
+
+                    FOR FARMERS
+
+                </div>
+
+
+
+                <h2 id="featureTitle">
+
+                    Everything You Need in One Place
+
+                </h2>
+
+
+
+                <p id="featureDescription">
+
+                    AGRI-SHIELD AI makes crop information
+                    easier to understand and easier to act on.
+
+                </p>
+
+
+            </div>
+
+
+
+            <div class="features">
+
+
+                <!-- CARD 1 -->
+
+                <article class="feature-card">
+
+
+                    <div
+                        class="feature-icon"
+                        aria-hidden="true"
+                    >
+
+                        🌿
+
+                    </div>
+
+
+
+                    <h3>
+                        Check Crop Disease
+                    </h3>
+
+
+
+                    <p>
+
+                        Take a photo of a damaged leaf
+                        and check what problem may be
+                        affecting your crop.
+
+                    </p>
+
+
+
+                    <button
+                        class="card-speak"
+                        type="button"
+                        onclick="speakText(this.parentElement.innerText)"
+                        aria-label="Listen to Check Crop Disease information"
+                    >
+
+                        🔊 Listen
+
+                    </button>
+
+
+                </article>
+
+
+
+                <!-- CARD 2 -->
+
+                <article class="feature-card">
+
+
+                    <div
+                        class="feature-icon"
+                        aria-hidden="true"
+                    >
+
+                        🐛
+
+                    </div>
+
+
+
+                    <h3>
+                        Identify Crop Problems
+                    </h3>
+
+
+
+                    <p>
+
+                        Get easy-to-understand information
+                        about possible crop and pest problems.
+
+                    </p>
+
+
+
+                    <button
+                        class="card-speak"
+                        type="button"
+                        onclick="speakText(this.parentElement.innerText)"
+                        aria-label="Listen to Identify Crop Problems information"
+                    >
+
+                        🔊 Listen
+
+                    </button>
+
+
+                </article>
+
+
+
+                <!-- CARD 3 -->
+
+                <article class="feature-card">
+
+
+                    <div
+                        class="feature-icon"
+                        aria-hidden="true"
+                    >
+
+                        🌦️
+
+                    </div>
+
+
+
+                    <h3>
+                        Weather Information
+                    </h3>
+
+
+
+                    <p>
+
+                        Understand weather conditions that
+                        can affect your crop and farming work.
+
+                    </p>
+
+
+
+                    <button
+                        class="card-speak"
+                        type="button"
+                        onclick="speakText(this.parentElement.innerText)"
+                        aria-label="Listen to Weather Information"
+                    >
+
+                        🔊 Listen
+
+                    </button>
+
+
+                </article>
+
+
+
+                <!-- CARD 4 -->
+
+                <article class="feature-card">
+
+
+                    <div
+                        class="feature-icon"
+                        aria-hidden="true"
+                    >
+
+                        💡
+
+                    </div>
+
+
+
+                    <h3>
+                        What Should I Do?
+                    </h3>
+
+
+
+                    <p>
+
+                        Get simple next-step guidance instead
+                        of complicated technical information.
+
+                    </p>
+
+
+
+                    <button
+                        class="card-speak"
+                        type="button"
+                        onclick="speakText(this.parentElement.innerText)"
+                        aria-label="Listen to What Should I Do information"
+                    >
+
+                        🔊 Listen
+
+                    </button>
+
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             HOW IT WORKS
+        ================================================= -->
+
+        <section
+            class="section how-section"
+            id="how"
+            aria-labelledby="howTitle"
+        >
+
+
+            <div class="section-header">
+
+
+                <div class="section-label">
+
+                    VERY EASY
+
+                </div>
+
+
+
+                <h2 id="howTitle">
+
+                    How to Check Your Crop
+
+                </h2>
+
+
+
+                <p>
+
+                    Follow these four simple steps.
+                    You don't need any technical knowledge.
+
+                </p>
+
+
+            </div>
+
+
+
+            <div class="steps">
+
+
+                <!-- STEP 1 -->
+
+                <article class="step">
+
+
+                    <div
+                        class="step-number"
+                        aria-label="Step 1"
+                    >
+
+                        1
+
+                    </div>
+
+
+
+                    <h3>
+
+                        📷 Take a Photo
+
+                    </h3>
+
+
+
+                    <p>
+
+                        Take a clear photo of the affected
+                        crop leaf.
+
+                    </p>
+
+
+                </article>
+
+
+
+                <!-- STEP 2 -->
+
+                <article class="step">
+
+
+                    <div
+                        class="step-number"
+                        aria-label="Step 2"
+                    >
+
+                        2
+
+                    </div>
+
+
+
+                    <h3>
+
+                        📤 Upload Photo
+
+                    </h3>
+
+
+
+                    <p>
+
+                        Select the crop photo from your
+                        phone or computer.
+
+                    </p>
+
+
+                </article>
+
+
+
+                <!-- STEP 3 -->
+
+                <article class="step">
+
+
+                    <div
+                        class="step-number"
+                        aria-label="Step 3"
+                    >
+
+                        3
+
+                    </div>
+
+
+
+                    <h3>
+
+                        🔍 Check Crop
+
+                    </h3>
+
+
+
+                    <p>
+
+                        Press the Check My Crop button
+                        and wait a moment.
+
+                    </p>
+
+
+                </article>
+
+
+
+                <!-- STEP 4 -->
+
+                <article class="step">
+
+
+                    <div
+                        class="step-number"
+                        aria-label="Step 4"
+                    >
+
+                        4
+
+                    </div>
+
+
+
+                    <h3>
+
+                        💡 Take Action
+
+                    </h3>
+
+
+
+                    <p>
+
+                        See the problem and follow the
+                        simple advice shown on the screen.
+
+                    </p>
+
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FARMER SECTION
+        ================================================= -->
+
+        <section
+            class="farmer-section"
+            aria-labelledby="farmerTitle"
+        >
+
+
+            <div class="farmer-box">
+
+
+                <!-- FARMER IMAGE -->
+
+                <div
+                    class="farmer-image"
+                    role="img"
+                    aria-label="Farmer working in an agricultural field"
+                >
+                </div>
+
+
+
+                <!-- FARMER CONTENT -->
+
+                <div class="farmer-content">
+
+
+                    <div class="small-title">
+
+                        MADE FOR FARMERS
+
+                    </div>
+
+
+
+                    <h2 id="farmerTitle">
+
+                        Your Crop.
+
+                        <br>
+
+                        Your Photo.
+
+                        <br>
+
+                        Simple Guidance.
+
+                    </h2>
+
+
+
+                    <p>
+
+                        You don't need to understand complicated
+                        technology. Take a photo of your crop,
+                        upload it and see simple information about
+                        the problem and what you can do next.
+
+                    </p>
+
+
+
+                    <div class="buttons">
+
+
+                        <a
+                            href="upload.html"
+                            class="primary-button"
+                        >
+
+                            📷 Check My Crop
+
+                        </a>
+
+
+
+                        <button
+                            class="speak-button"
+                            type="button"
+                            onclick="speakText(document.querySelector('.farmer-content').innerText)"
+                            aria-label="Listen to farmer guidance"
+                        >
+
+                            🔊 Listen
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CTA
+        ================================================= -->
+
+        <section
+            class="cta-section"
+            aria-labelledby="ctaTitle"
+        >
+
+
+            <div class="cta">
+
+
+                <h2 id="ctaTitle">
+
+                    Is Something Wrong With Your Crop?
+
+                </h2>
+
+
+
+                <p>
+
+                    Take a photo.
+                    Upload it.
+                    Check your crop.
+                    Find out what to do next.
+
+                </p>
+
+
+
+                <a
+                    href="upload.html"
+                    class="primary-button"
+                >
+
+                    📷 Check My Crop Now
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+
+    <footer>
+
+
+        <div class="footer-content">
+
+
+            <div>
+
+
+                <div class="footer-logo">
+
+                    🌱 AGRI-SHIELD AI
+
+                </div>
+
+
+
+                <div class="footer-text">
+
+                    Smart Farming Assistant for Farmers
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="team">
+
+
+                <strong>
+
+                    Team Bug Boosters
+
+                </strong>
+
+                <br>
+
+                Smart India Hackathon 2026
+
+
             </div>
 
 
         </div>
 
 
-    </div>
+    </footer>
 
-</section>
 
 
+    <!-- =====================================================
+         JAVASCRIPT
+    ===================================================== -->
 
-<!-- ================= CTA ================= -->
+    <script>
 
-<section class="cta-section">
 
+        let currentLanguage = "en-IN";
 
-    <div class="cta">
 
 
-        <h2>
+        /* =====================================================
+           LANGUAGE
+        ===================================================== */
 
-            Is Something Wrong With Your Crop?
+        function changeLanguage(){
 
-        </h2>
 
+            currentLanguage =
+                document.getElementById(
+                    "languageSelect"
+                ).value;
 
 
-        <p>
 
-            Take a photo. Upload it. Check your crop.
-            Find out what to do next.
+            /* =================================================
+               TELUGU
+            ================================================= */
 
-        </p>
+            if(currentLanguage === "te-IN"){
 
 
+                document.documentElement.lang = "te";
 
-        <a
-            href="upload.html"
-            class="primary-button">
 
-            📷 Check My Crop Now
+                document.getElementById(
+                    "heroTitle"
+                ).innerHTML =
+                "మీ పంటను పరీక్షించండి.<br>సరైన <span>సలహా పొందండి.</span>";
 
-        </a>
 
 
-    </div>
+                document.getElementById(
+                    "heroDescription"
+                ).innerText =
+                "మీ పంట ఆకులో సమస్య ఉన్న చోట స్పష్టమైన ఫోటో తీయండి. ఫోటోను అప్లోడ్ చేసి పంటలో ఏమి సమస్య ఉందో మరియు ఇప్పుడు ఏమి చేయాలో సులభంగా తెలుసుకోండి.";
 
-</section>
 
 
+                document.getElementById(
+                    "heroSpeak"
+                ).innerText =
+                "🔊 వినండి";
 
-<!-- ================= FOOTER ================= -->
 
-<footer>
 
+                document.getElementById(
+                    "farmerMessage"
+                ).innerHTML =
+                `
+                    <div
+                        class="farmer-note-icon"
+                        aria-hidden="true"
+                    >
+                        👨‍🌾
+                    </div>
 
-    <div class="footer-content">
+                    <div>
+                        <strong>
+                            ప్రతి రైతుకూ సులభంగా
+                        </strong>
 
+                        <br>
 
-        <div>
+                        టెక్నికల్ విషయాలు తెలుసుకోవాల్సిన
+                        అవసరం లేదు. పంట ఫోటో తీసి,
+                        సింపుల్ స్టెప్స్‌ను ఫాలో అవ్వండి.
+                    </div>
+                `;
 
 
-            <div class="footer-logo">
 
-                🌱 AGRI-SHIELD AI
+                document.getElementById(
+                    "featureTitle"
+                ).innerText =
+                "రైతుకు అవసరమైన సమాచారం ఒకే చోట";
 
-            </div>
 
 
+                document.getElementById(
+                    "featureDescription"
+                ).innerText =
+                "AGRI-SHIELD AI పంటకు సంబంధించిన సమాచారాన్ని సులభంగా అర్థం చేసుకునేలా మరియు సరైన చర్య తీసుకునేలా సహాయపడుతుంది.";
 
-            <div class="footer-text">
+            }
 
-                Smart Farming Assistant for Farmers
 
-            </div>
 
+            /* =================================================
+               HINDI
+            ================================================= */
 
-        </div>
+            else if(currentLanguage === "hi-IN"){
 
 
+                document.documentElement.lang = "hi";
 
-        <div class="team">
 
+                document.getElementById(
+                    "heroTitle"
+                ).innerHTML =
+                "अपनी फसल की जाँच करें।<br>सही <span>सलाह पाएँ।</span>";
 
-            <strong>
 
-                Team Bug Boosters
 
-            </strong>
+                document.getElementById(
+                    "heroDescription"
+                ).innerText =
+                "अपनी प्रभावित फसल की पत्ती की साफ फोटो लें। फोटो अपलोड करें और जानें कि फसल में क्या समस्या हो सकती है और अब आपको क्या करना चाहिए।";
 
 
-            <br>
 
+                document.getElementById(
+                    "heroSpeak"
+                ).innerText =
+                "🔊 सुनिए";
 
-            Smart India Hackathon 2026
 
 
-        </div>
+                document.getElementById(
+                    "farmerMessage"
+                ).innerHTML =
+                `
+                    <div
+                        class="farmer-note-icon"
+                        aria-hidden="true"
+                    >
+                        👨‍🌾
+                    </div>
 
+                    <div>
+                        <strong>
+                            हर किसान के लिए आसान
+                        </strong>
 
-    </div>
+                        <br>
 
-</footer>
+                        किसी तकनीकी जानकारी की जरूरत
+                        नहीं है। बस फसल की फोटो लें
+                        और आसान स्टेप्स को फॉलो करें।
+                    </div>
+                `;
 
 
 
-<!-- ================= JAVASCRIPT ================= -->
+                document.getElementById(
+                    "featureTitle"
+                ).innerText =
+                "किसान के लिए जरूरी जानकारी एक ही जगह";
 
-<script>
 
 
-let currentLanguage = "en-IN";
+                document.getElementById(
+                    "featureDescription"
+                ).innerText =
+                "AGRI-SHIELD AI फसल की जानकारी को आसानी से समझने और सही कदम उठाने में मदद करता है.";
 
+            }
 
 
-/* ================= LANGUAGE ================= */
 
-function changeLanguage(){
+            /* =================================================
+               ENGLISH
+            ================================================= */
 
+            else{
 
-    currentLanguage =
-        document.getElementById(
-            "languageSelect"
-        ).value;
 
+                document.documentElement.lang = "en";
 
 
-    /* ================= TELUGU ================= */
+                document.getElementById(
+                    "heroTitle"
+                ).innerHTML =
+                "Check Your Crop.<br>Get the Right <span>Advice.</span>";
 
-    if(currentLanguage === "te-IN"){
 
 
-        document.getElementById(
-            "heroTitle"
-        ).innerHTML =
-        "మీ పంటను పరీక్షించండి.<br>సరైన <span>సలహా పొందండి.</span>";
+                document.getElementById(
+                    "heroDescription"
+                ).innerText =
+                "Take a photo of your affected crop leaf. Upload it here and get simple guidance about what may be wrong and what you should do next.";
 
 
 
-        document.getElementById(
-            "heroDescription"
-        ).innerText =
-        "మీ పంట ఆకులో సమస్య ఉన్న చోట స్పష్టమైన ఫోటో తీయండి. ఫోటోను అప్లోడ్ చేసి పంటలో ఏమి సమస్య ఉందో మరియు ఇప్పుడు ఏమి చేయాలో సులభంగా తెలుసుకోండి.";
+                document.getElementById(
+                    "heroSpeak"
+                ).innerText =
+                "🔊 Listen to this";
 
 
 
-        document.getElementById(
-            "heroSpeak"
-        ).innerText =
-        "🔊 వినండి";
+                document.getElementById(
+                    "farmerMessage"
+                ).innerHTML =
+                `
+                    <div
+                        class="farmer-note-icon"
+                        aria-hidden="true"
+                    >
+                        👨‍🌾
+                    </div>
 
+                    <div>
+                        <strong>
+                            Simple for Every Farmer
+                        </strong>
 
+                        <br>
 
-        document.getElementById(
-            "farmerMessage"
-        ).innerHTML =
-        "<strong>ప్రతి రైతుకూ సులభంగా</strong><br>టెక్నికల్ విషయాలు తెలుసుకోవాల్సిన అవసరం లేదు. పంట ఫోటో తీసి, సింపుల్ స్టెప్స్‌ను ఫాలో అవ్వండి.";
+                        No technical knowledge is needed.
+                        Just take a crop photo and follow
+                        the simple steps.
+                    </div>
+                `;
 
 
 
-        document.getElementById(
-            "featureTitle"
-        ).innerText =
-        "రైతుకు అవసరమైన సమాచారం ఒకే చోట";
+                document.getElementById(
+                    "featureTitle"
+                ).innerText =
+                "Everything You Need in One Place";
 
 
 
-        document.getElementById(
-            "featureDescription"
-        ).innerText =
-        "AGRI-SHIELD AI పంటకు సంబంధించిన సమాచారాన్ని సులభంగా అర్థం చేసుకునేలా మరియు సరైన చర్య తీసుకునేలా సహాయపడుతుంది.";
+                document.getElementById(
+                    "featureDescription"
+                ).innerText =
+                "AGRI-SHIELD AI makes crop information easier to understand and easier to act on.";
 
+            }
 
-    }
 
+        }
 
 
-    /* ================= HINDI ================= */
 
-    else if(currentLanguage === "hi-IN"){
+        /* =====================================================
+           VOICE SUPPORT
+        ===================================================== */
 
+        function speakText(text){
 
-        document.getElementById(
-            "heroTitle"
-        ).innerHTML =
-        "अपनी फसल की जाँच करें।<br>सही <span>सलाह पाएँ।</span>";
 
+            if(
+                !(
+                    "speechSynthesis"
+                    in
+                    window
+                )
+            ){
 
 
-        document.getElementById(
-            "heroDescription"
-        ).innerText =
-        "अपनी प्रभावित फसल की पत्ती की साफ फोटो लें। फोटो अपलोड करें और जानें कि फसल में क्या समस्या हो सकती है और अब आपको क्या करना चाहिए।";
+                alert(
+                    "Voice support is not available in this browser."
+                );
 
 
+                return;
 
-        document.getElementById(
-            "heroSpeak"
-        ).innerText =
-        "🔊 सुनिए";
+            }
 
 
 
-        document.getElementById(
-            "farmerMessage"
-        ).innerHTML =
-        "<strong>हर किसान के लिए आसान</strong><br>किसी तकनीकी जानकारी की जरूरत नहीं है। बस फसल की फोटो लें और आसान स्टेप्स को फॉलो करें।";
+            window.speechSynthesis.cancel();
 
 
 
-        document.getElementById(
-            "featureTitle"
-        ).innerText =
-        "किसान के लिए जरूरी जानकारी एक ही जगह";
+            let cleanText =
 
+                text
 
+                    .replace(/🔊/g,"")
 
-        document.getElementById(
-            "featureDescription"
-        ).innerText =
-        "AGRI-SHIELD AI फसल की जानकारी को आसानी से समझने और सही कदम उठाने में मदद करता है.";
+                    .replace(/🌱/g,"")
 
+                    .replace(/👨‍🌾/g,"")
 
-    }
+                    .replace(/📷/g,"")
 
+                    .replace(/📤/g,"")
 
+                    .replace(/🔍/g,"")
 
-    /* ================= ENGLISH ================= */
+                    .replace(/💡/g,"")
 
-    else{
+                    .replace(/🌿/g,"")
 
+                    .replace(/🐛/g,"")
 
-        document.getElementById(
-            "heroTitle"
-        ).innerHTML =
-        "Check Your Crop.<br>Get the Right <span>Advice.</span>";
+                    .replace(/🌦️/g,"")
 
+                    .replace(/→/g,"");
 
 
-        document.getElementById(
-            "heroDescription"
-        ).innerText =
-        "Take a photo of your affected crop leaf. Upload it here and get simple guidance about what may be wrong and what you should do next.";
 
+            const speech =
 
+                new SpeechSynthesisUtterance(
+                    cleanText
+                );
 
-        document.getElementById(
-            "heroSpeak"
-        ).innerText =
-        "🔊 Listen to this";
 
 
+            speech.lang =
+                currentLanguage;
 
-        document.getElementById(
-            "farmerMessage"
-        ).innerHTML =
-        "<strong>Simple for Every Farmer</strong><br>No technical knowledge is needed. Just take a crop photo and follow the simple steps.";
 
 
+            speech.rate =
+                0.85;
 
-        document.getElementById(
-            "featureTitle"
-        ).innerText =
-        "Everything You Need in One Place";
 
 
+            speech.pitch =
+                1;
 
-        document.getElementById(
-            "featureDescription"
-        ).innerText =
-        "AGRI-SHIELD AI makes crop information easier to understand and easier to act on.";
 
 
-    }
+            window.speechSynthesis.speak(
+                speech
+            );
 
-}
 
+        }
 
 
-/* ================= VOICE ================= */
 
-function speakText(text){
+        /* =====================================================
+           HERO VOICE
+        ===================================================== */
 
+        function speakHero(){
 
-    if(!("speechSynthesis" in window)){
 
+            const title =
 
-        alert(
-            "Voice support is not available in this browser."
+                document.getElementById(
+                    "heroTitle"
+                ).innerText;
+
+
+
+            const description =
+
+                document.getElementById(
+                    "heroDescription"
+                ).innerText;
+
+
+
+            speakText(
+                title
+                +
+                ". "
+                +
+                description
+            );
+
+
+        }
+
+
+
+        /* =====================================================
+           STOP VOICE WHEN PAGE CLOSES
+        ===================================================== */
+
+        window.addEventListener(
+
+            "beforeunload",
+
+            function(){
+
+
+                if(
+                    "speechSynthesis"
+                    in
+                    window
+                ){
+
+                    window.speechSynthesis.cancel();
+
+                }
+
+
+            }
+
         );
 
 
-        return;
-
-    }
-
-
-
-    window.speechSynthesis.cancel();
-
-
-
-    let cleanText =
-
-        text
-
-        .replace(/🔊/g,"")
-
-        .replace(/🌱/g,"")
-
-        .replace(/👨‍🌾/g,"")
-
-        .replace(/📷/g,"")
-
-        .replace(/📤/g,"")
-
-        .replace(/🔍/g,"")
-
-        .replace(/💡/g,"")
-
-        .replace(/🌿/g,"")
-
-        .replace(/🐛/g,"")
-
-        .replace(/🌦️/g,"");
-
-
-
-    const speech =
-
-        new SpeechSynthesisUtterance(
-
-            cleanText
-
-        );
-
-
-
-    speech.lang =
-
-        currentLanguage;
-
-
-
-    speech.rate =
-
-        0.85;
-
-
-
-    speech.pitch =
-
-        1;
-
-
-
-    window.speechSynthesis.speak(
-
-        speech
-
-    );
-
-}
-
-
-
-/* ================= HERO VOICE ================= */
-
-function speakHero(){
-
-
-    const title =
-
-        document.getElementById(
-
-            "heroTitle"
-
-        ).innerText;
-
-
-
-    const description =
-
-        document.getElementById(
-
-            "heroDescription"
-
-        ).innerText;
-
-
-
-    speakText(
-
-        title + ". " + description
-
-    );
-
-}
-
-
-
-/* ================= STOP VOICE ================= */
-
-window.addEventListener(
-
-    "beforeunload",
-
-    function(){
-
-
-        window.speechSynthesis.cancel();
-
-
-    }
-
-);
-
-
-</script>
-
+    </script>
 
 
 </body>
