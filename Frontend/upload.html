@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +7,6 @@
 <title>Check Your Crop | AGRI-SHIELD AI</title>
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -16,22 +14,43 @@
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f3f8f1;
-    color:#17351d;
+    font-family:Arial, Helvetica, sans-serif;
     min-height:100vh;
+    color:#17351d;
+
+    /* FARMER BACKGROUND */
+    background:
+        linear-gradient(
+            135deg,
+            rgba(2,35,12,0.78),
+            rgba(14,79,30,0.58)
+        ),
+        url("farmer-farming-background.png");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
 }
 
 /* NAVBAR */
 
 nav{
     height:70px;
-    background:#063514;
+    background:rgba(3,50,18,0.96);
+
     display:flex;
     justify-content:space-between;
     align-items:center;
+
     padding:0 6%;
+
     color:white;
+
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    box-shadow:0 5px 25px rgba(0,0,0,.25);
 }
 
 .logo{
@@ -42,18 +61,29 @@ nav{
 .home-btn{
     text-decoration:none;
     color:white;
+
     background:#2f7e3c;
+
     padding:11px 18px;
+
     border-radius:9px;
+
     font-weight:700;
+
+    transition:.2s;
+}
+
+.home-btn:hover{
+    background:#3c9650;
 }
 
 /* MAIN */
 
 .container{
     width:92%;
-    max-width:850px;
-    margin:35px auto 50px;
+    max-width:880px;
+
+    margin:35px auto 55px;
 }
 
 /* HEADER */
@@ -61,6 +91,11 @@ nav{
 .header{
     text-align:center;
     margin-bottom:25px;
+
+    color:white;
+
+    text-shadow:
+        0 2px 8px rgba(0,0,0,.35);
 }
 
 .header .icon{
@@ -68,15 +103,18 @@ nav{
 }
 
 .header h1{
-    font-size:32px;
-    color:#174b24;
+    font-size:34px;
     margin:8px 0;
 }
 
 .header p{
-    color:#607064;
+    max-width:720px;
+    margin:auto;
+
+    color:#f1f8ee;
+
     font-size:16px;
-    line-height:1.6;
+    line-height:1.7;
 }
 
 /* STEPS */
@@ -84,74 +122,110 @@ nav{
 .steps{
     display:flex;
     justify-content:center;
+
     gap:10px;
+
     margin-bottom:25px;
+
     flex-wrap:wrap;
 }
 
 .step{
-    background:white;
+    background:rgba(255,255,255,.95);
+
     padding:11px 17px;
+
     border-radius:20px;
+
     border:1px solid #d9e7d5;
-    color:#416147;
+
+    color:#315a39;
+
     font-weight:700;
+
     font-size:14px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.12);
 }
 
 /* CARD */
 
 .card{
-    background:white;
+    background:rgba(255,255,255,.97);
+
     padding:30px;
+
     border-radius:22px;
-    box-shadow:0 15px 45px rgba(20,70,25,.12);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.25);
+
+    backdrop-filter:blur(5px);
 }
 
 /* INSTRUCTION */
 
 .instruction{
     background:#edf8e9;
+
     border-left:5px solid #3b8d46;
+
     padding:20px;
+
     border-radius:12px;
+
     margin-bottom:20px;
 }
 
 .instruction h2{
     color:#20582c;
+
     font-size:21px;
+
     margin-bottom:9px;
 }
 
 .instruction p{
     color:#526157;
+
     line-height:1.7;
+
     font-size:15px;
 }
 
-/* PHOTO TIPS */
+/* TIPS */
 
 .photo-tips{
     display:grid;
+
     grid-template-columns:repeat(3,1fr);
+
     gap:10px;
+
     margin-bottom:20px;
 }
 
 .tip{
     background:#f8fbf6;
+
     border:1px solid #dfeade;
+
     border-radius:12px;
+
     padding:14px 10px;
+
     text-align:center;
+
     font-size:13px;
+
     color:#526157;
+
     line-height:1.5;
 }
 
 .tip-icon{
     font-size:25px;
+
     margin-bottom:5px;
 }
 
@@ -159,42 +233,61 @@ nav{
 
 .upload-box{
     border:3px dashed #86ad7e;
+
     background:#f8fcf6;
+
     border-radius:18px;
+
     padding:38px 20px;
+
     text-align:center;
+
     cursor:pointer;
+
     transition:.2s;
 }
 
 .upload-box:hover{
     background:#eef8eb;
+
     border-color:#3b8d46;
+
+    transform:translateY(-2px);
 }
 
 .upload-icon{
     font-size:60px;
+
     margin-bottom:10px;
 }
 
 .upload-box h3{
     color:#20582c;
+
     font-size:21px;
+
     margin-bottom:8px;
 }
 
 .upload-box p{
     color:#68756b;
+
     margin-bottom:18px;
+
     line-height:1.5;
 }
 
 .choose-btn{
     display:inline-block;
+
     background:#2f7e3c;
+
     color:white;
+
     padding:14px 25px;
+
     border-radius:10px;
+
     font-weight:800;
 }
 
@@ -208,90 +301,141 @@ nav{
 
 .preview-area{
     display:none;
+
     margin-top:22px;
+
     text-align:center;
 }
 
 .preview-area h3{
     color:#20582c;
+
     margin-bottom:12px;
 }
 
 #preview{
     width:100%;
-    max-height:330px;
+
+    max-height:360px;
+
     object-fit:contain;
+
     border-radius:15px;
+
     background:#edf5e9;
+
     padding:8px;
+
+    border:1px solid #dce9d9;
 }
 
 /* ANALYZE BUTTON */
 
 .analyze-btn{
     width:100%;
+
     margin-top:22px;
+
     padding:18px;
+
     border:none;
+
     border-radius:12px;
+
     background:#1f7130;
+
     color:white;
+
     font-size:18px;
+
     font-weight:800;
+
     cursor:pointer;
+
     display:none;
+
+    transition:.2s;
 }
 
 .analyze-btn:hover{
     background:#185b27;
+
+    transform:translateY(-1px);
 }
 
 .analyze-btn:disabled{
     opacity:.7;
+
     cursor:not-allowed;
+
+    transform:none;
 }
 
 /* STATUS */
 
 .status{
     display:none;
+
     text-align:center;
+
     margin-top:20px;
+
     padding:20px;
+
     background:#eef7eb;
+
     border-radius:12px;
+
     color:#245b2e;
+
     font-weight:700;
+
     line-height:1.7;
 }
 
 .loader{
     width:32px;
+
     height:32px;
+
     border:4px solid #d7e7d2;
+
     border-top:4px solid #2f7e3c;
+
     border-radius:50%;
+
     animation:spin 1s linear infinite;
+
     margin:0 auto 10px;
 }
 
 @keyframes spin{
+
     to{
         transform:rotate(360deg);
     }
+
 }
 
 /* VOICE */
 
 .voice-btn{
     width:100%;
+
     margin-top:12px;
+
     padding:14px;
+
     border:1px solid #c8ddc2;
+
     border-radius:10px;
+
     background:#f4faf2;
+
     color:#286238;
+
     font-weight:800;
+
     cursor:pointer;
 }
 
@@ -308,7 +452,7 @@ nav{
     }
 
     .header h1{
-        font-size:27px;
+        font-size:28px;
     }
 
     .steps{
@@ -324,11 +468,18 @@ nav{
         grid-template-columns:1fr;
     }
 
+    nav{
+        padding:0 4%;
+    }
+
+    .logo{
+        font-size:18px;
+    }
+
 }
-
 </style>
-</head>
 
+</head>
 
 <body>
 
@@ -340,12 +491,18 @@ nav{
         🌱 AGRI-SHIELD AI
     </div>
 
-    <a href="index.html" class="home-btn" id="homeBtn">
+    <a
+        href="index.html"
+        class="home-btn"
+        id="homeBtn"
+    >
         🏠 Home
     </a>
 
 </nav>
 
+
+<!-- MAIN -->
 
 <div class="container">
 
@@ -353,7 +510,9 @@ nav{
 
     <div class="header">
 
-        <div class="icon">🌿</div>
+        <div class="icon">
+            🌾
+        </div>
 
         <h1 id="pageTitle">
             Check Your Crop
@@ -371,20 +530,31 @@ nav{
 
     <div class="steps">
 
-        <div class="step" id="step1">
+        <div
+            class="step"
+            id="step1"
+        >
             1️⃣ Take a photo
         </div>
 
-        <div class="step" id="step2">
+        <div
+            class="step"
+            id="step2"
+        >
             2️⃣ Add the photo
         </div>
 
-        <div class="step" id="step3">
+        <div
+            class="step"
+            id="step3"
+        >
             3️⃣ Check your crop
         </div>
 
     </div>
 
+
+    <!-- CARD -->
 
     <div class="card">
 
@@ -455,7 +625,7 @@ nav{
         <div
             class="upload-box"
             id="uploadBox"
-            onclick="document.getElementById('fileInput').click()">
+        >
 
             <div class="upload-icon">
                 📸
@@ -469,7 +639,10 @@ nav{
                 Tap here to choose the crop photo from your phone or computer.
             </p>
 
-            <span class="choose-btn" id="chooseBtn">
+            <span
+                class="choose-btn"
+                id="chooseBtn"
+            >
                 📷 Choose Crop Photo
             </span>
 
@@ -479,7 +652,7 @@ nav{
         <input
             type="file"
             id="fileInput"
-            accept="image/jpeg,image/jpg,image/png"
+            accept="image/jpeg,image/jpg,image/png,image/webp"
         >
 
 
@@ -487,7 +660,8 @@ nav{
 
         <div
             class="preview-area"
-            id="previewArea">
+            id="previewArea"
+        >
 
             <h3 id="readyText">
                 ✅ Your photo is ready
@@ -506,10 +680,9 @@ nav{
         <button
             class="analyze-btn"
             id="analyzeBtn"
-            onclick="analyzeCrop()">
-
+            onclick="analyzeCrop()"
+        >
             🔍 Check My Crop
-
         </button>
 
 
@@ -518,10 +691,9 @@ nav{
         <button
             class="voice-btn"
             id="voiceBtn"
-            onclick="listenInstructions()">
-
+            onclick="listenInstructions()"
+        >
             🔊 Listen to Instructions
-
         </button>
 
 
@@ -529,7 +701,8 @@ nav{
 
         <div
             class="status"
-            id="status">
+            id="status"
+        >
 
             <div class="loader"></div>
 
@@ -552,22 +725,25 @@ nav{
 
 <script>
 
-/* ============================
-   CONFIG: API URL
-============================ */
-const API_BASE_URL = "http://127.0.0.1:8000";
+/* =====================================================
+   BACKEND API
+===================================================== */
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
 
 
-/* ============================
+/* =====================================================
    LANGUAGE
-============================ */
+===================================================== */
 
-let currentLanguage = "en-US";
+let currentLanguage =
+    localStorage.getItem("selectedLanguage") || "en-IN";
 
 
 const languageData = {
 
-    "en-US": {
+    "en-IN": {
 
         title:
             "Check Your Crop",
@@ -624,8 +800,16 @@ const languageData = {
             "🌱 We are checking your crop...",
 
         checkingSub:
-            "Please wait. We will show you what to do next."
+            "Please wait. We will show you what to do next.",
 
+        error:
+            "We could not check the crop. Please try again.",
+
+        invalid:
+            "Please choose a crop photo.",
+
+        large:
+            "Please choose a photo smaller than 5 MB."
     },
 
 
@@ -686,8 +870,16 @@ const languageData = {
             "🌱 మీ పంటను పరిశీలిస్తున్నాము...",
 
         checkingSub:
-            "కొద్దిసేపు వేచి ఉండండి. తర్వాత ఏం చేయాలో మేము చెబుతాము."
+            "కొద్దిసేపు వేచి ఉండండి. తర్వాత ఏం చేయాలో మేము చెబుతాము.",
 
+        error:
+            "పంటను పరీక్షించలేకపోయాము. దయచేసి మళ్లీ ప్రయత్నించండి.",
+
+        invalid:
+            "దయచేసి పంట ఫోటోను ఎంచుకోండి.",
+
+        large:
+            "దయచేసి 5 MB కంటే తక్కువ పరిమాణం ఉన్న ఫోటోను ఎంచుకోండి."
     },
 
 
@@ -748,113 +940,172 @@ const languageData = {
             "🌱 आपकी फसल की जांच हो रही है...",
 
         checkingSub:
-            "कृपया थोड़ा इंतजार करें। हम आपको आगे क्या करना है बताएंगे।"
+            "कृपया थोड़ा इंतजार करें। हम आपको आगे क्या करना है बताएंगे।",
 
+        error:
+            "फसल की जांच नहीं हो पाई। कृपया फिर से कोशिश करें।",
+
+        invalid:
+            "कृपया फसल की फोटो चुनें।",
+
+        large:
+            "कृपया 5 MB से छोटी फोटो चुनें।"
     }
 
 };
 
 
-/* ============================
-   LANGUAGE CHANGE
-============================ */
+/* =====================================================
+   SET LANGUAGE
+===================================================== */
 
 function setLanguage(language){
 
-    currentLanguage = language;
+    if(!languageData[language]){
+        language = "en-IN";
+    }
 
-    const lang =
-        languageData[language];
-
-
-    document.getElementById("pageTitle").innerText =
-        lang.title;
-
-    document.getElementById("pageDescription").innerText =
-        lang.description;
-
-    document.getElementById("homeBtn").innerText =
-        lang.home;
-
-    document.getElementById("step1").innerText =
-        lang.step1;
-
-    document.getElementById("step2").innerText =
-        lang.step2;
-
-    document.getElementById("step3").innerText =
-        lang.step3;
-
-    document.getElementById("instructionTitle").innerText =
-        lang.instructionTitle;
-
-    document.getElementById("instructionText").innerText =
-        lang.instructionText;
-
-    document.getElementById("tip1").innerText =
-        lang.tip1;
-
-    document.getElementById("tip2").innerText =
-        lang.tip2;
-
-    document.getElementById("tip3").innerText =
-        lang.tip3;
-
-    document.getElementById("uploadTitle").innerText =
-        lang.uploadTitle;
-
-    document.getElementById("uploadText").innerText =
-        lang.uploadText;
-
-    document.getElementById("chooseBtn").innerText =
-        lang.choose;
-
-    document.getElementById("readyText").innerText =
-        lang.ready;
-
-    document.getElementById("analyzeBtn").innerText =
-        lang.analyze;
-
-    document.getElementById("voiceBtn").innerText =
-        lang.voice;
-
-    document.getElementById("statusText").innerText =
-        lang.checking;
-
-    document.getElementById("statusSubText").innerText =
-        lang.checkingSub;
-
-
-    /* Save language */
+    currentLanguage =
+        language;
 
     localStorage.setItem(
         "selectedLanguage",
         language
     );
 
+
+    const lang =
+        languageData[language];
+
+
+    document.documentElement.lang =
+        language;
+
+
+    document.getElementById(
+        "pageTitle"
+    ).innerText =
+        lang.title;
+
+
+    document.getElementById(
+        "pageDescription"
+    ).innerText =
+        lang.description;
+
+
+    document.getElementById(
+        "homeBtn"
+    ).innerText =
+        lang.home;
+
+
+    document.getElementById(
+        "step1"
+    ).innerText =
+        lang.step1;
+
+
+    document.getElementById(
+        "step2"
+    ).innerText =
+        lang.step2;
+
+
+    document.getElementById(
+        "step3"
+    ).innerText =
+        lang.step3;
+
+
+    document.getElementById(
+        "instructionTitle"
+    ).innerText =
+        lang.instructionTitle;
+
+
+    document.getElementById(
+        "instructionText"
+    ).innerText =
+        lang.instructionText;
+
+
+    document.getElementById(
+        "tip1"
+    ).innerText =
+        lang.tip1;
+
+
+    document.getElementById(
+        "tip2"
+    ).innerText =
+        lang.tip2;
+
+
+    document.getElementById(
+        "tip3"
+    ).innerText =
+        lang.tip3;
+
+
+    document.getElementById(
+        "uploadTitle"
+    ).innerText =
+        lang.uploadTitle;
+
+
+    document.getElementById(
+        "uploadText"
+    ).innerText =
+        lang.uploadText;
+
+
+    document.getElementById(
+        "chooseBtn"
+    ).innerText =
+        lang.choose;
+
+
+    document.getElementById(
+        "readyText"
+    ).innerText =
+        lang.ready;
+
+
+    document.getElementById(
+        "analyzeBtn"
+    ).innerText =
+        lang.analyze;
+
+
+    document.getElementById(
+        "voiceBtn"
+    ).innerText =
+        lang.voice;
+
+
+    document.getElementById(
+        "statusText"
+    ).innerText =
+        lang.checking;
+
+
+    document.getElementById(
+        "statusSubText"
+    ).innerText =
+        lang.checkingSub;
 }
 
 
-/* ============================
-   LOAD SAVED LANGUAGE
-============================ */
-
-const savedLanguage =
-    localStorage.getItem("selectedLanguage");
-
-if(savedLanguage && languageData[savedLanguage]){
-
-    setLanguage(savedLanguage);
-
-}
-
-
-/* ============================
-   FILE SELECTION
-============================ */
+/* =====================================================
+   FILE UPLOAD
+===================================================== */
 
 const fileInput =
     document.getElementById("fileInput");
+
+const uploadBox =
+    document.getElementById("uploadBox");
 
 const preview =
     document.getElementById("preview");
@@ -869,7 +1120,16 @@ const statusBox =
     document.getElementById("status");
 
 
-let selectedFile = null;
+let selectedFile =
+    null;
+
+
+uploadBox.addEventListener(
+    "click",
+    function(){
+        fileInput.click();
+    }
+);
 
 
 fileInput.addEventListener(
@@ -879,34 +1139,40 @@ fileInput.addEventListener(
         const file =
             this.files[0];
 
+
         if(!file){
             return;
         }
 
 
-        /* FILE TYPE */
+        const lang =
+            languageData[currentLanguage];
 
-        if(!file.type.startsWith("image/")){
 
-            alert(
-                "Please choose a crop photo."
-            );
+        if(
+            !file.type.startsWith("image/")
+        ){
+
+            alert(lang.invalid);
 
             this.value = "";
+
+            selectedFile = null;
 
             return;
         }
 
 
-        /* FILE SIZE */
+        if(
+            file.size >
+            5 * 1024 * 1024
+        ){
 
-        if(file.size > 5 * 1024 * 1024){
-
-            alert(
-                "Please choose a photo smaller than 5 MB."
-            );
+            alert(lang.large);
 
             this.value = "";
+
+            selectedFile = null;
 
             return;
         }
@@ -915,8 +1181,6 @@ fileInput.addEventListener(
         selectedFile =
             file;
 
-
-        /* PREVIEW */
 
         const reader =
             new FileReader();
@@ -928,8 +1192,10 @@ fileInput.addEventListener(
                 preview.src =
                     event.target.result;
 
+
                 previewArea.style.display =
                     "block";
+
 
                 analyzeBtn.style.display =
                     "block";
@@ -943,35 +1209,52 @@ fileInput.addEventListener(
 );
 
 
-/* ============================
+/* =====================================================
    ANALYZE CROP
-============================ */
+===================================================== */
 
 async function analyzeCrop(){
 
     if(!selectedFile){
 
         alert(
-            "Please choose a crop photo first."
+            languageData[currentLanguage].invalid
         );
 
         return;
     }
 
 
-    /* LOADING */
+    const lang =
+        languageData[currentLanguage];
+
 
     analyzeBtn.disabled =
         true;
 
-    analyzeBtn.innerText =
-        currentLanguage === "te-IN"
-        ? "🔄 పంటను పరిశీలిస్తున్నాము..."
-        :
+
+    if(currentLanguage === "te-IN"){
+
+        analyzeBtn.innerText =
+            "🔄 పంటను పరిశీలిస్తున్నాము...";
+
+    }
+
+    else if(
         currentLanguage === "hi-IN"
-        ? "🔄 फसल की जांच हो रही है..."
-        :
-        "🔄 Checking your crop...";
+    ){
+
+        analyzeBtn.innerText =
+            "🔄 फसल की जांच हो रही है...";
+
+    }
+
+    else{
+
+        analyzeBtn.innerText =
+            "🔄 Checking your crop...";
+
+    }
 
 
     statusBox.style.display =
@@ -984,11 +1267,7 @@ async function analyzeCrop(){
             new FormData();
 
 
-        /*
-           Tomato is used because
-           the current trained model
-           is for Tomato.
-        */
+        /* CURRENT MODEL: TOMATO */
 
         formData.append(
             "crop_name",
@@ -1002,22 +1281,24 @@ async function analyzeCrop(){
         );
 
 
-        /* SEND PHOTO */
-
         const response =
             await fetch(
+
                 `${API_BASE_URL}/api/v1/diagnosis/scan`,
+
                 {
                     method:"POST",
+
                     body:formData
                 }
+
             );
 
 
         if(!response.ok){
 
             throw new Error(
-                "Server error"
+                `Server returned ${response.status}`
             );
 
         }
@@ -1027,15 +1308,11 @@ async function analyzeCrop(){
             await response.json();
 
 
-        /* SAVE RESULT */
-
         localStorage.setItem(
             "diagnosisResult",
             JSON.stringify(result)
         );
 
-
-        /* SAVE IMAGE */
 
         const reader =
             new FileReader();
@@ -1049,8 +1326,6 @@ async function analyzeCrop(){
                     event.target.result
                 );
 
-
-                /* GO TO RESULT */
 
                 window.location.href =
                     "result.html";
@@ -1067,7 +1342,10 @@ async function analyzeCrop(){
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            "Crop analysis error:",
+            error
+        );
 
 
         statusBox.style.display =
@@ -1078,50 +1356,84 @@ async function analyzeCrop(){
             false;
 
 
-        const lang =
-            languageData[currentLanguage];
-
-
         analyzeBtn.innerText =
             lang.analyze;
 
 
-        if(currentLanguage === "te-IN"){
-
-            alert(
-                "పంటను పరీక్షించలేకపోయాము. దయచేసి మళ్లీ ప్రయత్నించండి."
-            );
-
-        }
-
-        else if(currentLanguage === "hi-IN"){
-
-            alert(
-                "फसल की जांच नहीं हो पाई। कृपया फिर से कोशिश करें।"
-            );
-
-        }
-
-        else{
-
-            alert(
-                "We could not check the crop. Please try again."
-            );
-
-        }
+        alert(
+            lang.error
+        );
 
     }
 
 }
 
 
-/* ============================
+/* =====================================================
+   GET BEST VOICE
+===================================================== */
+
+function getBestVoice(language){
+
+    if(
+        !("speechSynthesis" in window)
+    ){
+        return null;
+    }
+
+
+    const voices =
+        window.speechSynthesis.getVoices();
+
+
+    if(!voices.length){
+        return null;
+    }
+
+
+    const exact =
+        voices.find(
+            voice =>
+                voice.lang &&
+                voice.lang.toLowerCase() ===
+                language.toLowerCase()
+        );
+
+
+    if(exact){
+        return exact;
+    }
+
+
+    const shortLanguage =
+        language
+            .split("-")[0]
+            .toLowerCase();
+
+
+    return voices.find(
+        voice =>
+            voice.lang &&
+            voice.lang
+                .toLowerCase()
+                .startsWith(shortLanguage)
+    ) || null;
+}
+
+
+/* =====================================================
    VOICE INSTRUCTIONS
-============================ */
+
+   Telugu -> Telugu
+   Hindi  -> Hindi
+   English -> English
+===================================================== */
 
 function listenInstructions(){
 
-    if(!("speechSynthesis" in window)){
+    if(
+        !("speechSynthesis" in window)
+    ){
 
         alert(
             "Voice support is not available in this browser."
@@ -1134,8 +1446,10 @@ function listenInstructions(){
     window.speechSynthesis.cancel();
 
 
-    let text;
+    let text = "";
 
+
+    /* TELUGU */
 
     if(currentLanguage === "te-IN"){
 
@@ -1144,20 +1458,28 @@ function listenInstructions(){
             "మంచి వెలుతురు ఉండేలా చూసుకోండి. " +
             "తర్వాత ఫోటోను ఇక్కడ పెట్టండి. " +
             "ఫోటో స్పష్టంగా కనిపించిన తర్వాత నా పంటను పరీక్షించండి అనే బటన్ నొక్కండి. " +
-            "మీ పంటను పరిశీలించి, తర్వాత ఏం చేయాలో మేము చెబుతాము.";
+            "మీ పంటను పరిశీలించి తర్వాత ఏం చేయాలో మేము చెబుతాము.";
 
     }
 
-    else if(currentLanguage === "hi-IN"){
+
+    /* HINDI */
+
+    else if(
+        currentLanguage === "hi-IN"
+    ){
 
         text =
             "सबसे पहले जिस पत्ती में समस्या है उसकी साफ फोटो लें। " +
             "अच्छी रोशनी रखें। " +
             "फिर फोटो यहां डालें। " +
             "फोटो साफ दिखाई देने के बाद मेरी फसल जांचें बटन दबाएं। " +
-            "हम आपकी फसल की जांच करके बताएंगे कि आगे क्या करना है.";
+            "हम आपकी फसल की जांच करके बताएंगे कि आगे क्या करना है।";
 
     }
+
+
+    /* ENGLISH */
 
     else{
 
@@ -1178,11 +1500,22 @@ function listenInstructions(){
     speech.lang =
         currentLanguage;
 
+
     speech.rate =
         0.82;
 
+
     speech.pitch =
         1;
+
+
+    const voice =
+        getBestVoice(currentLanguage);
+
+
+    if(voice){
+        speech.voice = voice;
+    }
 
 
     window.speechSynthesis.speak(
@@ -1192,13 +1525,30 @@ function listenInstructions(){
 }
 
 
-/* STOP VOICE WHEN LEAVING */
+/* =====================================================
+   INITIAL LANGUAGE
+===================================================== */
+
+setLanguage(
+    currentLanguage
+);
+
+
+/* =====================================================
+   STOP VOICE ON PAGE EXIT
+===================================================== */
 
 window.addEventListener(
     "beforeunload",
     function(){
 
-        window.speechSynthesis.cancel();
+        if(
+            "speechSynthesis" in window
+        ){
+
+            window.speechSynthesis.cancel();
+
+        }
 
     }
 );
