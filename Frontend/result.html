@@ -247,7 +247,7 @@ footer{
         🌱 AGRI-SHIELD AI
     </div>
 
-    <a href="index.html" class="home-btn">
+    <a href="index.html" class="home-btn" id="homeTop">
         🏠 Home
     </a>
 
@@ -257,23 +257,17 @@ footer{
 <div class="container">
 
 
-    <!-- LANGUAGE SELECTOR -->
+    <!-- LANGUAGE -->
 
     <div class="language-box">
 
         <select id="languageSelect" onchange="changeLanguage()">
 
-            <option value="en">
-                English
-            </option>
+            <option value="en">English</option>
 
-            <option value="te">
-                తెలుగు
-            </option>
+            <option value="te">తెలుగు</option>
 
-            <option value="hi">
-                हिंदी
-            </option>
+            <option value="hi">हिंदी</option>
 
         </select>
 
@@ -295,7 +289,7 @@ footer{
     </div>
 
 
-    <!-- RESULT CARD -->
+    <!-- RESULT -->
 
     <div class="card">
 
@@ -375,16 +369,11 @@ footer{
 
         <div class="voice-area">
 
-
             <h2 id="voiceTitle">
                 🔊 Listen & Speak
             </h2>
 
-
-            <p
-                class="voice-help"
-                id="voiceHelp"
-            >
+            <p class="voice-help" id="voiceHelp">
                 Listen to the advice or speak to AGRI-SHIELD using your microphone.
             </p>
 
@@ -392,8 +381,7 @@ footer{
             <button
                 class="voice-btn"
                 onclick="listenAdvice()"
-                id="listenBtn"
-            >
+                id="listenBtn">
                 🔊 Listen to Advice
             </button>
 
@@ -401,19 +389,16 @@ footer{
             <button
                 class="mic-btn"
                 onclick="startListening()"
-                id="micBtn"
-            >
+                id="micBtn">
                 🎤 Speak to AGRI-SHIELD
             </button>
 
 
             <div
                 class="voice-result"
-                id="voiceResult"
-            >
+                id="voiceResult">
                 🎤 You can ask: "What should I do?"
             </div>
-
 
         </div>
 
@@ -421,16 +406,14 @@ footer{
     </div>
 
 
-    <!-- ACTION BUTTONS -->
+    <!-- ACTIONS -->
 
     <div class="actions">
-
 
         <a
             href="upload.html"
             class="action-btn primary"
-            id="checkAgainBtn"
-        >
+            id="checkAgainBtn">
             📷 Check Another Crop
         </a>
 
@@ -438,11 +421,9 @@ footer{
         <a
             href="index.html"
             class="action-btn secondary"
-            id="homeBtn"
-        >
+            id="homeBtn">
             🏠 Go Home
         </a>
-
 
     </div>
 
@@ -460,32 +441,24 @@ footer{
 
 <script>
 
-
 /* =====================================================
-   GET SAVED DIAGNOSIS
+   GET SAVED RESULT
 ===================================================== */
-
 
 let diagnosisResult =
     JSON.parse(
         localStorage.getItem("diagnosisResult")
     );
 
-
 let cropImage =
     localStorage.getItem("cropImage");
 
 
-
 /* =====================================================
-   LANGUAGE TEXT
+   LANGUAGE DATA
 ===================================================== */
 
-
 const languageData = {
-
-
-    /* ================= ENGLISH ================= */
 
     en: {
 
@@ -534,8 +507,6 @@ const languageData = {
     },
 
 
-    /* ================= TELUGU ================= */
-
     te: {
 
         pageTitle:
@@ -582,8 +553,6 @@ const languageData = {
 
     },
 
-
-    /* ================= HINDI ================= */
 
     hi: {
 
@@ -634,31 +603,209 @@ const languageData = {
 };
 
 
-
 /* =====================================================
    GET CURRENT LANGUAGE
 ===================================================== */
 
-
 function getLanguage(){
 
-    return (
-        localStorage.getItem(
-            "selectedLanguage"
-        ) || "en"
+    return localStorage.getItem("selectedLanguage") || "en";
+
+}
+
+
+/* =====================================================
+   SPEECH LANGUAGE
+===================================================== */
+
+function getSpeechLanguage(language){
+
+    if(language === "te"){
+        return "te-IN";
+    }
+
+    if(language === "hi"){
+        return "hi-IN";
+    }
+
+    return "en-IN";
+
+}
+
+
+/* =====================================================
+   GET AVAILABLE VOICES
+===================================================== */
+
+function getAvailableVoices(){
+
+    return window.speechSynthesis.getVoices();
+
+}
+
+
+/* =====================================================
+   FIND CORRECT LANGUAGE VOICE
+===================================================== */
+
+function getBestVoice(languageCode){
+
+    const voices =
+        getAvailableVoices();
+
+    if(!voices || voices.length === 0){
+        return null;
+    }
+
+    const target =
+        languageCode.toLowerCase();
+
+    const base =
+        target.split("-")[0];
+
+
+    /* EXACT MATCH */
+
+    let voice =
+        voices.find(function(v){
+
+            return v.lang &&
+                   v.lang.toLowerCase() === target;
+
+        });
+
+
+    if(voice){
+        return voice;
+    }
+
+
+    /* SAME LANGUAGE */
+
+    voice =
+        voices.find(function(v){
+
+            return v.lang &&
+                   v.lang.toLowerCase().split("-")[0] === base;
+
+        });
+
+
+    if(voice){
+        return voice;
+    }
+
+
+    return null;
+
+}
+
+
+/* =====================================================
+   SPEAK
+===================================================== */
+
+function speakText(text, language){
+
+    window.speechSynthesis.cancel();
+
+    const languageCode =
+        getSpeechLanguage(language);
+
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
+
+    speech.lang =
+        languageCode;
+
+    speech.rate =
+        0.85;
+
+    speech.pitch =
+        1;
+
+    speech.volume =
+        1;
+
+
+    const voice =
+        getBestVoice(languageCode);
+
+
+    if(voice){
+
+        speech.voice =
+            voice;
+
+        console.log(
+            "Voice selected:",
+            voice.name,
+            voice.lang
+        );
+
+    }
+    else{
+
+        console.warn(
+            "No voice available for:",
+            languageCode
+        );
+
+    }
+
+
+    window.speechSynthesis.speak(
+        speech
     );
 
 }
 
+
+/* =====================================================
+   WAIT FOR VOICES
+===================================================== */
+
+function speakWhenVoicesReady(text, language){
+
+    const voices =
+        window.speechSynthesis.getVoices();
+
+
+    if(voices.length > 0){
+
+        speakText(
+            text,
+            language
+        );
+
+        return;
+
+    }
+
+
+    window.speechSynthesis.onvoiceschanged =
+        function(){
+
+            speakText(
+                text,
+                language
+            );
+
+            window.speechSynthesis.onvoiceschanged =
+                null;
+
+        };
+
+}
 
 
 /* =====================================================
    CHANGE LANGUAGE
 ===================================================== */
 
-
 function changeLanguage(){
-
 
     const language =
         document.getElementById(
@@ -754,9 +901,7 @@ function changeLanguage(){
         );
 
 
-    if(
-        !voiceResult.innerText.includes("🤖")
-    ){
+    if(!voiceResult.innerText.includes("🤖")){
 
         voiceResult.innerText =
             data.ready;
@@ -766,14 +911,11 @@ function changeLanguage(){
 }
 
 
-
 /* =====================================================
    LOAD RESULT
 ===================================================== */
 
-
 function loadResult(){
-
 
     if(!diagnosisResult){
 
@@ -843,190 +985,17 @@ function loadResult(){
 }
 
 
-
-/* =====================================================
-   GET SPEECH LANGUAGE
-===================================================== */
-
-
-function getSpeechLanguage(language){
-
-    if(language === "te"){
-
-        return "te-IN";
-
-    }
-
-
-    if(language === "hi"){
-
-        return "hi-IN";
-
-    }
-
-
-    return "en-IN";
-
-}
-
-
-
-/* =====================================================
-   FIND CORRECT VOICE
-===================================================== */
-
-
-function getBestVoice(languageCode){
-
-
-    const voices =
-        window.speechSynthesis.getVoices();
-
-
-    if(!voices || voices.length === 0){
-
-        return null;
-
-    }
-
-
-    const baseLanguage =
-        languageCode
-        .split("-")[0]
-        .toLowerCase();
-
-
-    /* EXACT LANGUAGE */
-
-    let voice =
-        voices.find(
-            function(v){
-
-                return (
-                    v.lang &&
-                    v.lang.toLowerCase() ===
-                    languageCode.toLowerCase()
-                );
-
-            }
-        );
-
-
-    if(voice){
-
-        return voice;
-
-    }
-
-
-    /* SAME LANGUAGE */
-
-    voice =
-        voices.find(
-            function(v){
-
-                return (
-                    v.lang &&
-                    v.lang.toLowerCase()
-                    .startsWith(
-                        baseLanguage
-                    )
-                );
-
-            }
-        );
-
-
-    if(voice){
-
-        return voice;
-
-    }
-
-
-    return null;
-
-}
-
-
-
-/* =====================================================
-   SPEAK TEXT
-===================================================== */
-
-
-function speakText(
-    text,
-    language
-){
-
-
-    const languageCode =
-        getSpeechLanguage(
-            language
-        );
-
-
-    const speech =
-        new SpeechSynthesisUtterance(
-            text
-        );
-
-
-    speech.lang =
-        languageCode;
-
-
-    speech.rate =
-        0.85;
-
-
-    speech.pitch =
-        1;
-
-
-    speech.volume =
-        1;
-
-
-    const voice =
-        getBestVoice(
-            languageCode
-        );
-
-
-    if(voice){
-
-        speech.voice =
-            voice;
-
-    }
-
-
-    window.speechSynthesis.cancel();
-
-
-    window.speechSynthesis.speak(
-        speech
-    );
-
-}
-
-
-
 /* =====================================================
    LISTEN TO ADVICE
 ===================================================== */
 
-
 function listenAdvice(){
-
 
     const language =
         getLanguage();
 
 
-    let advice;
+    let advice = "";
 
 
     /* ENGLISH */
@@ -1051,7 +1020,7 @@ function listenAdvice(){
 
     /* HINDI */
 
-    else if(language === "hi"){
+    else{
 
         advice =
             "आपकी टमाटर की फसल में बैक्टीरियल स्पॉट पाया गया है। संक्रमित पत्तियों को हटाकर सुरक्षित रूप से नष्ट करें। पत्तियों पर सीधे पानी न डालें।";
@@ -1059,49 +1028,29 @@ function listenAdvice(){
     }
 
 
-    /* WAIT FOR VOICES */
+    /* SHOW TEXT */
 
-    const voices =
-        window.speechSynthesis.getVoices();
+    document.getElementById(
+        "voiceResult"
+    ).innerText =
+        "🤖 " + advice;
 
 
-    if(voices.length === 0){
+    /* SPEAK SELECTED LANGUAGE */
 
-        window.speechSynthesis.onvoiceschanged =
-            function(){
-
-                speakText(
-                    advice,
-                    language
-                );
-
-                window.speechSynthesis.onvoiceschanged =
-                    null;
-
-            };
-
-    }
-
-    else{
-
-        speakText(
-            advice,
-            language
-        );
-
-    }
+    speakWhenVoicesReady(
+        advice,
+        language
+    );
 
 }
 
 
-
 /* =====================================================
-   MICROPHONE INPUT
+   MICROPHONE
 ===================================================== */
 
-
 function startListening(){
-
 
     const SpeechRecognition =
         window.SpeechRecognition ||
@@ -1111,7 +1060,7 @@ function startListening(){
     if(!SpeechRecognition){
 
         alert(
-            "Microphone voice input is not supported in this browser. Please use Google Chrome."
+            "Microphone voice input is not supported. Please use Google Chrome."
         );
 
         return;
@@ -1164,6 +1113,8 @@ function startListening(){
     );
 
 
+    /* LISTENING TEXT */
+
     if(language === "te"){
 
         resultBox.innerText =
@@ -1198,19 +1149,15 @@ function startListening(){
     recognition.start();
 
 
-
     /* =================================================
-       SPEECH RESULT
+       RESULT
     ================================================= */
-
 
     recognition.onresult =
         async function(event){
 
-
             const spokenText =
-                event.results[0][0]
-                .transcript;
+                event.results[0][0].transcript;
 
 
             resultBox.innerText =
@@ -1222,6 +1169,10 @@ function startListening(){
                 diagnosisResult?.detected_issue ||
                 "Tomato Bacterial Spot";
 
+
+            /*
+             * CREATE FORM DATA
+             */
 
             const formData =
                 new FormData();
@@ -1247,7 +1198,6 @@ function startListening(){
 
             try{
 
-
                 const response =
                     await fetch(
                         "http://127.0.0.1:8000/api/v1/voice/advice",
@@ -1271,35 +1221,36 @@ function startListening(){
                     await response.json();
 
 
-                let finalAdvice =
-                    data.advice;
+                let finalAdvice;
 
 
-                /* TELUGU RESPONSE */
+                /* ==========================
+                   TELUGU
+                ========================== */
 
                 if(language === "te"){
 
                     finalAdvice =
-                        "మీ టమాటా పంటలో " +
-                        disease +
-                        " సమస్య గుర్తించబడింది. సోకిన ఆకులను తొలగించి సురక్షితంగా పారవేయండి. ఆకులపై నేరుగా నీరు పోయకండి.";
+                        "మీ టమాటా పంటలో బ్యాక్టీరియా మచ్చల సమస్య గుర్తించబడింది. సోకిన ఆకులను తొలగించి సురక్షితంగా పారవేయండి. ఆకులపై నేరుగా నీరు పోయకండి.";
 
                 }
 
 
-                /* HINDI RESPONSE */
+                /* ==========================
+                   HINDI
+                ========================== */
 
                 else if(language === "hi"){
 
                     finalAdvice =
-                        "आपकी टमाटर की फसल में " +
-                        disease +
-                        " की समस्या पाई गई है। संक्रमित पत्तियों को हटाकर सुरक्षित रूप से नष्ट करें। पत्तियों पर सीधे पानी न डालें।";
+                        "आपकी टमाटर की फसल में बैक्टीरियल स्पॉट की समस्या पाई गई है। संक्रमित पत्तियों को हटाकर सुरक्षित रूप से नष्ट करें। पत्तियों पर सीधे पानी न डालें।";
 
                 }
 
 
-                /* ENGLISH RESPONSE */
+                /* ==========================
+                   ENGLISH
+                ========================== */
 
                 else{
 
@@ -1318,16 +1269,19 @@ function startListening(){
 
                 /* SPEAK IN SELECTED LANGUAGE */
 
-                speakText(
+                speakWhenVoicesReady(
                     finalAdvice,
                     language
                 );
-
 
             }
 
 
             catch(error){
+
+                console.error(
+                    error
+                );
 
 
                 resultBox.innerText =
@@ -1342,14 +1296,16 @@ function startListening(){
         };
 
 
-
     /* =================================================
-       MICROPHONE ERROR
+       ERROR
     ================================================= */
-
 
     recognition.onerror =
         function(){
+
+            micButton.classList.remove(
+                "listening"
+            );
 
 
             if(language === "te"){
@@ -1359,14 +1315,12 @@ function startListening(){
 
             }
 
-
             else if(language === "hi"){
 
                 resultBox.innerText =
                     "🎤 कृपया फिर से कोशिश करें और साफ बोलें.";
 
             }
-
 
             else{
 
@@ -1378,15 +1332,12 @@ function startListening(){
         };
 
 
-
     /* =================================================
-       MICROPHONE END
+       END
     ================================================= */
-
 
     recognition.onend =
         function(){
-
 
             micButton.classList.remove(
                 "listening"
@@ -1405,16 +1356,13 @@ function startListening(){
 }
 
 
-
 /* =====================================================
    PAGE LOAD
 ===================================================== */
 
-
 document.addEventListener(
     "DOMContentLoaded",
     function(){
-
 
         const savedLanguage =
             getLanguage();
@@ -1434,6 +1382,20 @@ document.addEventListener(
     }
 );
 
+
+/* =====================================================
+   PRELOAD VOICES
+===================================================== */
+
+window.speechSynthesis.onvoiceschanged =
+    function(){
+
+        console.log(
+            "Available voices:",
+            window.speechSynthesis.getVoices()
+        );
+
+    };
 
 </script>
 
