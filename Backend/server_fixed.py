@@ -381,21 +381,13 @@ async def scan_crop_pathology(
     )
 
     if file:
-
         image_bytes = await file.read()
-
-        features = process_image_features(
-            image_bytes
-        )
-
+        features = process_image_features(image_bytes)
     else:
-
         image_bytes = None
-
         features = {
             "chlorosis_ratio": 0.9
         }
-
     # --------------------------------------------------------
     # Tomato ML Model
     # --------------------------------------------------------
