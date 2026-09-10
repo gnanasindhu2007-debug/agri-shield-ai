@@ -673,7 +673,46 @@ async def voice_advice(
         "disease": disease,
         "advice": advice
     }
+# ==========================================
+# WEATHER MODULE
+# ==========================================
+WEATHER_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "weather"
+)
 
+if WEATHER_DIR not in sys.path:
+    sys.path.append(WEATHER_DIR)
+
+from weather import weather_report
+
+
+@app.get("/api/v1/weather")
+async def get_weather_data(
+    latitude: float = Query(...),
+    longitude: float = Query(...)
+):
+    try:
+        result = weather_report(latitude, longitude)
+
+        return {
+            "success": True,
+            "weather": result["weather"],
+            "alerts": result["alerts"],
+            "recommendations": result["recommendations"]
+        }
+
+    except ValueError as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        )
+
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unable to get weather data: {error}"
+        )
 
 # ==========================================
 # 13. Static HTML Frontend Serving
