@@ -1,7 +1,8 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -233,9 +234,12 @@ footer{
 }
 
 </style>
+
 </head>
 
+
 <body>
+
 
 <nav class="navbar">
 
@@ -252,20 +256,31 @@ footer{
 
 <div class="container">
 
+
+    <!-- LANGUAGE SELECTOR -->
+
     <div class="language-box">
 
         <select id="languageSelect" onchange="changeLanguage()">
 
-            <option value="en">English</option>
+            <option value="en">
+                English
+            </option>
 
-            <option value="te">తెలుగు</option>
+            <option value="te">
+                తెలుగు
+            </option>
 
-            <option value="hi">हिंदी</option>
+            <option value="hi">
+                हिंदी
+            </option>
 
         </select>
 
     </div>
 
+
+    <!-- HEADER -->
 
     <div class="header">
 
@@ -280,7 +295,10 @@ footer{
     </div>
 
 
+    <!-- RESULT CARD -->
+
     <div class="card">
+
 
         <img
             id="cropImage"
@@ -288,6 +306,8 @@ footer{
             alt="Crop Image"
         >
 
+
+        <!-- DISEASE -->
 
         <div class="issue">
 
@@ -302,7 +322,10 @@ footer{
         </div>
 
 
+        <!-- INFORMATION -->
+
         <div class="info-grid">
+
 
             <div class="info">
 
@@ -329,8 +352,11 @@ footer{
 
             </div>
 
+
         </div>
 
+
+        <!-- REMEDY -->
 
         <div class="remedy">
 
@@ -345,13 +371,20 @@ footer{
         </div>
 
 
+        <!-- VOICE -->
+
         <div class="voice-area">
+
 
             <h2 id="voiceTitle">
                 🔊 Listen & Speak
             </h2>
 
-            <p class="voice-help" id="voiceHelp">
+
+            <p
+                class="voice-help"
+                id="voiceHelp"
+            >
                 Listen to the advice or speak to AGRI-SHIELD using your microphone.
             </p>
 
@@ -381,12 +414,17 @@ footer{
                 🎤 You can ask: "What should I do?"
             </div>
 
+
         </div>
+
 
     </div>
 
 
+    <!-- ACTION BUTTONS -->
+
     <div class="actions">
+
 
         <a
             href="upload.html"
@@ -396,6 +434,7 @@ footer{
             📷 Check Another Crop
         </a>
 
+
         <a
             href="index.html"
             class="action-btn secondary"
@@ -404,7 +443,9 @@ footer{
             🏠 Go Home
         </a>
 
+
     </div>
+
 
 </div>
 
@@ -416,16 +457,35 @@ footer{
 </footer>
 
 
+
 <script>
 
+
+/* =====================================================
+   GET SAVED DIAGNOSIS
+===================================================== */
+
+
 let diagnosisResult =
-    JSON.parse(localStorage.getItem("diagnosisResult"));
+    JSON.parse(
+        localStorage.getItem("diagnosisResult")
+    );
+
 
 let cropImage =
     localStorage.getItem("cropImage");
 
 
+
+/* =====================================================
+   LANGUAGE TEXT
+===================================================== */
+
+
 const languageData = {
+
+
+    /* ================= ENGLISH ================= */
 
     en: {
 
@@ -474,6 +534,8 @@ const languageData = {
     },
 
 
+    /* ================= TELUGU ================= */
+
     te: {
 
         pageTitle:
@@ -520,6 +582,8 @@ const languageData = {
 
     },
 
+
+    /* ================= HINDI ================= */
 
     hi: {
 
@@ -570,78 +634,152 @@ const languageData = {
 };
 
 
+
+/* =====================================================
+   GET CURRENT LANGUAGE
+===================================================== */
+
+
 function getLanguage(){
 
-    return localStorage.getItem("selectedLanguage") || "en";
+    return (
+        localStorage.getItem(
+            "selectedLanguage"
+        ) || "en"
+    );
 
 }
 
 
+
+/* =====================================================
+   CHANGE LANGUAGE
+===================================================== */
+
+
 function changeLanguage(){
 
+
     const language =
-        document.getElementById("languageSelect").value;
+        document.getElementById(
+            "languageSelect"
+        ).value;
+
 
     localStorage.setItem(
         "selectedLanguage",
         language
     );
 
+
     const data =
         languageData[language];
 
 
-    document.getElementById("pageTitle").innerText =
+    document.getElementById(
+        "pageTitle"
+    ).innerText =
         data.pageTitle;
 
-    document.getElementById("pageSubtitle").innerText =
+
+    document.getElementById(
+        "pageSubtitle"
+    ).innerText =
         data.pageSubtitle;
 
-    document.getElementById("issueTitle").innerText =
+
+    document.getElementById(
+        "issueTitle"
+    ).innerText =
         data.issueTitle;
 
-    document.getElementById("cropLabel").innerText =
+
+    document.getElementById(
+        "cropLabel"
+    ).innerText =
         data.cropLabel;
 
-    document.getElementById("severityLabel").innerText =
+
+    document.getElementById(
+        "severityLabel"
+    ).innerText =
         data.severityLabel;
 
-    document.getElementById("organicTitle").innerText =
+
+    document.getElementById(
+        "organicTitle"
+    ).innerText =
         data.organicTitle;
 
-    document.getElementById("listenBtn").innerText =
+
+    document.getElementById(
+        "listenBtn"
+    ).innerText =
         data.listen;
 
-    document.getElementById("micBtn").innerText =
+
+    document.getElementById(
+        "micBtn"
+    ).innerText =
         data.mic;
 
-    document.getElementById("voiceTitle").innerText =
+
+    document.getElementById(
+        "voiceTitle"
+    ).innerText =
         data.voiceTitle;
 
-    document.getElementById("voiceHelp").innerText =
+
+    document.getElementById(
+        "voiceHelp"
+    ).innerText =
         data.voiceHelp;
 
-    document.getElementById("checkAgainBtn").innerText =
+
+    document.getElementById(
+        "checkAgainBtn"
+    ).innerText =
         data.checkAgain;
 
-    document.getElementById("homeBtn").innerText =
+
+    document.getElementById(
+        "homeBtn"
+    ).innerText =
         data.home;
 
+
+    const voiceResult =
+        document.getElementById(
+            "voiceResult"
+        );
+
+
     if(
-        !document.getElementById("voiceResult").innerText.includes("🤖")
+        !voiceResult.innerText.includes("🤖")
     ){
-        document.getElementById("voiceResult").innerText =
+
+        voiceResult.innerText =
             data.ready;
+
     }
 
 }
 
 
+
+/* =====================================================
+   LOAD RESULT
+===================================================== */
+
+
 function loadResult(){
+
 
     if(!diagnosisResult){
 
-        document.getElementById("diseaseName").innerText =
+        document.getElementById(
+            "diseaseName"
+        ).innerText =
             "No result found.";
 
         return;
@@ -649,22 +787,30 @@ function loadResult(){
     }
 
 
-    document.getElementById("cropName").innerText =
-        diagnosisResult.crop_name || "Tomato";
+    document.getElementById(
+        "cropName"
+    ).innerText =
+        diagnosisResult.crop_name ||
+        "Tomato";
 
 
-    document.getElementById("diseaseName").innerText =
+    document.getElementById(
+        "diseaseName"
+    ).innerText =
         diagnosisResult.detected_issue ||
         "Crop problem detected";
 
 
-    document.getElementById("severity").innerText =
+    document.getElementById(
+        "severity"
+    ).innerText =
         diagnosisResult.severity_level ||
         "High";
 
 
     let advice =
         "Remove infected leaves and safely dispose of them.";
+
 
     if(
         diagnosisResult.organic_remedies &&
@@ -678,13 +824,18 @@ function loadResult(){
 
     }
 
-    document.getElementById("organicAdvice").innerText =
+
+    document.getElementById(
+        "organicAdvice"
+    ).innerText =
         advice;
 
 
     if(cropImage){
 
-        document.getElementById("cropImage").src =
+        document.getElementById(
+            "cropImage"
+        ).src =
             cropImage;
 
     }
@@ -692,60 +843,265 @@ function loadResult(){
 }
 
 
+
+/* =====================================================
+   GET SPEECH LANGUAGE
+===================================================== */
+
+
+function getSpeechLanguage(language){
+
+    if(language === "te"){
+
+        return "te-IN";
+
+    }
+
+
+    if(language === "hi"){
+
+        return "hi-IN";
+
+    }
+
+
+    return "en-IN";
+
+}
+
+
+
+/* =====================================================
+   FIND CORRECT VOICE
+===================================================== */
+
+
+function getBestVoice(languageCode){
+
+
+    const voices =
+        window.speechSynthesis.getVoices();
+
+
+    if(!voices || voices.length === 0){
+
+        return null;
+
+    }
+
+
+    const baseLanguage =
+        languageCode
+        .split("-")[0]
+        .toLowerCase();
+
+
+    /* EXACT LANGUAGE */
+
+    let voice =
+        voices.find(
+            function(v){
+
+                return (
+                    v.lang &&
+                    v.lang.toLowerCase() ===
+                    languageCode.toLowerCase()
+                );
+
+            }
+        );
+
+
+    if(voice){
+
+        return voice;
+
+    }
+
+
+    /* SAME LANGUAGE */
+
+    voice =
+        voices.find(
+            function(v){
+
+                return (
+                    v.lang &&
+                    v.lang.toLowerCase()
+                    .startsWith(
+                        baseLanguage
+                    )
+                );
+
+            }
+        );
+
+
+    if(voice){
+
+        return voice;
+
+    }
+
+
+    return null;
+
+}
+
+
+
+/* =====================================================
+   SPEAK TEXT
+===================================================== */
+
+
+function speakText(
+    text,
+    language
+){
+
+
+    const languageCode =
+        getSpeechLanguage(
+            language
+        );
+
+
+    const speech =
+        new SpeechSynthesisUtterance(
+            text
+        );
+
+
+    speech.lang =
+        languageCode;
+
+
+    speech.rate =
+        0.85;
+
+
+    speech.pitch =
+        1;
+
+
+    speech.volume =
+        1;
+
+
+    const voice =
+        getBestVoice(
+            languageCode
+        );
+
+
+    if(voice){
+
+        speech.voice =
+            voice;
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    window.speechSynthesis.speak(
+        speech
+    );
+
+}
+
+
+
+/* =====================================================
+   LISTEN TO ADVICE
+===================================================== */
+
+
 function listenAdvice(){
+
 
     const language =
         getLanguage();
 
-    let advice =
-        document.getElementById("organicAdvice").innerText;
+
+    let advice;
 
 
-    if(language === "te"){
+    /* ENGLISH */
+
+    if(language === "en"){
+
+        advice =
+            "Bacterial spot has been detected in your tomato crop. Remove infected leaves and safely dispose of them. Avoid watering the leaves directly.";
+
+    }
+
+
+    /* TELUGU */
+
+    else if(language === "te"){
 
         advice =
             "మీ టమాటా పంటలో బ్యాక్టీరియా మచ్చలు కనిపించాయి. సోకిన ఆకులను తొలగించి సురక్షితంగా పారవేయండి. ఆకులపై నేరుగా నీరు పోయకండి.";
 
     }
+
+
+    /* HINDI */
+
     else if(language === "hi"){
 
         advice =
-            "आपकी टमाटर की फसल में बैक्टीरियल स्पॉट पाया गया है। संक्रमित पत्तियों को हटाकर सुरक्षित रूप से नष्ट करें। पत्तियों पर सीधे पानी न डालें.";
+            "आपकी टमाटर की फसल में बैक्टीरियल स्पॉट पाया गया है। संक्रमित पत्तियों को हटाकर सुरक्षित रूप से नष्ट करें। पत्तियों पर सीधे पानी न डालें।";
 
     }
 
 
-    const speech =
-        new SpeechSynthesisUtterance(advice);
+    /* WAIT FOR VOICES */
+
+    const voices =
+        window.speechSynthesis.getVoices();
 
 
-    if(language === "te"){
+    if(voices.length === 0){
 
-        speech.lang = "te-IN";
+        window.speechSynthesis.onvoiceschanged =
+            function(){
+
+                speakText(
+                    advice,
+                    language
+                );
+
+                window.speechSynthesis.onvoiceschanged =
+                    null;
+
+            };
 
     }
-    else if(language === "hi"){
 
-        speech.lang = "hi-IN";
-
-    }
     else{
 
-        speech.lang = "en-IN";
+        speakText(
+            advice,
+            language
+        );
 
     }
-
-
-    speech.rate = 0.85;
-
-    window.speechSynthesis.cancel();
-
-    window.speechSynthesis.speak(speech);
 
 }
 
 
+
+/* =====================================================
+   MICROPHONE INPUT
+===================================================== */
+
+
 function startListening(){
+
 
     const SpeechRecognition =
         window.SpeechRecognition ||
@@ -764,72 +1120,74 @@ function startListening(){
 
 
     const language =
-        document.getElementById("languageSelect").value;
+        document.getElementById(
+            "languageSelect"
+        ).value;
 
 
     const recognition =
         new SpeechRecognition();
 
 
-    if(language === "te"){
-
-        recognition.lang =
-            "te-IN";
-
-    }
-    else if(language === "hi"){
-
-        recognition.lang =
-            "hi-IN";
-
-    }
-    else{
-
-        recognition.lang =
-            "en-IN";
-
-    }
+    recognition.lang =
+        getSpeechLanguage(
+            language
+        );
 
 
-    recognition.continuous = false;
+    recognition.continuous =
+        false;
 
-    recognition.interimResults = false;
 
-    recognition.maxAlternatives = 1;
+    recognition.interimResults =
+        false;
+
+
+    recognition.maxAlternatives =
+        1;
 
 
     const micButton =
-        document.getElementById("micBtn");
+        document.getElementById(
+            "micBtn"
+        );
 
 
     const resultBox =
-        document.getElementById("voiceResult");
+        document.getElementById(
+            "voiceResult"
+        );
 
 
-    micButton.classList.add("listening");
-
-
-    resultBox.innerText =
-        language === "te"
-        ? "🎤 వింటున్నాను..."
-        : language === "hi"
-        ? "🎤 सुन रहा हूँ..."
-        : "🎤 Listening...";
+    micButton.classList.add(
+        "listening"
+    );
 
 
     if(language === "te"){
+
+        resultBox.innerText =
+            "🎤 వింటున్నాను...";
 
         micButton.innerText =
             "🔴 వింటున్నాను...";
 
     }
+
     else if(language === "hi"){
+
+        resultBox.innerText =
+            "🎤 सुन रहा हूँ...";
 
         micButton.innerText =
             "🔴 सुन रहा हूँ...";
 
     }
+
     else{
+
+        resultBox.innerText =
+            "🎤 Listening...";
 
         micButton.innerText =
             "🔴 Listening...";
@@ -840,15 +1198,24 @@ function startListening(){
     recognition.start();
 
 
+
+    /* =================================================
+       SPEECH RESULT
+    ================================================= */
+
+
     recognition.onresult =
         async function(event){
 
+
             const spokenText =
-                event.results[0][0].transcript;
+                event.results[0][0]
+                .transcript;
 
 
             resultBox.innerText =
-                "🗣️ " + spokenText;
+                "🗣️ " +
+                spokenText;
 
 
             const disease =
@@ -880,6 +1247,7 @@ function startListening(){
 
             try{
 
+
                 const response =
                     await fetch(
                         "http://127.0.0.1:8000/api/v1/voice/advice",
@@ -907,6 +1275,8 @@ function startListening(){
                     data.advice;
 
 
+                /* TELUGU RESPONSE */
+
                 if(language === "te"){
 
                     finalAdvice =
@@ -915,54 +1285,72 @@ function startListening(){
                         " సమస్య గుర్తించబడింది. సోకిన ఆకులను తొలగించి సురక్షితంగా పారవేయండి. ఆకులపై నేరుగా నీరు పోయకండి.";
 
                 }
+
+
+                /* HINDI RESPONSE */
+
                 else if(language === "hi"){
 
                     finalAdvice =
                         "आपकी टमाटर की फसल में " +
                         disease +
-                        " की समस्या पाई गई है। संक्रमित पत्तियों को हटाकर सुरक्षित रूप से नष्ट करें। पत्तियों पर सीधे पानी न डालें.";
+                        " की समस्या पाई गई है। संक्रमित पत्तियों को हटाकर सुरक्षित रूप से नष्ट करें। पत्तियों पर सीधे पानी न डालें।";
+
+                }
+
+
+                /* ENGLISH RESPONSE */
+
+                else{
+
+                    finalAdvice =
+                        "The problem " +
+                        disease +
+                        " has been detected in your tomato crop. Remove infected leaves and safely dispose of them. Avoid watering the leaves directly.";
 
                 }
 
 
                 resultBox.innerText =
-                    "🤖 " + finalAdvice;
+                    "🤖 " +
+                    finalAdvice;
 
 
-                const speech =
-                    new SpeechSynthesisUtterance(
-                        finalAdvice
-                    );
+                /* SPEAK IN SELECTED LANGUAGE */
 
-
-                speech.lang =
-                    recognition.lang;
-
-
-                speech.rate =
-                    0.85;
-
-
-                window.speechSynthesis.cancel();
-
-                window.speechSynthesis.speak(
-                    speech
+                speakText(
+                    finalAdvice,
+                    language
                 );
 
 
             }
+
+
             catch(error){
 
+
                 resultBox.innerText =
-                    "❌ Unable to get advice. Please try again.";
+                    language === "te"
+                    ? "❌ సలహా పొందలేకపోయాము. మళ్లీ ప్రయత్నించండి."
+                    : language === "hi"
+                    ? "❌ सलाह प्राप्त नहीं हो सकी। कृपया फिर से प्रयास करें।"
+                    : "❌ Unable to get advice. Please try again.";
 
             }
 
         };
 
 
+
+    /* =================================================
+       MICROPHONE ERROR
+    ================================================= */
+
+
     recognition.onerror =
         function(){
+
 
             if(language === "te"){
 
@@ -970,12 +1358,16 @@ function startListening(){
                     "🎤 మళ్లీ ప్రయత్నించండి. స్పష్టంగా మాట్లాడండి.";
 
             }
+
+
             else if(language === "hi"){
 
                 resultBox.innerText =
                     "🎤 कृपया फिर से कोशिश करें और साफ बोलें.";
 
             }
+
+
             else{
 
                 resultBox.innerText =
@@ -986,8 +1378,15 @@ function startListening(){
         };
 
 
+
+    /* =================================================
+       MICROPHONE END
+    ================================================= */
+
+
     recognition.onend =
         function(){
+
 
             micButton.classList.remove(
                 "listening"
@@ -1006,9 +1405,16 @@ function startListening(){
 }
 
 
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+
 document.addEventListener(
     "DOMContentLoaded",
     function(){
+
 
         const savedLanguage =
             getLanguage();
@@ -1022,13 +1428,16 @@ document.addEventListener(
 
         loadResult();
 
+
         changeLanguage();
 
     }
 );
 
+
 </script>
 
+
 </body>
+
 </html>
-```
